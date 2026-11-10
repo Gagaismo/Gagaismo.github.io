@@ -1,0 +1,209 @@
+---
+import type { HomeCopy } from "../i18n/home";
+import { Image } from "astro:assets";
+import ImageSlot from "./ImageSlot.astro";
+import PhoneFrame from "./PhoneFrame.astro";
+import antes from "../assets/images/before-desk.jpg";
+import afterScreen from "../assets/images/case/after-screen.png";
+
+interface Props {
+  copy: HomeCopy["change"];
+  /** The case's own page (T4). */
+  caseLink?: { href: string; label: string };
+}
+
+const { copy, caseLink } = Astro.props;
+// The generated, illustrative "Alta de alumno" screen (L55), in the drawn phone.
+const screens = [afterScreen];
+---
+
+<section class="compare" id="automation" data-case="automation" aria-labelledby="change-title">
+  <div class="wrap grid compare__head">
+    <h2 id="change-title" class="head" data-reveal>{copy.title}</h2>
+    <div class="compare__intro">
+      <p class="lead">
+        {copy.intro}{" "}
+        {caseLink && <a class="link compare__case" href={caseLink.href}>{caseLink.label}</a>}
+      </p>
+    </div>
+  </div>
+  <div class="compare__pair">
+    <div class="side side--before">
+      <h3 class="specimen display">{copy.before.title}</h3>
+      <div class="plate side__plate">
+        <ImageSlot
+          name="before-desk"
+          src={antes}
+          alt={copy.before.imageAlt}
+          ratio="4 / 3"
+          sizes="(max-width: 720px) 100vw, 50vw"
+          widths={[480, 720]}
+        />
+      </div>
+      <ul class="side__list">
+        {copy.before.items.map((item) => <li>{item}</li>)}
+      </ul>
+    </div>
+    <div class="side side--after">
+      <h3 class="specimen display">{copy.after.title}</h3>
+      <ImageSlot name="student-screens" ratio="4 / 3">
+        <div class="phones">
+          {
+            screens.map((src, i) => (
+              <PhoneFrame data-reveal style={`--i:${i + 1}`}>
+                <Image src={src} alt={copy.screens.alts[i]!} width={360} sizes="(max-width: 720px) 42vw, 210px" />
+              </PhoneFrame>
+            ))
+          }
+        </div>
+        <p class="caption phones__caption">{copy.screens.caption}</p>
+      </ImageSlot>
+      <ul class="side__list">
+        {copy.after.items.map((item) => <li>{item}</li>)}
+      </ul>
+    </div>
+  </div>
+</section>
+
+<style>
+  .compare__head {
+    align-items: end;
+    row-gap: 20px;
+    padding-block: var(--gap-section) clamp(2rem, 4vw, 3.5rem);
+  }
+  .compare__head h2 {
+    grid-column: 1 / span 6;
+  }
+  .compare__intro {
+    grid-column: 7 / -1;
+    display: grid;
+    gap: 14px;
+    justify-items: start;
+  }
+  .compare__head p {
+    max-width: 44ch;
+  }
+  .compare__case {
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  .compare__pair {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+  .side {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    align-content: start;
+    gap: clamp(1.5rem, 3vw, 2.5rem);
+    padding: clamp(2rem, 4vw, 3.5rem) var(--margin) clamp(2.5rem, 5vw, 4.5rem);
+  }
+  /* Before: the page's own paper, the old way in the muted ink. After: the case's sage wash, a step in
+     tone, so the change reads at once. */
+  .side--before {
+    padding-right: calc(var(--gutter) / 2 + var(--margin));
+  }
+  .side--after {
+    background: var(--sage);
+    padding-left: calc(var(--gutter) / 2 + var(--margin));
+  }
+  .specimen {
+    font-size: var(--fs-display);
+    line-height: 0.9;
+  }
+  .side--before .specimen {
+    color: var(--ink-2);
+  }
+
+  /* The desk photo sits on the brighter paper, toned down a little so it matches the page. */
+  .side__plate {
+    padding: clamp(0.625rem, 1.4vw, 1rem);
+  }
+  .side__plate :global(img) {
+    filter: sepia(0.2) saturate(0.82);
+  }
+
+  /* The lists carry no boxes: a filled mark in front of each line, a dash for the old way and a sage
+     dot for the new one. */
+  .side__list {
+    display: grid;
+    gap: 14px;
+  }
+  .side__list li {
+    display: grid;
+    grid-template-columns: 14px minmax(0, 1fr);
+    column-gap: 14px;
+    max-width: 52ch;
+  }
+  .side__list li::before {
+    content: "";
+    align-self: start;
+    margin-top: 0.8em;
+    height: 2px;
+    background: var(--ink-2);
+  }
+  .side--after .side__list li::before {
+    width: 10px;
+    height: 10px;
+    margin-top: 0.55em;
+    border-radius: 50%;
+    background: var(--sage-ink);
+  }
+
+  /* The generated screen in the drawn phone, on the plate paper. On wide screens the phone takes the
+     slot's height, so both columns keep the same picture size and the lists line up. */
+  .side--after :global(.slot) {
+    display: grid;
+    grid-template-rows: minmax(0, 1fr) auto;
+    justify-items: center;
+    gap: 4px;
+    padding: clamp(1rem, 2.4vw, 1.75rem);
+    background: var(--plate);
+  }
+  .phones {
+    display: flex;
+    gap: clamp(0.75rem, 2.5vw, 2rem);
+    height: 100%;
+    min-height: 0;
+  }
+  .phones :global(.phone) {
+    height: 100%;
+  }
+  /* The screen image carries its own status bar, so it fills the cut-out edge to edge. */
+  .phones :global(.phone__screen img) {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  .phones__caption {
+    text-align: center;
+  }
+
+  @media (max-width: 900px) {
+    .compare__head h2,
+    .compare__intro {
+      grid-column: 1 / -1;
+    }
+  }
+  @media (max-width: 720px) {
+    .compare__pair {
+      grid-template-columns: 1fr;
+    }
+    .side--before,
+    .side--after {
+      padding-inline: var(--margin);
+    }
+    .side--after :global(.slot) {
+      aspect-ratio: auto;
+    }
+    .phones {
+      height: auto;
+    }
+    /* The frame's children are absolute, so it needs an explicit width on phones. */
+    .phones :global(.phone) {
+      flex: none;
+      height: auto;
+      width: min(210px, 56vw);
+    }
+  }
+</style>

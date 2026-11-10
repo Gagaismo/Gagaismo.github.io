@@ -1,0 +1,161 @@
+---
+import type { HomeCopy } from "../i18n/home";
+
+interface Props {
+  copy: HomeCopy["flow"]["feed"];
+}
+
+// The plan's event log (L76, moved here from the hero's phone): sample events of the automation case,
+// newest on top, written into a register like entries in a ledger, the time of each in tabular figures.
+// Decorative (aria-hidden); one hidden sentence tells screen readers what it shows, and the caption says
+// the data is a sample. The static HTML is the first four events; src/scripts/feed.ts continues the
+// list (it only needs each entry's order: mark, event, time).
+const { copy } = Astro.props;
+const shown = copy.events.slice(0, copy.times.length).reverse();
+---
+
+<figure class="log plate">
+  <div class="feed" data-feed aria-hidden="true" data-events={JSON.stringify(copy.events)} data-times={JSON.stringify(copy.times)}>
+    <ul class="feed__list" id="event-log">
+      {
+        shown.map((event, i) => (
+          <li class="feed__card" data-feed-card>
+            <svg class="feed__check" viewBox="0 0 24 24" width="24" height="24">
+              <circle cx="12" cy="12" r="11" />
+              <path d="M7 12.5l3.2 3.2L17 9" />
+            </svg>
+            <span class="feed__event">{event}</span>
+            <span class="feed__time">{copy.times[i]}</span>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+  <figcaption class="caption">{copy.label}</figcaption>
+</figure>
+<p class="sr-only" data-feed-desc>{copy.description}</p>
+
+<style>
+  .log {
+    align-self: start;
+  }
+  .feed {
+    --n: 4;
+    --card-h: 52px;
+    --step: var(--card-h);
+    width: 100%;
+  }
+  /* The space of every visible entry is reserved, so a new entry never moves the page. */
+  .feed__list {
+    position: relative;
+    height: calc(var(--n) * var(--step));
+  }
+  /* One entry: the time in the margin, the mark, the event. Each entry carries the plate's paper, so
+     the one leaving fades under the one taking its line. */
+  .feed__card {
+    --y: 0;
+    position: absolute;
+    inset: 0 0 auto;
+    z-index: 1;
+    height: var(--card-h);
+    display: grid;
+    grid-template-columns: 6.5rem auto minmax(0, 1fr);
+    align-items: center;
+    column-gap: 12px;
+    background: var(--plate);
+    transform: translate3d(0, calc(var(--y) * var(--step)), 0);
+  }
+  /* Position comes from the order: the script only adds an entry on top. */
+  .feed__card:nth-child(2) {
+    --y: 1;
+  }
+  .feed__card:nth-child(3) {
+    --y: 2;
+  }
+  .feed__card:nth-child(4) {
+    --y: 3;
+  }
+  /* The oldest entry stays on the last line and fades under the one that takes it. */
+  .feed__card:nth-child(n + 5) {
+    --y: 3;
+    z-index: 0;
+    opacity: 0;
+    transform: translate3d(0, calc(var(--y) * var(--step)), 0) scale(0.97);
+  }
+  .feed__check {
+    grid-area: 1 / 2;
+    width: 20px;
+    height: 20px;
+    fill: var(--sage);
+    stroke: var(--sage-ink);
+    stroke-width: 1.6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .feed__check path {
+    fill: none;
+    stroke: var(--ink);
+    stroke-width: 2;
+  }
+  .feed__event {
+    grid-area: 1 / 3;
+    font-weight: 600;
+    font-size: var(--fs-body);
+    line-height: 1.3;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  /* Real data: the time of each event, in tabular figures. */
+  .feed__time {
+    grid-area: 1 / 1;
+    font: 400 var(--fs-small) / 1.3 var(--mono);
+    font-variant-numeric: tabular-nums;
+    color: var(--ink-2);
+    text-align: right;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .feed__card {
+      transition:
+        transform 700ms var(--ease-out),
+        opacity 700ms var(--ease-out);
+    }
+    @starting-style {
+      .feed__card[data-new] {
+        opacity: 0;
+        transform: translate3d(0, -10px, 0) scale(0.98);
+      }
+    }
+  }
+
+  /* Reduced motion: a still register of four, no loop (the script does not start). */
+  @media (prefers-reduced-motion: reduce) {
+    .feed__card:nth-child(n + 5) {
+      display: none;
+    }
+  }
+
+  /* Phone: the time above the event, so the event keeps the whole line. */
+  @media (max-width: 720px) {
+    .feed {
+      --card-h: 60px;
+    }
+    .feed__card {
+      grid-template-columns: auto minmax(0, 1fr);
+      grid-template-rows: auto auto;
+      align-content: center;
+      row-gap: 2px;
+    }
+    .feed__check {
+      grid-area: 1 / 1 / 3 / 2;
+    }
+    .feed__time {
+      grid-area: 1 / 2;
+      text-align: left;
+    }
+    .feed__event {
+      grid-area: 2 / 2;
+    }
+  }
+</style>

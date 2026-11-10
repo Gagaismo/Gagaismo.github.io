@@ -1,0 +1,194 @@
+---
+import "../styles/global.css";
+import { languages, t, type Lang } from "../i18n/ui";
+import { home } from "../i18n/home";
+import Footer from "../components/Footer.astro";
+
+interface Props {
+  lang: Lang;
+  /** Path after each language prefix, e.g. { es: "casos/automatizacion/", en: "cases/automation/" };
+   *  the home page by default. The ES | EN switch, canonical and hreflang follow it. */
+  paths?: Record<Lang, string>;
+  /** The page's own title and description; the site's by default. */
+  title?: string;
+  description?: string;
+}
+
+const { lang, paths = { es: "", en: "" }, title = t(lang, "site.title"), description = t(lang, "site.description") } = Astro.props;
+const href = (l: Lang) => `/${l}/${paths[l]}`;
+const isHome = !paths[lang];
+// The home's section anchors: from another page they lead back to the home, except the page's own
+// contact call and the top of the page.
+const at = (anchor: string) => (isHome || !anchor.startsWith("#") || anchor === "#top" || anchor === "#contact" ? anchor : `/${lang}/${anchor}`);
+const copy = home[lang];
+const footer = {
+  ...copy.footer,
+  columns: copy.footer.columns.map((column) => ({ ...column, links: column.links.map((link) => ({ ...link, href: at(link.href) })) })),
+};
+// Caps the display size so the longer hero line always fits the width. The serif averages ~0.48em per
+// character in Georgia (measured on the hero lines); 0.5 leaves room for wider fallback serifs.
+const fit = `${(92 / (Math.max(copy.hero.line1.length, copy.hero.line2.length) * 0.5)).toFixed(2)}vw`;
+---
+
+<!doctype html>
+<html lang={lang} style={`--fit:${fit}`}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#f4f1ea" />
+    <link rel="canonical" href={new URL(href(lang), Astro.site)} />
+    {
+      (Object.keys(languages) as Lang[]).map((l) => (
+        <link rel="alternate" hreflang={l} href={new URL(href(l), Astro.site)} />
+      ))
+    }
+    <link rel="alternate" hreflang="x-default" href={new URL(href("es"), Astro.site)} />
+    <script is:inline>document.documentElement.classList.add("js");</script>
+  </head>
+  <body>
+    <a class="skip" href="#content">{copy.skip}</a>
+    <!-- Sticky bar on the page's paper, continuous with the hero: stays on screen while the page scrolls. -->
+    <header class="site" id="top">
+      <div class="top wrap">
+        <a class="wordmark" href={`/${lang}/`}>Lautaro Guebel</a>
+        <nav aria-label={copy.nav.label}>
+          <ul>
+            <li><a href={at("#automation")}>{copy.nav.cases}</a></li>
+            <li><a href={at("#method")}>{copy.nav.method}</a></li>
+            <li><a href={at("#offer")}>{copy.nav.offer}</a></li>
+            <li><a href={at("#contact")}>{copy.nav.contact}</a></li>
+          </ul>
+        </nav>
+        <div class="top__end">
+          <div class="langs" role="group" aria-label={copy.nav.language}>
+            {
+              (Object.keys(languages) as Lang[]).map((l) =>
+                l === lang ? (
+                  <a href={href(l)} aria-current="page">{l.toUpperCase()}</a>
+                ) : (
+                  <a href={href(l)} hreflang={l} lang={l}>
+                    <span aria-hidden="true">{l.toUpperCase()}</span>
+                    <span class="sr-only">{t(lang, "nav.switch")}</span>
+                  </a>
+                ),
+              )
+            }
+          </div>
+          <a class="btn top__cta" href="#contact">{copy.nav.cta}</a>
+        </div>
+      </div>
+    </header>
+    <main id="content">
+      <slot />
+    </main>
+    <Footer copy={footer} />
+    <script>
+      import "../scripts/motion";
+    </script>
+  </body>
+</html>
+
+<style>
+  .skip {
+    position: absolute;
+    left: -9999px;
+    top: 8px;
+    z-index: 20;
+    background: var(--ink);
+    color: var(--plate);
+    padding: 12px 16px;
+  }
+  .skip:focus {
+    left: var(--margin);
+  }
+
+  .site {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: var(--bg);
+    view-transition-name: site-header;
+  }
+  .top {
+    display: flex;
+    align-items: center;
+    gap: var(--gutter);
+    min-height: 72px;
+  }
+  .top__end {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  /* ES | EN: two words in the text face; the current one in ink and underlined, the other in the muted
+     ink (6.8:1), darkening on hover. */
+  .langs {
+    display: flex;
+  }
+  .langs a {
+    display: grid;
+    place-items: center;
+    min-width: 44px;
+    min-height: 40px;
+    font: 600 var(--fs-small) var(--sans);
+    color: var(--ink-2);
+    text-decoration: none;
+    text-underline-offset: 0.35em;
+    text-decoration-thickness: 1.5px;
+    transition: color var(--t-hover) ease;
+  }
+  .langs a[aria-current="page"] {
+    color: var(--ink);
+    text-decoration-line: underline;
+  }
+  .top__cta {
+    min-height: 40px;
+    padding-block: 8px;
+    white-space: nowrap;
+  }
+  .wordmark {
+    font: 700 var(--fs-lead) / 1 var(--serif);
+    text-decoration: none;
+    padding: 12px 0;
+  }
+  nav {
+    margin-left: auto;
+  }
+  nav ul {
+    display: flex;
+    gap: clamp(1rem, 2vw, 2rem);
+  }
+  nav a {
+    display: inline-block;
+    padding: 12px 0;
+    font-size: var(--fs-small);
+    text-decoration: none;
+    text-underline-offset: 0.3em;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    nav a:hover {
+      text-decoration: underline;
+    }
+    .langs a:not([aria-current]):hover {
+      color: var(--ink);
+    }
+  }
+
+  @media (max-width: 720px) {
+    .top {
+      min-height: 64px;
+    }
+    nav {
+      display: none;
+    }
+    .top__end {
+      margin-left: auto;
+    }
+    /* The serif wordmark stacks on two lines; the button keeps its label on one. */
+    .top__cta {
+      padding-inline: 16px;
+    }
+  }
+</style>

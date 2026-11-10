@@ -1,0 +1,33 @@
+---
+import Base from "../../layouts/Base.astro";
+import Hero from "../../components/Hero.astro";
+import BeforeAfter from "../../components/BeforeAfter.astro";
+import AutomationFlow from "../../components/AutomationFlow.astro";
+import Method from "../../components/Method.astro";
+import PadelCase from "../../components/PadelCase.astro";
+import Services from "../../components/Services.astro";
+import Contact from "../../components/Contact.astro";
+import Cable from "../../components/Cable.astro";
+import { languages, type Lang } from "../../i18n/ui";
+import { home } from "../../i18n/home";
+import { caseHref, caseUi } from "../../i18n/cases";
+
+export function getStaticPaths() {
+  return (Object.keys(languages) as Lang[]).map((lang) => ({ params: { lang } }));
+}
+
+const lang = Astro.params.lang as Lang;
+const copy = home[lang];
+const full = caseUi[lang].full;
+---
+
+<Base lang={lang}>
+  <Cable />
+  <Hero copy={copy.hero} />
+  <BeforeAfter copy={copy.change} caseLink={{ href: caseHref("automation", lang), label: full }} />
+  <AutomationFlow copy={copy.flow} />
+  <Method copy={copy.method} />
+  <PadelCase copy={copy.padel} caseLink={{ href: caseHref("club-padel", lang), label: full }} />
+  <Services copy={copy.offer} />
+  <Contact copy={copy.contact} />
+</Base>

@@ -1,0 +1,151 @@
+---
+import type { HomeCopy } from "../i18n/home";
+import ImageSlot from "./ImageSlot.astro";
+import owner from "../assets/images/business-owner.jpg";
+
+interface Props {
+  copy: HomeCopy["offer"];
+}
+
+// What can be built for a small business, told as what the owner gains (L40: no tool names). Set as a
+// ledger on the plate paper: one line per thing, the old way struck through in brick ink beside it, so an
+// owner spots their own problem at a glance.
+const { copy } = Astro.props;
+---
+
+<section class="offer sec-pad" id="offer" aria-labelledby="offer-title">
+  <div class="wrap">
+    <div class="grid offer__head">
+      <h2 class="head" id="offer-title" data-reveal>{copy.title}</h2>
+      <p>{copy.intro}</p>
+      <div class="plate offer__plate">
+        <ImageSlot
+          name="business-owner"
+          src={owner}
+          alt={copy.imageAlt}
+          ratio="16 / 9"
+          position="50% 40%"
+          sizes="(max-width: 720px) 100vw, 40vw"
+          widths={[640, 960, 1440]}
+        />
+      </div>
+    </div>
+    <ul class="ledger plate">
+      {
+        copy.items.map((item) => (
+          <li class="entry" data-benefit>
+            <h3 class="entry__title">{item.title}</h3>
+            <p class="entry__was">
+              <span class="sr-only">{copy.wasLabel}</span>
+              <s>{item.was}</s>
+            </p>
+            <p class="entry__text" data-benefit-text>{item.text}</p>
+          </li>
+        ))
+      }
+    </ul>
+    <p class="lead offer__close">{copy.close}</p>
+  </div>
+</section>
+
+<style>
+  .offer.sec-pad {
+    padding-bottom: 0;
+  }
+  .offer__head {
+    grid-template-rows: auto 1fr;
+    row-gap: 18px;
+    padding-bottom: clamp(2rem, 4vw, 3.5rem);
+  }
+  .offer__head h2 {
+    grid-column: 1 / span 7;
+  }
+  .offer__head p {
+    grid-column: 1 / span 6;
+    max-width: 52ch;
+  }
+  .offer__plate {
+    grid-column: 8 / -1;
+    grid-row: 1 / span 2;
+    align-self: start;
+    padding: clamp(0.625rem, 1.4vw, 1rem);
+  }
+  .offer__plate :global(img) {
+    filter: sepia(0.2) saturate(0.82);
+  }
+
+  /* The ledger: the plate paper, one line per thing, every other line a step darker like a ruled book
+     without the rules. Wide: the old way on the left, struck through, then the new way and its sentence.
+     The heading comes first in the markup, so on phones it leads and the old way follows it. */
+  .ledger {
+    padding: clamp(0.5rem, 1.2vw, 0.75rem);
+  }
+  .entry {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--gutter);
+    row-gap: 4px;
+    align-items: baseline;
+    padding: clamp(1rem, 2vw, 1.5rem) clamp(0.75rem, 1.6vw, 1.25rem);
+  }
+  .entry:nth-child(even) {
+    background: var(--paper);
+  }
+  .entry__title {
+    grid-column: 5 / span 4;
+    grid-row: 1;
+    font: 400 var(--fs-sub) / 1.15 var(--serif);
+    letter-spacing: -0.01em;
+  }
+  .entry__was {
+    grid-column: 1 / span 4;
+    grid-row: 1;
+    color: var(--ink-2);
+  }
+  .entry__was s {
+    text-decoration-color: var(--brick);
+    text-decoration-thickness: 0.1em;
+  }
+  .entry__text {
+    grid-column: 9 / -1;
+    grid-row: 1;
+    max-width: 44ch;
+  }
+  /* The contact follows right below, so the offer closes on this sentence, no button. */
+  .offer__close {
+    padding-top: clamp(2rem, 4vw, 3rem);
+    max-width: 38ch;
+  }
+
+  @media (max-width: 1100px) {
+    .entry__title {
+      grid-column: 5 / -1;
+    }
+    .entry__text {
+      grid-column: 5 / -1;
+      grid-row: 2;
+    }
+  }
+  @media (max-width: 900px) {
+    .offer__head h2,
+    .offer__head p,
+    .offer__plate {
+      grid-column: 1 / -1;
+      grid-row: auto;
+    }
+    .offer__plate :global(.slot) {
+      aspect-ratio: 5 / 2;
+    }
+  }
+  @media (max-width: 720px) {
+    .entry__title,
+    .entry__was,
+    .entry__text {
+      grid-column: 1 / -1;
+      grid-row: auto;
+    }
+    .entry__was {
+      font-size: var(--fs-small);
+    }
+  }
+</style>

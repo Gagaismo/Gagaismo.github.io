@@ -1,0 +1,75 @@
+---
+// A system drawn as an estate plan, like the club's plan on the home: one plot per part, of different
+// sizes, the gaps between them the paths in the sheet's paper. `spans` gives each plot its width on a
+// six-column sheet; on phones the plots pair up two by two and the first one runs across.
+interface Props {
+  plots: { title: string; text: string }[];
+  spans: number[];
+  /** The wash most plots are laid in; every third plot sits on the page's paper for rhythm. */
+  wash: "sage" | "straw";
+}
+
+const { plots, spans, wash } = Astro.props;
+---
+
+<ul class:list={["plots", `plots--${wash}`]} data-plots>
+  {
+    plots.map((plot, i) => (
+      <li class:list={["plot", i % 3 === 2 && "plot--paper"]} style={`--span:${spans[i] ?? 3}`}>
+        <p class="plot__name">{plot.title}</p>
+        <p class="plot__text">{plot.text}</p>
+      </li>
+    ))
+  }
+</ul>
+
+<style>
+  .plots {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 6px;
+  }
+  .plot {
+    grid-column: span var(--span);
+    display: grid;
+    align-content: start;
+    gap: 4px;
+    padding: 14px 16px 16px;
+  }
+  .plots--sage .plot {
+    background: var(--sage);
+  }
+  .plots--straw .plot {
+    background: var(--straw);
+  }
+  .plots .plot--paper {
+    background: var(--paper);
+  }
+  .plot__name {
+    font: 400 var(--fs-lead) / 1.2 var(--serif);
+  }
+  .plot__text {
+    font-size: var(--fs-small);
+    line-height: 1.45;
+  }
+  @media (max-width: 720px) {
+    .plots {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .plot {
+      grid-column: span 1;
+      padding: 12px;
+    }
+    .plot:first-child {
+      grid-column: span 2;
+    }
+  }
+  @media (max-width: 420px) {
+    .plots {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .plot:first-child {
+      grid-column: auto;
+    }
+  }
+</style>

@@ -1,0 +1,230 @@
+---
+import type { HomeCopy } from "../i18n/home";
+import { email, mailto } from "../i18n/home";
+
+interface Props {
+  copy: HomeCopy["contact"];
+}
+
+const { copy } = Astro.props;
+const first = copy.drafts[0]!;
+---
+
+<section class="contact sec-pad" id="contact" aria-labelledby="contact-title">
+  <div class="wrap">
+    <div class="grid contact__head">
+      <h2 class="head" id="contact-title" data-reveal>{copy.title}</h2>
+      <p>{copy.text}</p>
+    </div>
+
+    <div class="grid composer">
+      <fieldset class="pick">
+        <legend>{copy.pickTitle}</legend>
+        {
+          copy.drafts.map((d, i) => (
+            <label class="opt">
+              <input
+                type="radio"
+                name="topic"
+                value={d.value}
+                checked={i === 0}
+                data-draft={d.text}
+                data-mailto={mailto(copy.subject, d.text)}
+              />
+              {d.label}
+            </label>
+          ))
+        }
+      </fieldset>
+      <div class="draft">
+        <p class="draft__label" id="draft-label">{copy.draftLabel}</p>
+        <p class="draft__text" id="draft" aria-labelledby="draft-label" aria-live="polite">{first.text}</p>
+        <div class="draft__actions">
+          <a class="btn" id="send" href={mailto(copy.subject, first.text)}>{copy.send}</a>
+          <button type="button" class="btn btn--quiet" id="copy" data-ok={copy.copied} data-fail={copy.copyFailed}>
+            {copy.copy}
+          </button>
+          <span class="draft__status" id="copy-status" role="status" aria-live="polite"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ul class="rows">
+    <li class="row">
+      <a class="display" href={`mailto:${email}`}>{email}</a><small>{copy.emailNote}</small>
+    </li>
+    <li class="row">
+      <span class="display">{copy.place}</span><small>{copy.placeNote}</small>
+    </li>
+  </ul>
+</section>
+
+<style>
+  .contact.sec-pad {
+    padding-bottom: 0;
+  }
+  /* Heading over the topics, intro over the draft: the two columns the composer uses below. */
+  .contact__head {
+    align-items: end;
+    row-gap: 20px;
+    padding-bottom: clamp(2rem, 4vw, 3rem);
+  }
+  .contact__head h2 {
+    grid-column: 1 / span 6;
+  }
+  .contact__head p {
+    grid-column: 7 / -1;
+    max-width: 70ch;
+  }
+  .composer {
+    align-items: stretch;
+    row-gap: 24px;
+  }
+  .pick {
+    grid-column: 1 / span 5;
+    border: 0;
+    margin: 0;
+    padding: 0;
+    min-width: 0;
+  }
+  .pick legend {
+    font-size: var(--fs-lead);
+    line-height: 1.25;
+    font-weight: 600;
+    margin-bottom: 14px;
+    padding: 0;
+  }
+  .opt {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    min-height: 52px;
+    padding: 10px 16px;
+    background: var(--tone);
+    margin-bottom: 8px;
+    cursor: pointer;
+    transition:
+      background-color var(--t-hover) ease,
+      color var(--t-hover) ease,
+      transform var(--t-press) var(--ease-out);
+  }
+  .opt:active {
+    transform: scale(0.985);
+  }
+  .opt input {
+    width: 20px;
+    height: 20px;
+    accent-color: var(--green);
+    margin: 0;
+    flex: none;
+  }
+  .opt:has(input:checked) {
+    background: var(--ink);
+    color: #fff;
+  }
+  .opt:has(input:focus-visible) {
+    outline: 3px solid var(--focus);
+    outline-offset: 2px;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .opt:hover:not(:has(input:checked)) {
+      background: var(--tone-strong);
+    }
+  }
+  .draft {
+    grid-column: 7 / -1;
+    display: grid;
+    align-content: start;
+    gap: 16px;
+  }
+  .draft__label {
+    font-size: var(--fs-lead);
+    line-height: 1.25;
+    font-weight: 600;
+  }
+  .draft__text {
+    background: var(--surface);
+    padding: 22px 24px;
+    line-height: 1.55;
+    min-height: 9.5em;
+  }
+  .draft__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+  }
+  .draft__status {
+    font-size: var(--fs-small);
+    min-height: 1.5em;
+  }
+
+  .rows {
+    margin-top: clamp(3rem, 6vw, 5rem);
+  }
+  .row {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    gap: var(--gutter);
+    padding: 20px var(--margin) 16px;
+    min-height: clamp(80px, 7vw, 112px);
+  }
+  .row:nth-child(odd) {
+    background: var(--tone);
+  }
+  .row a,
+  .row span {
+    font-size: var(--fs-head);
+    text-decoration: none;
+    overflow-wrap: anywhere;
+  }
+  .row a {
+    transition: color var(--t-hover) ease;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .row a:hover {
+      color: var(--green);
+    }
+  }
+  .row small {
+    font-size: var(--fs-small);
+    color: var(--muted);
+    padding-bottom: 6px;
+    text-align: right;
+  }
+
+  @media (max-width: 1100px) {
+    .pick {
+      grid-column: 1 / span 6;
+    }
+  }
+  @media (max-width: 900px) {
+    /* One step down where the address would crowd the width. */
+    .row a,
+    .row span {
+      font-size: var(--fs-sub);
+    }
+    .contact__head h2,
+    .contact__head p,
+    .pick,
+    .draft {
+      grid-column: 1 / -1;
+    }
+  }
+  @media (max-width: 720px) {
+    .draft__actions .btn {
+      flex: 1 1 100%;
+    }
+    .row {
+      flex-direction: column;
+      align-items: start;
+      gap: 6px;
+    }
+    .row small {
+      text-align: left;
+      padding: 0;
+    }
+  }
+</style>

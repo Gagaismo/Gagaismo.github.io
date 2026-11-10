@@ -1,0 +1,197 @@
+---
+// The automation as the page's thread: one sage line in the left margin, from the hero's promise down to
+// the contact send button, with a survey station (an ink ring) at each section heading that fills with
+// sage as the section enters. Every ground on the page is light now, so the wire is one colour and one
+// CSS line. Purely decorative; src/scripts/cable.ts measures the page and places the wire, the nodes
+// and the branch into the automation plan.
+const nodes = [
+  ["hero", "hero-title"],
+  ["automation", "change-title"],
+  ["method", "method-title"],
+  ["padel", "padel-title"],
+  ["offer", "offer-title"],
+  ["contact", "contact-title"],
+];
+---
+
+<div class="cable" data-cable aria-hidden="true">
+  <div class="cable__wire"></div>
+  {nodes.map(([name, at]) => <span class="cable__node" data-cable-node={name} data-cable-at={at}></span>)}
+  <span class="cable__msg"><span class="cable__end" data-cable-at="send"></span></span>
+</div>
+
+<style>
+  :global(#content) {
+    position: relative;
+  }
+  /* Each station sits in the margin, level with its heading; the heading keeps 13 px of paper between the
+     station's ring and its first letter at every width (the station's right edge is half the margin plus
+     7 px from the page's edge), so the ring never reads as a bullet glued to the word. */
+  :global(:is(#hero-title, #change-title, #method-title, #padel-title, #offer-title, #contact-title)) {
+    padding-left: max(0px, 20px - var(--margin) / 2);
+  }
+  /* The lane is the page margin: content never sits there, so the wire never crosses text. */
+  .cable {
+    position: absolute;
+    left: 0;
+    width: var(--margin);
+    pointer-events: none;
+    visibility: hidden;
+    color: var(--sage-ink);
+  }
+  .cable[data-ready] {
+    visibility: visible;
+  }
+  /* Sage ink: 5.3:1 on the paper, 4.4:1 on the straw of the padel estate. */
+  .cable__wire {
+    position: absolute;
+    inset: 0;
+    clip-path: inset(0 -100vw 0 0);
+  }
+  .cable__wire::before,
+  .cable__wire :global(b) {
+    position: absolute;
+    background: currentColor;
+  }
+  .cable__wire::before {
+    content: "";
+    inset: 0 auto 0 calc(50% - 1px);
+    width: 2px;
+  }
+  /* The branch into the plan starts at the wire's centre. */
+  .cable__wire :global(b) {
+    left: 50%;
+    height: 2px;
+    margin-top: -1px;
+  }
+  .cable__node,
+  .cable__end {
+    position: absolute;
+    left: 50%;
+    top: 0;
+  }
+  /* A survey station: an ink ring on the paper, its centre filled with the wire's sage. */
+  .cable__node {
+    width: 14px;
+    height: 14px;
+    margin: -7px 0 0 -7px;
+    border: 1.5px solid var(--ink);
+    border-radius: 50%;
+    background: var(--paper);
+  }
+  .cable__node::after {
+    content: "";
+    position: absolute;
+    inset: 2px;
+    border-radius: 50%;
+    background: currentColor;
+  }
+  /* The envelope that travels the flow rides the drawn end of the wire and stops at the send button. */
+  .cable__msg {
+    position: absolute;
+    inset: 0;
+  }
+  .cable__end {
+    width: 14px;
+    height: 10px;
+    margin: -5px 0 0 -7px;
+    background: var(--straw);
+    outline: 1.5px solid var(--ink);
+  }
+  .cable__end::after {
+    content: "";
+    position: absolute;
+    left: 3px;
+    top: -1px;
+    width: 6px;
+    height: 6px;
+    border: solid var(--ink);
+    border-width: 0 1.5px 1.5px 0;
+    transform: rotate(45deg);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .cable__node::after {
+      opacity: 0;
+      transform: scale(0.4);
+      transition:
+        opacity var(--t-reveal) var(--ease-out),
+        transform var(--t-reveal) var(--ease-out);
+    }
+    .cable__node:global(.is-in)::after {
+      opacity: 1;
+      transform: none;
+    }
+    /* Drawn with the scroll. Fallback: the script writes --p from a passive scroll listener. */
+    .cable__wire {
+      clip-path: inset(0 -100vw calc(100% - var(--p, 1) * 100%) 0);
+    }
+    .cable__msg {
+      transform: translate3d(0, calc((var(--p, 1) - 1) * 100%), 0);
+    }
+    @supports (animation-timeline: view()) {
+      .cable {
+        view-timeline: --cable block;
+      }
+      .cable__wire,
+      .cable__msg {
+        /* Longhands: the minifier would fold a shorthand and the timeline into one invalid shorthand. */
+        animation-name: cable-draw;
+        animation-timing-function: linear;
+        animation-fill-mode: both;
+        animation-timeline: --cable;
+        /* The drawn end rides at 70% of the viewport height, from the first node to the last. */
+        animation-range: cover 30vh cover calc(100% - 70vh);
+      }
+      .cable__msg {
+        animation-name: cable-msg;
+      }
+    }
+  }
+  /* The branch into the automation flow draws itself as the flow starts (motion.ts adds .flow-play to <body>): the
+     cable hands the message to the first station. */
+  @media (prefers-reduced-motion: no-preference) {
+    :global(.js) .cable__wire :global(b) {
+      transform: scaleX(0);
+      transform-origin: 0 50%;
+    }
+    :global(.js .flow-play) .cable__wire :global(b) {
+      animation: cable-branch 420ms var(--ease-in-out) both;
+    }
+  }
+  @keyframes cable-branch {
+    from {
+      transform: scaleX(0);
+    }
+    to {
+      transform: none;
+    }
+  }
+
+  @keyframes cable-draw {
+    from {
+      clip-path: inset(0 -100vw 100% 0);
+    }
+    to {
+      clip-path: inset(0 -100vw 0 0);
+    }
+  }
+
+  @keyframes cable-msg {
+    from {
+      transform: translate3d(0, -100%, 0);
+    }
+    to {
+      transform: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cable__wire {
+      clip-path: inset(0 -100vw 0 0);
+    }
+    .cable__msg {
+      transform: none;
+    }
+  }
+</style>

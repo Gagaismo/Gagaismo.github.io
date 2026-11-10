@@ -1,0 +1,32 @@
+---
+import { getCollection, render } from "astro:content";
+import Base from "../../../layouts/Base.astro";
+import AutomationStory from "../../../components/case/AutomationStory.astro";
+import PadelStory from "../../../components/case/PadelStory.astro";
+import CaseClose from "../../../components/case/CaseClose.astro";
+import { casePaths, type CaseKey } from "../../../i18n/cases";
+import type { Lang } from "../../../i18n/ui";
+
+// One page per published case and language, at the localized path of src/i18n/cases.ts:
+// /es/casos/automatizacion/ and /en/cases/automation/, /es/casos/club-de-padel/ and /en/cases/padel-club/.
+export async function getStaticPaths() {
+  const entries = await getCollection("caseStudies", (entry) => !entry.data.draft);
+  return entries.map((entry) => {
+    const [lang, key] = entry.id.split("/") as [Lang, CaseKey];
+    const [section, slug] = casePaths[key][lang].split("/");
+    const other = entries.find((e) => e.id.startsWith(`${lang}/`) && e.id !== entry.id);
+    return { params: { lang, section, slug }, props: { entry, lang, key, otherTitle: other?.data.title ?? "" } };
+  });
+}
+
+const { entry, lang, key, otherTitle } = Astro.props;
+const { Content } = await render(entry);
+const Story = key === "automation" ? AutomationStory : PadelStory;
+---
+
+<Base lang={lang} paths={casePaths[key]} title={`${entry.data.title} — Lautaro Guebel`} description={entry.data.summary}>
+  <Story lang={lang} data={entry.data}>
+    <Content />
+  </Story>
+  <CaseClose lang={lang} current={key} otherTitle={otherTitle} />
+</Base>

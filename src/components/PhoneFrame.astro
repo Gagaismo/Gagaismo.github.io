@@ -1,0 +1,63 @@
+---
+import type { HTMLAttributes } from "astro/types";
+
+type Props = HTMLAttributes<"figure">;
+
+// Drawn iPhone 17-style body (no brand marks): frame and bezel with the screen cut out, Dynamic Island,
+// side buttons. The default slot is the screen. Used by the "Después" column (the generated "Alta de
+// alumno" screen), which sets the frame's size from outside. Its soft shadow stays: the phone floats
+// over the plate.
+const { class: className, ...attrs } = Astro.props;
+---
+
+<figure class:list={["phone", className]} data-phone {...attrs}>
+  <div class="phone__screen"><slot /></div>
+  <svg class="phone__body" viewBox="0 0 308 628" aria-hidden="true" focusable="false">
+    <g fill="#3a3a3e">
+      <rect x="0" y="118" width="5" height="26" rx="2" />
+      <rect x="0" y="166" width="5" height="46" rx="2" />
+      <rect x="0" y="222" width="5" height="46" rx="2" />
+      <rect x="303" y="176" width="5" height="76" rx="2" />
+      <rect x="303" y="352" width="5" height="40" rx="2" />
+    </g>
+    <path
+      fill-rule="evenodd"
+      fill="#2c2c30"
+      d="M56 0H252A52 52 0 0 1 304 52V576A52 52 0 0 1 252 628H56A52 52 0 0 1 4 576V52A52 52 0 0 1 56 0ZM56 11A41 41 0 0 0 15 52V576A41 41 0 0 0 56 617H252A41 41 0 0 0 293 576V52A41 41 0 0 0 252 11Z"
+    />
+    <path
+      fill-rule="evenodd"
+      fill="#0b0b0c"
+      d="M56 4H252A48 48 0 0 1 300 52V576A48 48 0 0 1 252 624H56A48 48 0 0 1 8 576V52A48 48 0 0 1 56 4ZM56 11A41 41 0 0 0 15 52V576A41 41 0 0 0 56 617H252A41 41 0 0 0 293 576V52A41 41 0 0 0 252 11Z"
+    />
+    <rect x="118" y="22" width="72" height="22" rx="11" fill="#000" />
+  </svg>
+</figure>
+
+<style>
+  /* viewBox 308 x 628; the screen sits in the bezel's cut-out. The frame's height or width comes from
+     the parent, the other follows from the ratio. */
+  .phone {
+    position: relative;
+    aspect-ratio: 308 / 628;
+    margin: 0;
+    filter: drop-shadow(0 18px 28px rgb(0 0 0 / 0.28));
+  }
+  .phone__body {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+  }
+  .phone__screen {
+    position: absolute;
+    left: calc(15 / 308 * 100%);
+    top: calc(11 / 628 * 100%);
+    width: calc(278 / 308 * 100%);
+    height: calc(606 / 628 * 100%);
+    overflow: hidden;
+    background: var(--plate);
+    border-radius: 14.7% / 6.8%;
+  }
+</style>

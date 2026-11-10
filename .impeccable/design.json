@@ -1,0 +1,473 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-10T10:12:43.955Z",
+  "title": "Design System: Lautaro Guebel",
+  "extensions": {
+    "colorMeta": {
+      "paper": {
+        "role": "neutral",
+        "displayName": "Rag Paper",
+        "canonical": "#f4f1ea",
+        "tonalRamp": [
+          "#ddd6c4",
+          "#eae5d8",
+          "#f4f1ea",
+          "#fbf6e6"
+        ]
+      },
+      "plate": {
+        "role": "neutral",
+        "displayName": "Plate Paper",
+        "canonical": "#fbf6e6",
+        "tonalRamp": [
+          "#ddd6c4",
+          "#eae5d8",
+          "#f4f1ea",
+          "#fbf6e6"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Green-Black Ink",
+        "canonical": "#1f2a22",
+        "tonalRamp": [
+          "#1f2a22",
+          "#4d564c",
+          "#8a9183"
+        ]
+      },
+      "ink-2": {
+        "role": "neutral",
+        "displayName": "Faded Ink",
+        "canonical": "#4d564c",
+        "tonalRamp": [
+          "#1f2a22",
+          "#4d564c",
+          "#8a9183"
+        ]
+      },
+      "ink-3": {
+        "role": "neutral",
+        "displayName": "Pencil",
+        "canonical": "#8a9183",
+        "tonalRamp": [
+          "#1f2a22",
+          "#4d564c",
+          "#8a9183"
+        ]
+      },
+      "sage": {
+        "role": "secondary",
+        "displayName": "Sage Wash",
+        "canonical": "#dce3d0",
+        "tonalRamp": [
+          "#4f6b4a",
+          "#dce3d0"
+        ]
+      },
+      "sage-ink": {
+        "role": "secondary",
+        "displayName": "Sage Ink",
+        "canonical": "#4f6b4a",
+        "tonalRamp": [
+          "#4f6b4a",
+          "#dce3d0"
+        ]
+      },
+      "straw": {
+        "role": "tertiary",
+        "displayName": "Harvest Straw",
+        "canonical": "#ebdcae",
+        "tonalRamp": [
+          "#8a5e17",
+          "#ebdcae"
+        ]
+      },
+      "ochre": {
+        "role": "tertiary",
+        "displayName": "Ochre Ink",
+        "canonical": "#8a5e17",
+        "tonalRamp": [
+          "#8a5e17",
+          "#ebdcae"
+        ]
+      },
+      "brick": {
+        "role": "tertiary",
+        "displayName": "Mill Brick",
+        "canonical": "#9c4127",
+        "tonalRamp": [
+          "#9c4127"
+        ]
+      },
+      "tone": {
+        "role": "neutral",
+        "displayName": "Tone",
+        "canonical": "#eae5d8",
+        "tonalRamp": [
+          "#ddd6c4",
+          "#eae5d8",
+          "#f4f1ea",
+          "#fbf6e6"
+        ]
+      },
+      "tone-strong": {
+        "role": "neutral",
+        "displayName": "Tone Strong",
+        "canonical": "#ddd6c4",
+        "tonalRamp": [
+          "#ddd6c4",
+          "#eae5d8",
+          "#f4f1ea",
+          "#fbf6e6"
+        ]
+      },
+      "green": {
+        "role": "primary",
+        "displayName": "Forest Action Green",
+        "canonical": "#0c7866",
+        "tonalRamp": [
+          "#095c4e",
+          "#0c7866"
+        ]
+      },
+      "green-deep": {
+        "role": "primary",
+        "displayName": "Deep Action Green",
+        "canonical": "#095c4e",
+        "tonalRamp": [
+          "#095c4e",
+          "#0c7866"
+        ]
+      },
+      "on-green": {
+        "role": "neutral",
+        "displayName": "White on Green",
+        "canonical": "#ffffff",
+        "tonalRamp": [
+          "#ffffff"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "The hero promise on two lines and the Antes / Después specimen words; capped by --fit per language."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "One per section (.head), the case page's single h1, the contact rows."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Case chapter headings (.subhead), method step lines, offer ledger titles, footer LG."
+      },
+      "sheet-title": {
+        "displayName": "Sheet title",
+        "purpose": "Serif titles of plates, plots, list groups and footer columns (--fs-lead)."
+      },
+      "lead": {
+        "displayName": "Lead",
+        "purpose": "Lead paragraphs in the sans (--fs-lead)."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Running text, and buttons at weight 700."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Nav links, language switch, detail and status text (--fs-small)."
+      },
+      "caption": {
+        "displayName": "Caption",
+        "purpose": "Italic serif caption under every plate and sheet, in ink-2."
+      },
+      "data": {
+        "displayName": "Data",
+        "purpose": "Event-log timestamps only, tabular figures."
+      }
+    },
+    "shadows": [
+      {
+        "name": "floating-phone",
+        "value": "drop-shadow(0 18px 28px rgb(0 0 0 / 0.28))",
+        "purpose": "filter on the drawn phone that holds the illustrative screen; the only shadow in the system."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease-out",
+        "value": "cubic-bezier(0.22, 1, 0.36, 1)",
+        "purpose": "Default easing for reveals, presses and the flow's lit/pop steps (--ease-out)."
+      },
+      {
+        "name": "ease-in-out",
+        "value": "cubic-bezier(0.77, 0, 0.175, 1)",
+        "purpose": "The cable's branch drawing into the flow; the track fill between hops."
+      },
+      {
+        "name": "ease-out-expo",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "The envelope's hop from station to station: leaves quickly, settles without passing."
+      },
+      {
+        "name": "t-press",
+        "value": "140ms",
+        "purpose": "Press feedback: scale 0.97 on buttons, 0.985 on composer options."
+      },
+      {
+        "name": "t-hover",
+        "value": "200ms",
+        "purpose": "Hover colour and underline changes (fine pointers only)."
+      },
+      {
+        "name": "t-reveal",
+        "value": "640ms",
+        "purpose": "data-reveal entrance (16px rise + fade) and cable station fill."
+      },
+      {
+        "name": "stagger",
+        "value": "70ms",
+        "purpose": "Delay step between staggered reveals (--i)."
+      },
+      {
+        "name": "view-transition",
+        "value": "280ms",
+        "purpose": "Cross-page view transition on the root."
+      },
+      {
+        "name": "shutter",
+        "value": "700ms opacity / 1100ms transform",
+        "purpose": "Pictures settle into their frame from scale 1.04."
+      },
+      {
+        "name": "hero-rise",
+        "value": "1000ms, 110ms apart",
+        "purpose": "Hero promise lines rise from their clip; lead and action fade up from blur(6px) in 700ms."
+      },
+      {
+        "name": "flow-sequence",
+        "value": "4700ms",
+        "purpose": "The protagonist: branch 420ms, envelope pop 480ms, four hops of 600ms, each station lit 520ms."
+      },
+      {
+        "name": "feed-entry",
+        "value": "700ms every 4000ms",
+        "purpose": "A new event-log entry arrives on top; the oldest fades under its line."
+      },
+      {
+        "name": "living-plates",
+        "value": "hero 18s camera, 7s sway, 9s smoke, 12s gust; footer 16s camera, 6s sway, 8s ripple, 44s canoe",
+        "purpose": "Ambient loops of the engraved plates."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "prefers-reduced-motion: reduce",
+        "purpose": "All animations and transitions off, smooth scroll and view transitions off, SMIL layers removed; flow static and complete, log still, cable fully drawn."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "plots-one-column",
+        "value": "420px"
+      },
+      {
+        "name": "facts-stack",
+        "value": "480px"
+      },
+      {
+        "name": "days-down",
+        "value": "560px"
+      },
+      {
+        "name": "carousel-one",
+        "value": "600px"
+      },
+      {
+        "name": "phone",
+        "value": "720px"
+      },
+      {
+        "name": "single-column",
+        "value": "900px"
+      },
+      {
+        "name": "method-carousel",
+        "value": "1100px"
+      },
+      {
+        "name": "hero-tablet",
+        "value": "1199px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The action: forest green, square, white sans 700; the only saturated colour on the page.",
+      "html": "<a class=\"ds-btn\" href=\"#\">Escribime por email</a>",
+      "css": ".ds-btn { display: inline-flex; align-items: center; justify-content: center; min-height: 52px; padding: 14px 26px; font: 700 var(--fs-body)/1.2 var(--sans); text-decoration: none; border: 0; border-radius: 0; cursor: pointer; background: var(--green); color: #fff; transition: transform var(--t-press) var(--ease-out), background-color var(--t-hover) ease; } .ds-btn:hover { background: var(--green-deep); } .ds-btn:active { transform: scale(0.97); } .ds-btn:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }"
+    },
+    {
+      "name": "Quiet Button",
+      "kind": "button",
+      "refersTo": "button-quiet",
+      "description": "Secondary action beside the primary (Copiar): tone fill, ink text.",
+      "html": "<button type=\"button\" class=\"ds-btn-quiet\">Copiar texto</button>",
+      "css": ".ds-btn-quiet { display: inline-flex; align-items: center; justify-content: center; min-height: 52px; padding: 14px 26px; font: 700 var(--fs-body)/1.2 var(--sans); border: 0; border-radius: 0; cursor: pointer; background: var(--tone); color: var(--ink); transition: transform var(--t-press) var(--ease-out), background-color var(--t-hover) ease; } .ds-btn-quiet:hover { background: var(--tone-strong); } .ds-btn-quiet:active { transform: scale(0.97); } .ds-btn-quiet:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }"
+    },
+    {
+      "name": "Header",
+      "kind": "nav",
+      "refersTo": "button-header",
+      "description": "Plain sticky bar on the paper: serif wordmark, four links, ES | EN, the action.",
+      "html": "<header class=\"ds-top\"><a class=\"ds-word\" href=\"#\">Lautaro Guebel</a><nav><a href=\"#\">Casos</a><a href=\"#\">Método</a><a href=\"#\">Qué hago</a><a href=\"#\">Contacto</a></nav><span class=\"ds-langs\"><a aria-current=\"page\" href=\"#\">ES</a><a href=\"#\">EN</a></span><a class=\"ds-top-cta\" href=\"#\">Escribime</a></header>",
+      "css": ".ds-top { display: flex; align-items: center; gap: var(--gutter); min-height: 72px; padding-inline: var(--margin); background: var(--paper); color: var(--ink); } .ds-word { font: 700 var(--fs-lead)/1 var(--serif); text-decoration: none; color: inherit; } .ds-top nav { margin-left: auto; display: flex; gap: clamp(1rem, 2vw, 2rem); } .ds-top nav a { padding: 12px 0; font-size: var(--fs-small); text-decoration: none; color: inherit; text-underline-offset: 0.3em; } .ds-top nav a:hover { text-decoration: underline; } .ds-langs { display: flex; } .ds-langs a { display: grid; place-items: center; min-width: 44px; min-height: 40px; font: 600 var(--fs-small) var(--sans); color: var(--ink-2); text-decoration: none; text-underline-offset: 0.35em; text-decoration-thickness: 1.5px; transition: color var(--t-hover) ease; } .ds-langs a[aria-current] { color: var(--ink); text-decoration-line: underline; } .ds-langs a:not([aria-current]):hover { color: var(--ink); } .ds-top-cta { display: inline-flex; align-items: center; min-height: 40px; padding: 8px 26px; font: 700 var(--fs-body)/1.2 var(--sans); background: var(--green); color: #fff; text-decoration: none; white-space: nowrap; transition: background-color var(--t-hover) ease; } .ds-top-cta:hover { background: var(--green-deep); } .ds-top a:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }"
+    },
+    {
+      "name": "Text Link",
+      "kind": "custom",
+      "refersTo": "link",
+      "description": "Underlined inline link; the underline thickens on hover.",
+      "html": "<a class=\"ds-link\" href=\"#\">Ver el caso completo</a>",
+      "css": ".ds-link { color: var(--ink); font-weight: 600; text-decoration: underline; text-decoration-thickness: 0.07em; text-underline-offset: 0.22em; transition: text-decoration-thickness var(--t-hover) ease; } .ds-link:hover { text-decoration-thickness: 0.14em; } .ds-link:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }"
+    },
+    {
+      "name": "Plate with caption",
+      "kind": "card",
+      "refersTo": "plate",
+      "description": "A figure on the brighter paper as a tone step, no frame; serif title on top, italic serif caption under it.",
+      "html": "<figure class=\"ds-sheet\"><div class=\"ds-plate\"><h3 class=\"ds-sheet-title\">Relevamiento</h3><p>Cada tarea y cómo se hacía.</p></div><figcaption class=\"ds-caption\">Lo que se hacía a mano, antes de construir nada.</figcaption></figure>",
+      "css": ".ds-sheet { margin: 0; color: var(--ink); } .ds-plate { background: var(--plate); padding: clamp(1rem, 2.6vw, 2.25rem); display: grid; gap: 14px; border-radius: 0; } .ds-sheet-title { margin: 0; font: 400 var(--fs-lead)/1.25 var(--serif); } .ds-plate p { margin: 0; font: 400 var(--fs-body)/1.65 var(--sans); } .ds-caption { margin-top: 10px; font: italic 400 var(--fs-small)/1.45 var(--serif); color: var(--ink-2); }"
+    },
+    {
+      "name": "Composer option",
+      "kind": "chip",
+      "refersTo": "composer-option",
+      "description": "A radio row of the message composer: tone at rest, ink when chosen.",
+      "html": "<fieldset class=\"ds-pick\"><label class=\"ds-opt\"><input type=\"radio\" name=\"ds-topic\" checked> Cobros y recordatorios</label><label class=\"ds-opt\"><input type=\"radio\" name=\"ds-topic\"> Altas después de cada venta</label></fieldset>",
+      "css": ".ds-pick { border: 0; margin: 0; padding: 0; } .ds-opt { display: flex; align-items: center; gap: 14px; min-height: 52px; padding: 10px 16px; margin-bottom: 8px; background: var(--tone); color: var(--ink); font: 400 var(--fs-body)/1.65 var(--sans); cursor: pointer; transition: background-color var(--t-hover) ease, color var(--t-hover) ease, transform var(--t-press) var(--ease-out); } .ds-opt input { width: 20px; height: 20px; margin: 0; accent-color: var(--green); } .ds-opt:hover:not(:has(input:checked)) { background: var(--tone-strong); } .ds-opt:has(input:checked) { background: var(--ink); color: #fff; } .ds-opt:has(input:focus-visible) { outline: 3px solid var(--ink); outline-offset: 2px; } .ds-opt:active { transform: scale(0.985); }"
+    },
+    {
+      "name": "Estate plots",
+      "kind": "custom",
+      "refersTo": "estate-plot",
+      "description": "A system drawn as a cadastral sheet: plots of different spans on a six-column grid, the 6px gaps are the paths.",
+      "html": "<ul class=\"ds-plots\"><li class=\"ds-plot ds-plot--wide ds-plot--tone\"><p class=\"ds-plot-name\">Roles</p><p class=\"ds-plot-text\">Cada persona ve lo suyo.</p></li><li class=\"ds-plot\"><p class=\"ds-plot-name\">Stock</p><p class=\"ds-plot-text\">Avisa cuando falta.</p></li><li class=\"ds-plot ds-plot--four ds-plot--paper\"><p class=\"ds-plot-name\">Limpieza</p><p class=\"ds-plot-text\">Por turno, con responsable.</p></li></ul>",
+      "css": ".ds-plots { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 6px; margin: 0; padding: 18px; list-style: none; background: var(--plate); } .ds-plot { grid-column: span 2; display: grid; align-content: start; gap: 4px; padding: 14px 16px 16px; background: var(--straw); color: var(--ink); } .ds-plot--wide { grid-column: span 6; } .ds-plot--four { grid-column: span 4; } .ds-plot--tone { background: var(--tone); } .ds-plot--paper { background: var(--paper); } .ds-plot p { margin: 0; } .ds-plot-name { font: 400 var(--fs-lead)/1.2 var(--serif); } .ds-plot-text { font: 400 var(--fs-small)/1.45 var(--sans); }"
+    },
+    {
+      "name": "Ledger entry",
+      "kind": "custom",
+      "refersTo": "ledger",
+      "description": "The offer: the old way struck through in brick, the serif title, the sentence; alternate lines on paper.",
+      "html": "<ul class=\"ds-ledger\"><li class=\"ds-entry\"><p class=\"ds-was\"><s>Anotar turnos en un cuaderno</s></p><h3 class=\"ds-entry-title\">Reservas solas</h3><p class=\"ds-entry-text\">El cliente elige el horario y vos solo lo ves.</p></li><li class=\"ds-entry\"><p class=\"ds-was\"><s>Revisar el depósito a ojo</s></p><h3 class=\"ds-entry-title\">Avisos de stock</h3><p class=\"ds-entry-text\">Te avisa antes de que falte.</p></li></ul>",
+      "css": ".ds-ledger { margin: 0; padding: 12px; list-style: none; background: var(--plate); color: var(--ink); } .ds-entry { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gutter); align-items: baseline; padding: clamp(1rem, 2vw, 1.5rem) clamp(0.75rem, 1.6vw, 1.25rem); } .ds-entry:nth-child(even) { background: var(--paper); } .ds-was { grid-column: 1 / span 4; grid-row: 1; margin: 0; color: var(--ink-2); } .ds-was s { text-decoration-color: var(--brick); text-decoration-thickness: 0.1em; } .ds-entry-title { grid-column: 5 / span 4; grid-row: 1; margin: 0; font: 400 var(--fs-sub)/1.15 var(--serif); letter-spacing: -0.01em; } .ds-entry-text { grid-column: 9 / -1; grid-row: 1; margin: 0; font: 400 var(--fs-body)/1.65 var(--sans); }"
+    },
+    {
+      "name": "Event log line",
+      "kind": "custom",
+      "refersTo": "feed",
+      "description": "A register line beside the plan: tabular timestamp, a drawn sage check, the event.",
+      "html": "<ul class=\"ds-log\"><li class=\"ds-log-line\"><span class=\"ds-log-time\">10:42:07</span><svg class=\"ds-log-check\" viewBox=\"0 0 24 24\" width=\"20\" height=\"20\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"11\"/><path d=\"M7 12.5l3.2 3.2L17 9\"/></svg><span class=\"ds-log-event\">Contrato enviado</span></li></ul>",
+      "css": ".ds-log { margin: 0; padding: 18px; list-style: none; background: var(--plate); color: var(--ink); } .ds-log-line { height: 52px; display: grid; grid-template-columns: 6.5rem auto minmax(0, 1fr); align-items: center; column-gap: 12px; } .ds-log-time { font: 400 var(--fs-small)/1.3 var(--mono); font-variant-numeric: tabular-nums; color: var(--ink-2); text-align: right; } .ds-log-check { fill: var(--sage); stroke: var(--sage-ink); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; } .ds-log-check path { fill: none; stroke: var(--ink); stroke-width: 2; } .ds-log-event { font: 600 var(--fs-body)/1.3 var(--sans); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }"
+    },
+    {
+      "name": "Disclosure summary",
+      "kind": "custom",
+      "refersTo": "disclosure-summary",
+      "description": "The real graph's summary on phones, with a drawn plus that becomes a minus.",
+      "html": "<details class=\"ds-wf\"><summary class=\"ds-wf-open\">Así es por dentro<svg class=\"ds-wf-mark\" viewBox=\"0 0 16 16\" width=\"16\" height=\"16\" aria-hidden=\"true\"><path d=\"M2 8 H14\"/><path class=\"ds-wf-v\" d=\"M8 2 V14\"/></svg></summary><p>El grafo real del flujo.</p></details>",
+      "css": ".ds-wf { color: var(--ink); } .ds-wf-open { display: flex; align-items: center; gap: 12px; min-height: 52px; padding: 12px 16px; background: var(--plate); font: 600 var(--fs-body)/1.3 var(--sans); cursor: pointer; list-style: none; transition: background-color var(--t-hover) ease; } .ds-wf-open::-webkit-details-marker { display: none; } .ds-wf-open:hover { background: var(--tone); } .ds-wf-open:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; } .ds-wf-mark { flex: none; width: 1em; height: 1em; margin-left: auto; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: square; } .ds-wf-v { transform-origin: 50% 50%; transform-box: fill-box; transition: transform var(--t-hover) var(--ease-out); } .ds-wf[open] .ds-wf-v { transform: scaleY(0); }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Hand-Coloured Atlas of Tucumán",
+    "overview": "The site reads as a bound atlas. Two engraved landscape plates open and close it: the cane fields and sugar mill under the hero's promise, the lake and chapel under the footer. Between them, the engineering work is drawn as surveyor's plans in the same green-black ink: a flow of five stations on a pencilled track with a compass rose and a scale bar, an estate of plots for the club's system, a ledger for what a business can do on its own. A small business is mapped and put in order the way a cane estate is surveyed. The world was pinned by the user (\"Me gusta muchos los colores (beige) y estetica tranquila que tiene el hero y footer. Quiero poder plasmar eso en el resto de la pagina\"), so the build extends the plates' palette and calm to every section.\n\nDensity is low and the tempo is slow. Each section has its own composition, and a section is separated from the next by space and by a step in paper tone, never by a rule. Colour is watercolour wash on rag paper: a cream ground, a brighter plate paper for figures, a sage wash for the automation case, a straw wash for the padel case, and brick only where something fails or is struck out. The one saturated colour on the page is the forest-green action, kept from earlier versions on purpose so the action is never mistaken for decoration.\n\nThe world explicitly refuses the SaaS landing: saturated colour bands, blueprint grids and rows of same-size cards (direction contract, THESIS).",
+    "keyCharacteristics": [
+      "Cream paper ground with plates as tone steps, never as ruled frames.",
+      "Green-black ink for text and for every drawn line; washes carry case identity (sage = automation, straw = padel).",
+      "Serif headings and italic serif captions, as in an atlas; system sans for reading text.",
+      "Diagrams in 1–1.5px ink linework with hatching, a compass rose and a scale bar where a plan is shown.",
+      "Square corners everywhere; circles only for drawn marks and stations.",
+      "One protagonist animation (the automation plan drawing itself); everything else is quiet. Static and complete without JS or with reduced motion."
+    ],
+    "rules": [
+      {
+        "name": "The One Saturated Colour Rule",
+        "body": "Forest green is the only saturated colour, and it only ever means \"act\". Washes carry case identity; brick carries failure; nothing else gets colour.",
+        "section": "colors"
+      },
+      {
+        "name": "The Wash Is the Case Rule",
+        "body": "Sage belongs to the automation case and straw to the padel case. A wash appears outside its case only as a small node fill inside a plan (straw for ends and the envelope, sage for retries and lit stations).",
+        "section": "colors"
+      },
+      {
+        "name": "The Pencil Is Not Ink Rule",
+        "body": "`ink-3` draws non-text lines only; any text uses `ink` or `ink-2`.",
+        "section": "colors"
+      },
+      {
+        "name": "The Six Sizes Rule",
+        "body": "Text uses the six size tokens and nothing else. A new size is a design change, not a tweak.",
+        "section": "typography"
+      },
+      {
+        "name": "The Atlas Caption Rule",
+        "body": "A figure's caption sits under it in small serif italic, never above it, never in tracked capitals.",
+        "section": "typography"
+      },
+      {
+        "name": "The Mono Is Data Rule",
+        "body": "Monospace appears only on real measured data (the timestamps of the event log), with tabular figures. Never as a \"technical\" costume.",
+        "section": "typography"
+      },
+      {
+        "name": "The Margin Lane Rule",
+        "body": "The outer margin belongs to the cable. Nothing else is placed in it.",
+        "section": "layout"
+      },
+      {
+        "name": "The Tone Step Rule",
+        "body": "Surfaces are separated by a step in paper tone or a wash, never by a line or a shadow.",
+        "section": "layout"
+      },
+      {
+        "name": "The Only Floating Thing Rule",
+        "body": "Only the phone casts a shadow. Everything else is paper on paper.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "**Do** set every figure on plate paper or a wash as a tone step, with its italic serif caption under it.",
+      "**Do** keep forest green (#0c7866) for actions only, and give each case its wash: sage for automation, straw for padel.",
+      "**Do** draw diagrams as survey plans: ink lines 1–1.5 units, pencilled tracks, brick hatching and dashes for failure, a compass rose and a scale bar where a plan is shown.",
+      "**Do** use only the six size tokens for text; serif for headings, titles and captions, sans for reading.",
+      "**Do** separate sections with space and a change of ground (`--gap-section`, paper → plate → wash).",
+      "**Do** mark list lines with filled shapes (dash, dot, square) instead of boxes or bullets.",
+      "**Do** make every animation start from a visible, complete default and switch it off under reduced motion; keep one protagonist (the plan).",
+      "**Do** keep text AA on every ground: ink or ink-2 on paper, plate, sage and straw; brick and green-deep only where their measured contrast holds (6.1:1 and 6.0:1).",
+      "**Do** embed the generation prompt in every new shipping raster and tone photos to the paper."
+    ],
+    "donts": [
+      "**Don't** use saturated colour bands, blueprint grids or rows of same-size cards (the SaaS landing the world refuses).",
+      "**Don't** put a label, kicker or eyebrow above a heading, number sections, or use tracked uppercase labels.",
+      "**Don't** put a shadow on anything at rest; the drawn phone is the only floating object.",
+      "**Don't** divide content with hairlines or outline boxes in 1px lines; ink linework belongs to drawings and marks.",
+      "**Don't** round corners on surfaces, buttons or photos.",
+      "**Don't** use monospace outside real data, or `ink-3` for any text.",
+      "**Don't** use text glyphs (\"+\", \"→\") as icons; draw them as SVG in the 1.5px ink line.",
+      "**Don't** name technologies, tools or frameworks, or show a GitHub link, anywhere in text, alt, aria-label or title.",
+      "**Don't** use gradients as fills; masks are only for blending the engravings into the paper and for the carousel's soft edge."
+    ],
+    "exceptions": [
+      "**Two hairlines:** the 1px `ink-3` separator above the real workflow graph (canvas comment if01muum) and the footer's 1px closing hairline (L67). No other rule lines.",
+      "**The \"venta\" highlight:** the straw fill behind one word in the flow heading (L56).",
+      "**The footer:** its black text, #504e42 / #474640 inks, #e9e2cf / #ebe4d2 lines and the 6px-radius icon box come from the user's reference and stay local to it.",
+      "**System serif as the display face** and the display size up to 10rem: pinned by the user (artboard-02 typography, unchanged hero)."
+    ]
+  }
+}

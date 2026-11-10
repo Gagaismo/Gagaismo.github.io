@@ -1,0 +1,487 @@
+---
+import type { ComponentProps } from "astro/types";
+import { Picture } from "astro:assets";
+import landscape from "../assets/images/footer-landscape.png";
+import { email, type HomeCopy } from "../i18n/home";
+
+// The footer of the user's references (L67): cream ground, the LG letters and an email button, two
+// serif link columns, a hairline and the closing row, over a landscape that fills the bottom. The
+// picture is a slow living loop in CSS only: the camera pushes in (the whole scene), the far mountains
+// lag behind, the foliage in front pushes further and sways, the lake shimmers through two SVG
+// displacements whose ripples drift (SMIL, no JS) and crossfade, and a small canoe crosses the water
+// (L70, L71). Every layer is a copy of the same picture, so it downloads once.
+interface Props {
+  copy: HomeCopy["footer"];
+}
+
+const { copy } = Astro.props;
+
+// Bands of the scene, in % of the picture: top, left, width, height.
+const bands = {
+  far: [0, 0, 100, 60],
+  water: [84, 0, 100, 16],
+  near: [50, 0, 36, 50],
+};
+const box = ([t, l, w, h]: number[]) => `--t:${t};--l:${l};--w:${w};--h:${h}`;
+// The drift of each ripple field: [px, seconds] along x and y.
+const ripples = [
+  { id: "foot-wave-a", seed: 3, dx: [-48, 11], dy: [18, 7] },
+  { id: "foot-wave-b", seed: 11, dx: [40, 13], dy: [-16, 8.5] },
+];
+// The scene is never narrower than 1000px (see .foot__art); the source is 1916px wide, so 2x screens
+// get a slightly soft picture.
+const picture: ComponentProps<typeof Picture> = {
+  src: landscape,
+  alt: "",
+  formats: ["avif", "webp"],
+  widths: [640, 960, 1280, 1600, 1916],
+  sizes: "max(100vw, 1000px)",
+  loading: "lazy",
+  decoding: "async",
+};
+---
+
+<footer class="foot">
+  <div class="foot__inner wrap">
+    <div class="foot__brand">
+      <a class="foot__logo" href="#top" aria-label="Lautaro Guebel"><span aria-hidden="true">LG</span></a>
+      <ul class="foot__icons">
+        <li>
+          <a class="foot__icon" data-foot-icon href={`mailto:${email}`} aria-label={copy.emailLabel}>
+            <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+              <rect x="3" y="5.5" width="18" height="13" rx="1.5" />
+              <path d="m3.5 6.5 8.5 6.5 8.5-6.5" />
+            </svg>
+          </a>
+        </li>
+      </ul>
+    </div>
+    <nav class="foot__cols" aria-label={copy.label}>
+      {
+        copy.columns.map((column) => (
+          <div class="foot__col" data-foot-col>
+            <h2 class="foot__title">{column.title}</h2>
+            <ul>
+              {column.links.map((link) => (
+                <li>
+                  <a href={link.href}>{link.label}</a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
+    </nav>
+    <div class="foot__bar">
+      <span>{copy.year}</span>
+      <span>{copy.made}</span>
+    </div>
+  </div>
+
+  <div class="foot__art" data-foot-art aria-hidden="true">
+    <div class="foot__scene">
+      <Picture {...picture} />
+      <div class="foot__band foot__band--far" style={box(bands.far)}>
+        <Picture {...picture} />
+      </div>
+      <div class="foot__band foot__band--water" style={box(bands.water)}>
+        {
+          ["a", "b"].map((seed) => (
+            <div class={`foot__ripple foot__ripple--${seed}`}>
+              <div class="foot__wave" style={`filter:url(#foot-wave-${seed})`}>
+                <Picture {...picture} />
+              </div>
+            </div>
+          ))
+        }
+      </div>
+      <div class="foot__band foot__band--near" style={box(bands.near)}>
+        <div class="foot__sway">
+          <Picture {...picture} />
+        </div>
+      </div>
+      <!-- The canoe, drawn like the engraving: ink outline, hatching, a seated paddler with no face.
+           Its waterline is y 22 of the drawing; the reflection and the wake trail behind it. -->
+      <div class="foot__lane">
+        <div class="foot__boat" data-foot-boat aria-hidden="true">
+          <svg viewBox="0 0 80 32" fill="none" stroke="#3d4832" stroke-linecap="round" stroke-linejoin="round">
+            <clipPath id="foot-boat-hull">
+              <path d="M3 15.5Q8 17 14 17.4H66q6-.4 11-2.4-3 7-17 7.6H20Q7 22.4 3 15.5Z" />
+            </clipPath>
+            <g stroke-width=".5">
+              <path d="M7 23.2q33 6.5 66 0" opacity=".3" />
+              <path d="M14 25h44M22 26.8h30" opacity=".35" />
+              <path d="M-2 23.4h8m-12 2h9m-6 2.2h7" opacity=".45" />
+            </g>
+            <g class="foot__hull">
+              <path d="M38.4 17.2q.6-7 4.6-7.6 4 .6 4.6 7.6Z" fill="#5d6b4c" stroke-width=".7" />
+              <path d="M40 15.6h5.8M40.4 13.6h5" stroke="#e9d7ad" stroke-width=".35" opacity=".6" />
+              <circle cx="43" cy="7.4" r="2.2" fill="#5d6b4c" stroke-width=".7" />
+              <path d="M39.6 6.3h6.8" stroke-width=".8" />
+              <g class="foot__paddle">
+                <path d="M50.5 3.5 35.6 25" stroke-width="1" />
+                <path d="m36.6 23.6-2.8 4.4q-.6 1.4.8 1l.6-.3q1.4-.8 1.8-2.6Z" fill="#c9ab74" stroke-width=".6" />
+              </g>
+              <path d="M3 15.5Q8 17 14 17.4H66q6-.4 11-2.4-3 7-17 7.6H20Q7 22.4 3 15.5Z" fill="#e9d7ad" stroke-width=".8" />
+              <g clip-path="url(#foot-boat-hull)" stroke-width=".35" opacity=".75">
+                <path d="M0 19.3h80M0 20.7h80M0 21.9h80" />
+                <path d="M18 18v5m6-5v5m6-5v5m6-5v5m6-5v5m6-5v5m6-5v5m6-5v5" opacity=".6" />
+              </g>
+              <path d="M5 16.6Q40 19 75 16.2" stroke-width=".5" />
+            </g>
+            <path d="M4 22.3q4-.9 8 0t8 0 8 0 8 0 8 0 8 0 8 0 8 0 8 0" stroke="#fbf6e6" stroke-width="1.2" opacity=".8" />
+          </svg>
+        </div>
+      </div>
+    </div>
+    <!-- Two ripple fields: long, thin noise bands that push the water sideways only (green fixed at 0.5).
+         The noise itself drifts back and forth, so the ripples travel across the lake. -->
+    <svg class="foot__defs" width="0" height="0">
+      {
+        ripples.map(({ id, seed, dx, dy }) => (
+          <filter id={id} x="-0.1" y="-0.5" width="1.2" height="2" color-interpolation-filters="sRGB">
+            <feTurbulence type="fractalNoise" baseFrequency="0.006 0.11" numOctaves="1" seed={seed} />
+            <feOffset>
+              {["dx", "dy"].map((attr, i) => (
+                <animate
+                  attributeName={attr}
+                  values={`0;${[dx, dy][i]![0]};0`}
+                  dur={`${[dx, dy][i]![1]}s`}
+                  keyTimes="0;0.5;1"
+                  calcMode="spline"
+                  keySplines="0.45 0 0.55 1;0.45 0 0.55 1"
+                  repeatCount="indefinite"
+                />
+              ))}
+            </feOffset>
+            <feColorMatrix values="1 0 0 0 0  0 0 0 0 0.5  0 0 0 0 0  0 0 0 0 1" />
+            <feDisplacementMap in="SourceGraphic" scale="16" xChannelSelector="R" yChannelSelector="G" />
+          </filter>
+        ))
+      }
+    </svg>
+  </div>
+</footer>
+
+<style>
+  /* The illustration's own sky, so the picture has no edge. */
+  .foot {
+    background: #fbf6e6;
+    color: #000;
+    --focus: var(--ink);
+    font-family: var(--serif);
+    overflow: clip;
+  }
+  .foot__inner {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    column-gap: var(--gutter);
+    padding-top: clamp(3.5rem, 7vw, 6.5rem);
+  }
+
+  .foot__logo {
+    display: inline-block;
+    font: 400 var(--fs-sub) / 1 var(--serif);
+    letter-spacing: -0.02em;
+    text-decoration: none;
+    padding-block: 4px;
+    transition: transform var(--t-press) var(--ease-out);
+  }
+  .foot__logo:active {
+    transform: scale(0.97);
+  }
+  .foot__icons {
+    display: flex;
+    gap: 12px;
+    margin-top: clamp(1.25rem, 2.4vw, 2rem);
+  }
+  .foot__icon {
+    display: grid;
+    place-items: center;
+    width: 36px;
+    height: 36px;
+    border: 1px solid #e9e2cf;
+    border-radius: 6px;
+    background: rgb(255 255 255 / 0.4);
+    transition:
+      transform var(--t-press) var(--ease-out),
+      border-color var(--t-hover) ease;
+  }
+  .foot__icon svg {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.6;
+    stroke-linejoin: round;
+  }
+  .foot__icon:active {
+    transform: scale(0.97);
+  }
+
+  .foot__cols {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(9rem, 13rem));
+    column-gap: var(--gutter);
+  }
+  .foot__title {
+    font: 400 var(--fs-lead) / 1.3 var(--serif);
+    margin-bottom: 6px;
+  }
+  /* 38px rows, as in the reference. */
+  .foot__col a {
+    display: inline-block;
+    padding-block: 7px;
+    font: 400 var(--fs-body) / 1.4 var(--serif);
+    color: #504e42;
+    text-decoration: none;
+    transition: color var(--t-hover) ease;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .foot__col a:hover {
+      color: #000;
+    }
+    .foot__icon:hover {
+      border-color: #cfc6ad;
+    }
+  }
+
+  .foot__bar {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 6px var(--gutter);
+    margin-top: clamp(2.5rem, 5vw, 4rem);
+    padding-top: 26px;
+    border-top: 1px solid #ebe4d2; /* taste-skill-ignore: hairline the user asked for (L67 reference footer) */
+    font: 400 var(--fs-small) / 1.5 var(--serif);
+    color: #474640;
+  }
+
+  /* The picture fills the bottom, full bleed; its empty sky slides under the closing row. On narrow
+     screens the scene is wider than the screen and keeps the chapel in view. */
+  .foot__art {
+    --sw: max(100%, 1000px);
+    position: relative;
+    overflow: hidden;
+    margin-top: calc(56px - var(--sw) * 0.19);
+    pointer-events: none;
+    /* The picture's own sky is masked away, so the cream behind the text is one flat colour. */
+    mask-image: linear-gradient(to bottom, transparent 34%, #000 45%);
+  }
+  .foot__scene {
+    position: relative;
+    width: var(--sw);
+    margin-left: calc((100% - var(--sw)) * 0.76);
+    /* 2.6% of the scene's height hangs below the frame, so the camera can rise without a gap. */
+    margin-bottom: calc(var(--sw) * -0.0112);
+    aspect-ratio: 1916 / 821;
+    transform-origin: 50% 100%;
+    animation: foot-camera 16s ease-in-out infinite alternate;
+  }
+  .foot__scene :global(picture),
+  .foot__scene :global(img) {
+    width: 100%;
+    height: auto;
+  }
+  .foot__band {
+    position: absolute;
+    top: calc(var(--t) * 1%);
+    left: calc(var(--l) * 1%);
+    width: calc(var(--w) * 1%);
+    height: calc(var(--h) * 1%);
+    overflow: hidden;
+  }
+  /* Inside a band the picture keeps the scene's size and place. */
+  .foot__band > :global(picture),
+  .foot__sway > :global(picture),
+  .foot__wave > :global(picture) {
+    position: absolute;
+    top: calc(-100% * var(--t) / var(--h));
+    left: calc(-100% * var(--l) / var(--w));
+    width: calc(100% * 100 / var(--w));
+  }
+  .foot__sway,
+  .foot__ripple,
+  .foot__wave {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+  }
+
+  /* Far mountains: lag behind the camera. */
+  .foot__band--far {
+    mask-image: linear-gradient(to bottom, #000 78%, transparent);
+    animation: foot-far 16s ease-in-out infinite alternate;
+  }
+  /* Foliage in front: pushes in further and sways like a pendulum. */
+  .foot__band--near {
+    mask-image: radial-gradient(100% 100% at 0 100%, #000 70%, transparent 96%);
+    transform-origin: 0 100%;
+    animation: foot-near 16s ease-in-out infinite alternate;
+  }
+  .foot__sway {
+    transform-origin: 0 100%;
+    animation: foot-sway 6s ease-in-out infinite alternate;
+  }
+  /* The lake: two drifting ripple fields fade in and out over the clear water. */
+  .foot__band--water {
+    mask-image: linear-gradient(to bottom, transparent, #000 35%);
+  }
+  .foot__ripple {
+    opacity: 0;
+    animation: foot-ripple 8s ease-in-out infinite;
+  }
+  .foot__ripple--b {
+    animation-delay: -4s;
+  }
+
+  /* The canoe: the lane spans the scene, so its translateX is a share of the scene's width. It
+     crosses the open water from behind the foliage towards the chapel's reflection, fading at both
+     ends; the hull bobs and the paddle strokes on their own. */
+  .foot__lane {
+    --from: 28%;
+    --to: 70%;
+    --park: 46%;
+    position: absolute;
+    top: 90%;
+    left: 0;
+    width: 100%;
+    height: 0;
+    transform: translateX(var(--park));
+    animation: foot-boat 44s linear infinite;
+  }
+  .foot__boat {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 6%;
+    /* The waterline (y 22 of 32) sits on the lane. */
+    transform: translate(-50%, 31.25%);
+  }
+  .foot__boat svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    overflow: visible;
+  }
+  .foot__hull {
+    transform-box: fill-box;
+    transform-origin: 50% 80%;
+    animation: foot-bob 3.4s ease-in-out infinite alternate;
+  }
+  .foot__paddle {
+    transform-box: view-box;
+    transform-origin: 46px 10px;
+    animation: foot-paddle 2.6s ease-in-out infinite alternate;
+  }
+
+  @keyframes foot-camera {
+    to {
+      transform: scale(1.07) translate(-1.2%, -2.4%);
+    }
+  }
+  @keyframes foot-far {
+    to {
+      transform: translate(0.6%, 1.6%);
+    }
+  }
+  @keyframes foot-near {
+    to {
+      transform: scale(1.06);
+    }
+  }
+  @keyframes foot-sway {
+    from {
+      transform: rotate(-0.6deg);
+    }
+    to {
+      transform: rotate(1.2deg) skewX(-0.6deg);
+    }
+  }
+  @keyframes foot-ripple {
+    0%,
+    100% {
+      opacity: 0;
+    }
+    50% {
+      opacity: 1;
+    }
+  }
+  @keyframes foot-boat {
+    0% {
+      opacity: 0;
+      transform: translateX(var(--from));
+    }
+    6%,
+    86% {
+      opacity: 1;
+    }
+    92%,
+    100% {
+      opacity: 0;
+      transform: translateX(var(--to));
+    }
+  }
+  @keyframes foot-bob {
+    from {
+      transform: translateY(0) rotate(-1.4deg);
+    }
+    to {
+      transform: translateY(-6%) rotate(1.4deg);
+    }
+  }
+  @keyframes foot-paddle {
+    from {
+      transform: rotate(-9deg);
+    }
+    to {
+      transform: rotate(9deg);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .foot__scene,
+    .foot__band--far,
+    .foot__band--near,
+    .foot__sway,
+    .foot__ripple,
+    .foot__lane,
+    .foot__hull,
+    .foot__paddle {
+      animation: none;
+    }
+    /* The SVG ripples run on their own clock; take them out of the page. */
+    .foot__ripple {
+      display: none;
+    }
+  }
+
+  .foot__defs {
+    position: absolute;
+  }
+
+  @media (max-width: 720px) {
+    .foot__inner {
+      grid-template-columns: 1fr;
+      row-gap: 2.5rem;
+    }
+    .foot__cols {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .foot__bar {
+      flex-direction: column;
+      margin-top: 0;
+    }
+    /* The cropped scene shows about 46%-85% of its width: the canoe crosses that stretch. */
+    .foot__lane {
+      --from: 50%;
+      --to: 80%;
+      --park: 62%;
+    }
+    .foot__boat {
+      width: 7.5%;
+    }
+  }
+</style>

@@ -1,0 +1,304 @@
+---
+import { Image } from "astro:assets";
+import type { Lang } from "../../i18n/ui";
+import { automationStory, caseUi } from "../../i18n/cases";
+import { home } from "../../i18n/home";
+import AutomationFlow from "../AutomationFlow.astro";
+import PhoneFrame from "../PhoneFrame.astro";
+import CaseTop from "./CaseTop.astro";
+import Chapter from "./Chapter.astro";
+import Sheet from "./Sheet.astro";
+import Plots from "./Plots.astro";
+import ProcessMap from "./ProcessMap.astro";
+import antes from "../../assets/images/before-desk.jpg";
+import afterScreen from "../../assets/images/case/after-screen.png";
+
+// The automation case told for an owner, in the order the work happened: the business and its problem,
+// how it was analysed (survey, map, glossary, a written decision), what was built (the screen, the home's
+// plan of the flow with its event log and the real workflow), what runs around it, how it is checked
+// and kept running, and where it stands, with no usage metrics. The entry's own text opens the story.
+interface Props {
+  lang: Lang;
+  data: { title: string; summary: string; sector: string; problem: string; outcomes: string[] };
+}
+
+const { lang, data } = Astro.props;
+const ui = caseUi[lang];
+const s = automationStory[lang];
+const { analysis, built, around, care, outcome } = s;
+---
+
+<CaseTop
+  case="automation"
+  title={data.title}
+  summary={data.summary}
+  facts={[
+    { term: ui.sector, text: data.sector },
+    { term: ui.problem, text: data.problem },
+  ]}
+  image={antes}
+  alt={s.imageAlt}
+/>
+
+<Chapter id="business" title={ui.business} case="automation">
+  <slot />
+  <Sheet slot="sheets" title={analysis.survey.title} caption={analysis.survey.caption}>
+    <dl class="survey">
+      {
+        analysis.survey.rows.map((row) => (
+          <div>
+            <dt>{row.task}</dt>
+            <dd>{row.how}</dd>
+          </div>
+        ))
+      }
+    </dl>
+  </Sheet>
+</Chapter>
+
+<Chapter id="analysis" title={analysis.title} text={analysis.text} layout="below" case="automation">
+  <Sheet slot="sheets" title={analysis.map.title} caption={analysis.map.caption}>
+    <ProcessMap label={analysis.map.label} nodes={analysis.map.nodes} links={analysis.map.links} />
+  </Sheet>
+  <Sheet slot="sheets" title={analysis.glossary.title} caption={analysis.glossary.caption}>
+    <dl class="gloss">
+      {
+        analysis.glossary.terms.map((term) => (
+          <div>
+            <dt>{term.term}</dt>
+            <dd>{term.text}</dd>
+          </div>
+        ))
+      }
+    </dl>
+  </Sheet>
+  <Sheet slot="sheets" title={analysis.decision.title} caption={analysis.decision.caption} tone="sage">
+    <div class="record">
+      <p class="record__decision">{analysis.decision.decision}</p>
+      <p>{analysis.decision.why}</p>
+      <p class="record__status">{analysis.decision.status}</p>
+    </div>
+  </Sheet>
+</Chapter>
+
+<Chapter id="built" title={built.title} text={built.text} layout="flip" tone="sage" case="automation">
+  <figure slot="sheets" class="plate screen">
+    <PhoneFrame class="screen__phone">
+      <Image src={afterScreen} alt={built.screen.alt} width={360} sizes="240px" />
+    </PhoneFrame>
+    <figcaption class="caption">{built.screen.caption}</figcaption>
+  </figure>
+</Chapter>
+
+<AutomationFlow copy={home[lang].flow} heading="subhead" />
+
+<Chapter id="around" title={around.title} text={around.text} layout="below" case="automation">
+  <Sheet slot="sheets" title={around.plan.title} caption={around.plan.caption}>
+    <Plots plots={around.plan.plots} spans={[6, 3, 3, 3, 3]} wash="sage" />
+  </Sheet>
+  <Sheet slot="sheets" title={around.contract.title} caption={around.contract.caption}>
+    <ol class="days">
+      {
+        around.contract.days.map((d, i) => (
+          <li class:list={["day", i === around.contract.days.length - 1 && "day--alert"]}>
+            <span class="day__n">{d.day}</span>
+            <span class="day__text">{d.text}</span>
+          </li>
+        ))
+      }
+    </ol>
+  </Sheet>
+</Chapter>
+
+<Chapter id="care" title={care.title} text={care.text} case="automation">
+  <Sheet slot="sheets" title={care.health.title} caption={care.health.caption}>
+    <ul class="ticks">
+      {care.health.checks.map((check) => <li>{check}</li>)}
+    </ul>
+  </Sheet>
+  <Sheet slot="sheets" title={care.change.title} caption={care.change.caption} tone="straw">
+    <ol class="steps">
+      {care.change.states.map((state) => <li>{state}</li>)}
+    </ol>
+  </Sheet>
+</Chapter>
+
+<Chapter id="outcome" title={outcome.title} text={[...outcome.text, ...outcome.size]} layout="flip" case="automation">
+  <Sheet slot="sheets" title={outcome.runs} caption={outcome.runsCaption} tone="sage">
+    <ul class="ticks">
+      {data.outcomes.map((item) => <li>{item}</li>)}
+    </ul>
+  </Sheet>
+</Chapter>
+
+<style>
+  /* Survey: each task and how it was done, the old way in brick. */
+  .survey {
+    display: grid;
+    gap: 12px;
+    font-size: var(--fs-small);
+    line-height: 1.35;
+  }
+  .survey dt {
+    font-weight: 600;
+  }
+  .survey dd {
+    color: var(--brick);
+  }
+
+  .gloss {
+    display: grid;
+    gap: 12px;
+    font-size: var(--fs-small);
+    line-height: 1.4;
+  }
+  .gloss dt {
+    font: 400 var(--fs-body) / 1.3 var(--serif);
+  }
+  .gloss dd {
+    color: var(--ink-2);
+  }
+
+  /* A written decision: the decision in serif, its reason, its state in the deep action green
+     (6.0:1 on the sage wash). */
+  .record {
+    display: grid;
+    gap: 10px;
+    font-size: var(--fs-small);
+    line-height: 1.45;
+  }
+  .record__decision {
+    font: 400 var(--fs-lead) / 1.3 var(--serif);
+  }
+  .record__status {
+    font-weight: 700;
+    color: var(--green-deep);
+  }
+
+  /* The generated screen in the drawn phone, on the plate paper. */
+  .screen {
+    display: grid;
+    justify-items: center;
+    gap: 12px;
+  }
+  .screen :global(.screen__phone) {
+    width: min(240px, 60vw);
+  }
+  .screen :global(.phone__screen img) {
+    width: 100%;
+    height: auto;
+  }
+
+  /* The contract's days on one ink line, like stations on a survey line; the last one, the alert, in
+     brick. Across on wide sheets, down the side on phones. */
+  .days {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px;
+  }
+  .days::before {
+    content: "";
+    position: absolute;
+    left: 6px;
+    right: 6px;
+    top: 7px;
+    height: var(--line);
+    background: var(--ink);
+  }
+  .day {
+    position: relative;
+    display: grid;
+    gap: 4px;
+    padding-top: 26px;
+    font-size: var(--fs-small);
+    line-height: 1.4;
+  }
+  .day::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: var(--plate);
+    box-shadow: inset 0 0 0 var(--line-bold) var(--ink);
+  }
+  .day--alert::before {
+    border-radius: 0;
+    background: var(--brick);
+    box-shadow: none;
+  }
+  .day__n {
+    font: 400 var(--fs-lead) / 1.2 var(--serif);
+    font-variant-numeric: tabular-nums;
+  }
+  .day--alert .day__n {
+    color: var(--brick);
+  }
+
+  .ticks {
+    display: grid;
+    gap: 10px;
+  }
+  .ticks li {
+    display: grid;
+    grid-template-columns: 10px minmax(0, 1fr);
+    column-gap: 12px;
+  }
+  .ticks li::before {
+    content: "";
+    width: 9px;
+    height: 9px;
+    margin-top: 0.55em;
+    border-radius: 50%;
+    background: var(--sage-ink);
+  }
+
+  /* A change's way in: ordered steps joined by the ink line. */
+  .steps {
+    display: grid;
+    gap: 14px;
+  }
+  .steps li {
+    position: relative;
+    display: grid;
+    grid-template-columns: 10px minmax(0, 1fr);
+    column-gap: 12px;
+  }
+  .steps li::before {
+    content: "";
+    width: 9px;
+    height: 9px;
+    margin-top: 0.55em;
+    background: var(--ink);
+  }
+  .steps li:not(:last-child)::after {
+    content: "";
+    position: absolute;
+    left: 4px;
+    top: calc(0.55em + 9px);
+    bottom: -14px;
+    width: var(--line);
+    background: var(--ink);
+  }
+
+  @media (max-width: 560px) {
+    .days {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 16px;
+    }
+    .days::before {
+      left: 7px;
+      right: auto;
+      top: 6px;
+      bottom: 6px;
+      width: var(--line);
+      height: auto;
+    }
+    .day {
+      padding: 0 0 0 30px;
+    }
+  }
+</style>

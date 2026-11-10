@@ -1,0 +1,293 @@
+---
+import type { HomeCopy } from "../i18n/home";
+
+interface Props {
+  copy: HomeCopy["flow"]["graph"];
+}
+
+const { copy } = Astro.props;
+const t = copy.nodes;
+
+// The real node graph of the academy's sale-to-onboarding workflow, with generic names: a check, two
+// branches in parallel (welcome email then platform invite; contract), retries and an operator alert on
+// every failure path. Wide: the contract lane sits above the email lane. Narrow: three columns
+// (step, retry, alert), the contract branch drawn down the left edge.
+type Id = "form" | "check" | "mail" | "invite" | "contract" | "done" | "retryM" | "retryI" | "alertV" | "alertM" | "alertI" | "alertC";
+type Kind = "end" | "step" | "retry" | "alert";
+const nodes: Record<Id, [string, Kind]> = {
+  form: [t.form, "end"],
+  check: [t.check, "step"],
+  mail: [t.mail, "step"],
+  invite: [t.invite, "step"],
+  contract: [t.contract, "step"],
+  done: [t.done, "end"],
+  retryM: [t.retry, "retry"],
+  retryI: [t.retry, "retry"],
+  alertV: [t.alert, "alert"],
+  alertM: [t.alert, "alert"],
+  alertI: [t.alert, "alert"],
+  alertC: [t.alert, "alert"],
+};
+
+type P = [number, number];
+interface Layout {
+  name: "wide" | "tall";
+  view: P;
+  box: P;
+  font: number;
+  chars: number;
+  at: Record<Id, P>;
+  edges: (at: (id: Id, side: "l" | "r" | "t" | "b") => P) => { pts: P[]; fail?: boolean }[];
+  no: P;
+}
+
+const wide: Layout = {
+  name: "wide",
+  view: [1270, 470],
+  box: [210, 60],
+  font: 19,
+  chars: 20,
+  at: {
+    alertC: [635, 36], contract: [635, 126], done: [1155, 181],
+    form: [115, 236], check: [375, 236], mail: [635, 236], invite: [895, 236],
+    retryM: [635, 336], retryI: [895, 336],
+    alertV: [375, 434], alertM: [635, 434], alertI: [895, 434],
+  },
+  edges: (e) => [
+    { pts: [e("form", "r"), e("check", "l")] },
+    { pts: [e("check", "r"), e("mail", "l")] },
+    { pts: [e("check", "t"), [375, 126], e("contract", "l")] },
+    { pts: [e("check", "b"), e("alertV", "t")], fail: true },
+    { pts: [e("mail", "r"), e("invite", "l")] },
+    { pts: [e("mail", "b"), e("retryM", "t")], fail: true },
+    { pts: [e("retryM", "b"), e("alertM", "t")], fail: true },
+    { pts: [e("invite", "b"), e("retryI", "t")], fail: true },
+    { pts: [e("retryI", "b"), e("alertI", "t")], fail: true },
+    { pts: [e("invite", "r"), [1155, 236], e("done", "b")] },
+    { pts: [e("contract", "r"), [1155, 126], e("done", "t")] },
+    { pts: [e("contract", "t"), e("alertC", "b")], fail: true },
+    { pts: [e("alertC", "r"), [1155, 36], e("done", "t")] },
+  ],
+  no: [386, 300],
+};
+
+const tall: Layout = {
+  name: "tall",
+  view: [360, 484],
+  box: [100, 56],
+  font: 14,
+  chars: 13,
+  at: {
+    form: [68, 34], check: [68, 116], alertV: [300, 116],
+    mail: [68, 198], retryM: [184, 198], alertM: [300, 198],
+    invite: [68, 280], retryI: [184, 280], alertI: [300, 280],
+    contract: [68, 362], alertC: [300, 362],
+    done: [68, 446],
+  },
+  edges: (e) => [
+    { pts: [e("form", "b"), e("check", "t")] },
+    { pts: [e("check", "r"), e("alertV", "l")], fail: true },
+    { pts: [e("check", "b"), e("mail", "t")] },
+    { pts: [e("check", "l"), [6, 116], [6, 362], e("contract", "l")] },
+    { pts: [e("mail", "r"), e("retryM", "l")], fail: true },
+    { pts: [e("retryM", "r"), e("alertM", "l")], fail: true },
+    { pts: [e("mail", "b"), e("invite", "t")] },
+    { pts: [e("invite", "r"), e("retryI", "l")], fail: true },
+    { pts: [e("retryI", "r"), e("alertI", "l")], fail: true },
+    { pts: [[118, 298], [126, 298], [126, 446], e("done", "r")] },
+    { pts: [e("contract", "r"), e("alertC", "l")], fail: true },
+    { pts: [e("contract", "b"), e("done", "t")] },
+    { pts: [e("alertC", "b"), [300, 446], e("done", "r")] },
+  ],
+  no: [186, 108],
+};
+
+// Splits a label into lines of at most `chars` characters, on spaces.
+function wrap(text: string, chars: number): string[] {
+  return text.split(" ").reduce<string[]>((lines, word) => {
+    const last = lines[lines.length - 1];
+    if (last !== undefined && (last + " " + word).length <= chars) lines[lines.length - 1] = last + " " + word;
+    else lines.push(word);
+    return lines;
+  }, []);
+}
+
+const draw = (l: Layout) => {
+  const [w, h] = l.box;
+  const side = (id: Id, s: "l" | "r" | "t" | "b"): P => {
+    const [x, y] = l.at[id];
+    return s === "l" ? [x - w / 2, y] : s === "r" ? [x + w / 2, y] : s === "t" ? [x, y - h / 2] : [x, y + h / 2];
+  };
+  const boxes = (Object.keys(nodes) as Id[]).map((id) => {
+    const [label, kind] = nodes[id];
+    const [x, y] = l.at[id];
+    const lines = wrap(label, l.chars);
+    const lh = l.font * 1.15;
+    return { id, kind, x: x - w / 2, y: y - h / 2, cx: x, lines, top: y - ((lines.length - 1) * lh) / 2 + l.font * 0.35, lh };
+  });
+  const edges = l.edges(side).map((edge) => ({ d: "M" + edge.pts.map((p) => p.join(" ")).join(" L"), fail: edge.fail }));
+  return { ...l, w, h, boxes, edges };
+};
+const layouts = [draw(wide), draw(tall)];
+// Ink and brick from src/styles/global.css, for the edges and their arrowheads.
+const ink = "#1f2a22";
+const brick = "#9c4127";
+---
+
+<!-- On phones the graph waits behind a disclosure, so the page stays short for an owner who only skims;
+     on wider screens it is shown open where the browser can style the disclosure's content. Drawn in
+     ink on the brighter paper, the failure paths in brick. -->
+<details class="wf">
+  <summary class="wf__open">
+    {copy.open}
+    <svg class="wf__mark" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false">
+      <path d="M2 8 H14" />
+      <path class="wf__mark-v" d="M8 2 V14" />
+    </svg>
+  </summary>
+  <figure class="plate wf__plate">
+  {
+    layouts.map((l) => (
+      <svg class={`wf__svg wf__svg--${l.name}`} viewBox={`0 0 ${l.view[0]} ${l.view[1]}`} role="img" aria-label={copy.label} data-workflow style={`--wf-font:${l.font}px`}>
+        <defs>
+          {[["ok", ink], ["fail", brick]].map(([kind, colour]) => (
+            <marker id={`wf-arrow-${kind}-${l.name}`} viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+              <path d="M0 0 L10 5 L0 10 z" fill={colour} />
+            </marker>
+          ))}
+        </defs>
+        <g fill="none" stroke-width="1.5">
+          {l.edges.map((edge) => (
+            <path
+              d={edge.d}
+              stroke={edge.fail ? brick : ink}
+              stroke-dasharray={edge.fail ? "6 5" : undefined}
+              marker-end={`url(#wf-arrow-${edge.fail ? "fail" : "ok"}-${l.name})`}
+            />
+          ))}
+        </g>
+        <text class="wf__no" x={l.no[0]} y={l.no[1]}>{copy.no}</text>
+        {l.boxes.map((b) => (
+          <g class={`wf__node wf__node--${b.kind}`}>
+            <rect x={b.x} y={b.y} width={l.w} height={l.h} />
+            <text text-anchor="middle">
+              {b.lines.map((line, i) => <tspan x={b.cx} y={b.top + i * b.lh}>{line}</tspan>)}
+            </text>
+          </g>
+        ))}
+      </svg>
+    ))
+  }
+  </figure>
+</details>
+
+<style>
+  /* The rule the user asked for (L62) separates the real graph from the plan and the log above it. */
+  .wf {
+    margin-top: clamp(3rem, 5vw, 4.5rem);
+    padding-top: clamp(2.5rem, 4.5vw, 4rem);
+    border-top: 1px solid var(--ink-3); /* taste-skill-ignore: separator the user asked for (canvas comment if01muum) */
+  }
+  /* The plan runs the full width of the page's text, like the flow plate above it. */
+  .wf__plate {
+    width: 100%;
+  }
+  .wf__open {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-height: 52px;
+    padding: 12px 16px;
+    background: var(--plate);
+    font-weight: 600;
+    cursor: pointer;
+    list-style: none;
+    transition: background-color var(--t-hover) ease;
+  }
+  .wf__open::-webkit-details-marker {
+    display: none;
+  }
+  /* A drawn plus that becomes a minus when open: the page's 1.5px ink line, one text line tall. */
+  .wf__mark {
+    flex: none;
+    width: 1em;
+    height: 1em;
+    margin-left: auto;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.5;
+    stroke-linecap: square;
+  }
+  .wf__mark-v {
+    transform-origin: 50% 50%;
+    transform-box: fill-box;
+    transition: transform var(--t-hover) var(--ease-out);
+  }
+  .wf[open] .wf__open {
+    margin-bottom: 4px;
+  }
+  .wf[open] .wf__mark-v {
+    transform: scaleY(0);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .wf__open:hover {
+      background: var(--tone);
+    }
+  }
+  @supports selector(::details-content) {
+    @media (min-width: 721px) {
+      .wf__open {
+        display: none;
+      }
+      .wf::details-content {
+        content-visibility: visible;
+        display: block;
+      }
+    }
+  }
+  .wf__svg {
+    width: 100%;
+    height: auto;
+  }
+  .wf__svg--tall {
+    display: none;
+    max-width: 420px;
+  }
+  .wf__svg text {
+    font: 600 var(--wf-font) var(--sans);
+  }
+  .wf__node rect {
+    stroke: var(--ink);
+    stroke-width: 1.5;
+  }
+  .wf__node--end rect {
+    fill: var(--straw);
+  }
+  .wf__node--step rect {
+    fill: var(--plate);
+  }
+  .wf__node--retry rect {
+    fill: var(--sage);
+  }
+  .wf__node--alert rect {
+    fill: var(--plate);
+    stroke: var(--brick);
+  }
+  .wf__node text {
+    fill: var(--ink);
+  }
+  .wf__node--alert text {
+    fill: var(--brick);
+  }
+  .wf__no {
+    fill: var(--ink-2);
+  }
+  @media (max-width: 720px) {
+    .wf__svg--wide {
+      display: none;
+    }
+    .wf__svg--tall {
+      display: block;
+    }
+  }
+</style>

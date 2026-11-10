@@ -1,0 +1,411 @@
+---
+import type { Lang } from "../../i18n/ui";
+import { caseUi, padelStory } from "../../i18n/cases";
+import CaseTop from "./CaseTop.astro";
+import Chapter from "./Chapter.astro";
+import Sheet from "./Sheet.astro";
+import Plots from "./Plots.astro";
+import cancha from "../../assets/images/padel-court.jpg";
+
+// The padel club told for an owner: the club and the prototype it outgrew, how it was analysed (the
+// survey, the club's rules, the glossary), what was built (the home's plan enlarged: the six roles and the
+// parts of the system, only what the project's documents confirm), a supply request's steps, the barbecue area's daily limit), how it is checked, and how it
+// ended: the approved demo and the decision written the same day. The entry's own text opens the story.
+interface Props {
+  lang: Lang;
+  data: { title: string; summary: string; sector: string; problem: string; outcomes: string[] };
+}
+
+const { lang, data } = Astro.props;
+const ui = caseUi[lang];
+const s = padelStory[lang];
+const { before, analysis, built, care, outcome } = s;
+// A sample week of barbecue bookings (made-up, said in the caption): bookings per day, and the day a
+// third booking was turned away.
+const week = [1, 0, 2, 1, 2, 2, 1];
+const turnedAway = 4;
+---
+
+<CaseTop
+  case="padel"
+  title={data.title}
+  summary={data.summary}
+  facts={[
+    { term: ui.sector, text: data.sector },
+    { term: ui.problem, text: data.problem },
+  ]}
+  image={cancha}
+  alt={s.imageAlt}
+  position="50% 60%"
+/>
+
+<Chapter id="business" title={ui.business} case="padel">
+  <slot />
+  <Sheet slot="sheets" title={before.title} caption={before.caption}>
+    <table class="ledger">
+      <thead>
+        <tr><th scope="col">{before.was}</th><th scope="col">{before.now}</th></tr>
+      </thead>
+      <tbody>
+        {
+          before.rows.map((row) => (
+            <tr>
+              <td>{row.was}</td>
+              <td>{row.now}</td>
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+  </Sheet>
+</Chapter>
+
+<Chapter id="analysis" title={analysis.title} text={analysis.text} layout="below" case="padel">
+  <Sheet slot="sheets" title={analysis.survey.title} caption={analysis.survey.caption}>
+    <p class="scale__ends" aria-hidden="true"><span>1 · {analysis.survey.low}</span><span>5 · {analysis.survey.high}</span></p>
+    <ul class="profiles">
+      {
+        analysis.survey.profiles.map((profile) => (
+          <li>
+            <span class="profile__name">{profile}</span>
+            <span class="scale" aria-hidden="true">
+              {[1, 2, 3, 4, 5].map((n) => (
+                <span class="scale__dot">{n}</span>
+              ))}
+            </span>
+          </li>
+        ))
+      }
+    </ul>
+  </Sheet>
+  <Sheet slot="sheets" title={analysis.rules.title} caption={analysis.rules.caption} tone="straw">
+    <ul class="marks">
+      {analysis.rules.items.map((rule) => <li>{rule}</li>)}
+    </ul>
+  </Sheet>
+  <Sheet slot="sheets" title={analysis.glossary.title} caption={analysis.glossary.caption}>
+    <dl class="gloss">
+      {
+        analysis.glossary.terms.map((term) => (
+          <div>
+            <dt>{term.term}</dt>
+            <dd>{term.text}</dd>
+            {term.avoid && (
+              <dd class="gloss__avoid">
+                {analysis.glossary.avoid} {term.avoid}
+              </dd>
+            )}
+          </div>
+        ))
+      }
+    </dl>
+  </Sheet>
+</Chapter>
+
+<Chapter id="built" title={built.title} text={built.text} layout="below" tone="straw" case="padel">
+  <Sheet slot="sheets" class="sheet--wide" title={built.roles.title} caption={built.roles.caption}>
+    <Plots plots={built.roles.plots} spans={[6, 3, 3, 2, 2, 2]} wash="straw" />
+  </Sheet>
+  <Sheet slot="sheets" title={built.supply.title} caption={built.supply.caption}>
+    <ol class="states">
+      {built.supply.steps.map((step) => <li>{step}</li>)}
+    </ol>
+    <p class="states__ends">
+      <span>{built.supply.ends}</span>
+      {built.supply.endStates.map((state) => <span class="states__end">{state}</span>)}
+    </p>
+  </Sheet>
+  <Sheet slot="sheets" title={built.grill.title} caption={built.grill.caption}>
+    <div class="week" aria-hidden="true">
+      {
+        built.grill.days.map((day, i) => (
+          <div class="week__day">
+            <span class="week__name">{day}</span>
+            {[0, 1].map((slot) => (
+              <span class:list={["week__slot", slot < week[i]! && "week__slot--on"]} />
+            ))}
+            {i === turnedAway && <span class="week__slot week__slot--no" />}
+          </div>
+        ))
+      }
+    </div>
+    <ul class="week__key">
+      <li><span class="week__slot week__slot--on"></span>{built.grill.booked}</li>
+      <li><span class="week__slot week__slot--no"></span>{built.grill.rejected}</li>
+    </ul>
+    <p class="week__legend">{built.grill.legend}</p>
+  </Sheet>
+</Chapter>
+
+<Chapter id="care" title={care.title} text={care.text} case="padel">
+  <Sheet slot="sheets" title={care.checks.title} caption={care.checks.caption}>
+    <ul class="marks marks--dot">
+      {care.checks.items.map((item) => <li>{item}</li>)}
+    </ul>
+  </Sheet>
+</Chapter>
+
+<Chapter id="outcome" title={outcome.title} text={outcome.text} layout="flip" case="padel">
+  <Sheet slot="sheets" title={outcome.runs} caption={outcome.runsCaption}>
+    <ul class="marks marks--dot">
+      {data.outcomes.map((item) => <li>{item}</li>)}
+    </ul>
+  </Sheet>
+  <Sheet slot="sheets" title={outcome.decision.title} caption={outcome.decision.caption} tone="straw">
+    <div class="record">
+      <p class="record__decision">{outcome.decision.decision}</p>
+      <p>{outcome.decision.context}</p>
+      <h4 class="record__sub">{outcome.decision.optionsTitle}</h4>
+      <ul class="marks">
+        {outcome.decision.options.map((option) => <li>{option}</li>)}
+      </ul>
+      <p>{outcome.decision.consequence}</p>
+      <p class="record__status">{outcome.decision.status}</p>
+    </div>
+  </Sheet>
+</Chapter>
+
+<style>
+  /* Before and after as a two-column ledger: the old way in brick, the need in ink; rows on alternate
+     tone steps instead of lines. */
+  .ledger {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--fs-small);
+    line-height: 1.4;
+  }
+  .ledger th {
+    text-align: left;
+    font: 400 var(--fs-small) / 1.4 var(--serif);
+    font-style: italic;
+    color: var(--ink-2);
+    padding: 0 10px 8px;
+  }
+  .ledger td {
+    padding: 10px;
+    vertical-align: top;
+    width: 50%;
+  }
+  .ledger tbody tr:nth-child(odd) td {
+    background: var(--paper);
+  }
+  .ledger td:first-child {
+    color: var(--brick);
+  }
+
+  /* The survey's shape: each group with an empty scale from 1 to 5. */
+  .scale__ends {
+    display: flex;
+    justify-content: space-between;
+    font: 400 var(--fs-small) / 1.4 var(--serif);
+    font-style: italic;
+    color: var(--ink-2);
+  }
+  .profiles {
+    display: grid;
+    gap: 14px;
+  }
+  .profiles li {
+    display: grid;
+    gap: 6px;
+  }
+  .profile__name {
+    font-weight: 600;
+    font-size: var(--fs-small);
+  }
+  .scale {
+    display: flex;
+    justify-content: space-between;
+  }
+  .scale__dot {
+    display: grid;
+    place-items: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    box-shadow: inset 0 0 0 var(--line) var(--ink);
+    font: 400 var(--fs-small) / 1 var(--serif);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .marks {
+    display: grid;
+    gap: 10px;
+    font-size: var(--fs-small);
+    line-height: 1.45;
+  }
+  .marks li {
+    display: grid;
+    grid-template-columns: 12px minmax(0, 1fr);
+    column-gap: 12px;
+  }
+  .marks li::before {
+    content: "";
+    margin-top: 0.75em;
+    height: 2px;
+    background: var(--ochre);
+  }
+  .marks--dot {
+    font-size: var(--fs-body);
+  }
+  .marks--dot li::before {
+    width: 9px;
+    height: 9px;
+    margin-top: 0.6em;
+    border-radius: 50%;
+    background: var(--ink);
+  }
+
+  .gloss {
+    display: grid;
+    gap: 14px;
+    font-size: var(--fs-small);
+    line-height: 1.4;
+  }
+  .gloss dt {
+    font: 400 var(--fs-body) / 1.3 var(--serif);
+  }
+  .gloss__avoid {
+    margin-top: 2px;
+    font-style: italic;
+    color: var(--ink-2);
+  }
+
+  /* A supply request's steps on one ink line; the two early ends in brick. */
+  .states {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 8px;
+    font-size: var(--fs-small);
+    line-height: 1.3;
+  }
+  .states::before {
+    content: "";
+    position: absolute;
+    left: 5px;
+    right: 5px;
+    top: 5px;
+    height: var(--line);
+    background: var(--ink);
+  }
+  .states li {
+    position: relative;
+    padding-top: 22px;
+    font-weight: 600;
+  }
+  .states li::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 11px;
+    height: 11px;
+    background: var(--ink);
+  }
+  .states li:last-child::before {
+    background: var(--sage-ink);
+    border-radius: 50%;
+  }
+  .states__ends {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 6px 14px;
+    font-size: var(--fs-small);
+    color: var(--ink-2);
+  }
+  .states__end {
+    font-weight: 600;
+    color: var(--brick);
+  }
+
+  /* The barbecue area over a sample week: two places a day, a third booking hatched in brick. */
+  .week {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    gap: 6px;
+    align-items: start;
+  }
+  .week__day {
+    display: grid;
+    gap: 4px;
+  }
+  .week__name {
+    font: 400 var(--fs-small) / 1.4 var(--serif);
+    font-style: italic;
+    color: var(--ink-2);
+    text-align: center;
+  }
+  .week__slot {
+    display: block;
+    height: 22px;
+    background: var(--paper);
+  }
+  .week__slot--on {
+    background: var(--straw);
+    box-shadow: inset 0 0 0 var(--line) var(--ochre);
+  }
+  .week__slot--no {
+    /* Hatching drawn like the plans' failure paths: brick lines at 45 degrees. */
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='6' height='6'%3E%3Cpath d='M-1 1l2-2M0 6l6-6M5 7l2-2' stroke='%239c4127' stroke-width='1.3'/%3E%3C/svg%3E");
+    box-shadow: inset 0 0 0 var(--line) var(--brick);
+  }
+  .week__key {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 18px;
+    font-size: var(--fs-small);
+  }
+  .week__key li {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .week__key .week__slot {
+    width: 22px;
+    height: 14px;
+  }
+  .week__legend {
+    font-size: var(--fs-small);
+    line-height: 1.45;
+  }
+
+  .record {
+    display: grid;
+    gap: 10px;
+    font-size: var(--fs-small);
+    line-height: 1.45;
+  }
+  .record__decision {
+    font: 400 var(--fs-lead) / 1.3 var(--serif);
+  }
+  .record__sub {
+    margin-top: 4px;
+    font: 400 var(--fs-small) / 1.4 var(--serif);
+    font-style: italic;
+    color: var(--ink-2);
+  }
+  .record__status {
+    font-weight: 700;
+    color: var(--green-deep);
+  }
+
+  @media (max-width: 560px) {
+    .states {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 12px;
+    }
+    .states::before {
+      left: 5px;
+      right: auto;
+      top: 5px;
+      bottom: 5px;
+      width: var(--line);
+      height: auto;
+    }
+    .states li {
+      padding: 0 0 0 24px;
+    }
+  }
+</style>

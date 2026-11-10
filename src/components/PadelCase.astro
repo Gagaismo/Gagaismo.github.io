@@ -1,0 +1,255 @@
+---
+import type { HomeCopy } from "../i18n/home";
+import ImageSlot from "./ImageSlot.astro";
+import cancha from "../assets/images/padel-court.jpg";
+
+interface Props {
+  copy: HomeCopy["padel"];
+  /** The case's own page (T4). */
+  caseLink?: { href: string; label: string };
+}
+
+// The second estate of the atlas (L75): the club on the straw wash. Its system is drawn as a plan, one
+// plot per part of the club, so the engineering reads as content; the court photo sits on a plate.
+const { copy, caseLink } = Astro.props;
+const lists = [
+  { title: copy.problemTitle, items: copy.problems },
+  { title: copy.builtTitle, items: copy.built },
+  { title: copy.outcomeTitle, items: copy.outcomes },
+];
+const ink = "#1f2a22";
+const plate = "#fbf6e6";
+---
+
+<section class="padel sec-pad" id="padel" data-case="padel" aria-labelledby="padel-title">
+  <div class="wrap grid padel__grid">
+    <div class="padel__intro">
+      <h2 id="padel-title" class="head" data-reveal>{copy.title}</h2>
+      <p class="lead">{copy.lead}</p>
+      {caseLink && <a class="link padel__case" href={caseLink.href}>{caseLink.label}</a>}
+    </div>
+
+    <!-- The court photo is the case's picture: on the plate paper beside the text, toned to the page. -->
+    <div class="plate padel__visual">
+      <ImageSlot
+        name="club-court"
+        src={cancha}
+        alt={copy.imageAlt}
+        ratio="auto"
+        position="50% 60%"
+        sizes="(max-width: 900px) 100vw, 40vw"
+        widths={[640, 1024, 1440]}
+        class="padel__photo"
+      />
+    </div>
+
+    <!-- The plan of the system: plots of different sizes, the paths between them in the plate's paper. -->
+    <figure class="plate padel__plan" data-plan>
+      <h3 class="plan__title">{copy.plan.title}</h3>
+      <svg class="plan__compass" data-compass viewBox="-26 -36 52 66" aria-hidden="true" focusable="false">
+        <circle r="16" fill="none" stroke={ink} stroke-width="1" />
+        <path d="M-22 0L0 -3L22 0L0 3Z" fill={plate} stroke={ink} stroke-width="1" />
+        <path d="M0 -24L4.5 0L0 24L-4.5 0Z" fill={plate} stroke={ink} stroke-width="1" />
+        <path d="M0 -24L4.5 0H-4.5Z" fill={ink} />
+        <text y="-28" text-anchor="middle" font-size="11" font-family="Georgia, serif" fill={ink}>N</text>
+      </svg>
+      <ul class="plots">
+        {
+          copy.plan.plots.map((plot, i) => (
+            <li class:list={["plot", `plot--${i}`]} data-plot>
+              <p class="plot__name">{plot.title}</p>
+              <p class="plot__text">{plot.text}</p>
+            </li>
+          ))
+        }
+      </ul>
+      <figcaption class="caption">{copy.plan.caption}</figcaption>
+    </figure>
+
+    <div class="padel__lists">
+      {
+        lists.map((list, i) => (
+          <div class:list={["facts", i === 2 && "facts--outcome"]}>
+            <h3 class="facts__title">{list.title}</h3>
+            <ul>
+              {list.items.map((item) => (
+                <li>{item}</li>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .padel__grid {
+    row-gap: clamp(1.5rem, 3vw, 2.5rem);
+    align-items: start;
+  }
+  .padel__intro {
+    grid-column: 1 / span 6;
+    grid-row: 1;
+    display: grid;
+    gap: 18px;
+  }
+  .padel__intro .lead {
+    max-width: 40ch;
+  }
+  .padel__case {
+    justify-self: start;
+    font-weight: 600;
+    padding-block: 6px;
+  }
+
+  /* The photo fills the column as tall as the intro and the plan beside it. */
+  .padel__visual {
+    --pad: clamp(0.625rem, 1.4vw, 1rem);
+    grid-column: 8 / -1;
+    grid-row: 1 / span 2;
+    align-self: stretch;
+    position: relative;
+    min-height: 320px;
+    padding: var(--pad);
+  }
+  .padel__visual :global(.padel__photo) {
+    position: absolute;
+    inset: var(--pad);
+  }
+  .padel__visual :global(img) {
+    filter: sepia(0.3) saturate(0.75);
+  }
+
+  .padel__plan {
+    grid-column: 1 / span 7;
+    grid-row: 2;
+    position: relative;
+  }
+  .plan__title {
+    font: 400 var(--fs-lead) / 1.25 var(--serif);
+    margin-bottom: 14px;
+  }
+  .plan__compass {
+    position: absolute;
+    top: clamp(0.5rem, 1.6vw, 1.25rem);
+    right: clamp(0.75rem, 2vw, 1.5rem);
+    width: 40px;
+    height: auto;
+    overflow: visible;
+  }
+  /* Plots of different sizes, like a cadastral sheet: the roles run across the whole estate, the other
+     parts share the rows unevenly. The gaps are the paths, in the plate's paper. */
+  .plots {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 6px;
+  }
+  .plot {
+    display: grid;
+    align-content: start;
+    gap: 4px;
+    padding: 14px 16px 16px;
+    background: var(--straw);
+  }
+  .plot--0 {
+    grid-column: span 6;
+    background: var(--tone);
+  }
+  .plot--1,
+  .plot--4 {
+    grid-column: span 2;
+  }
+  .plot--2,
+  .plot--3 {
+    grid-column: span 4;
+  }
+  .plot--2 {
+    background: var(--paper);
+  }
+  .plot__name {
+    font: 400 var(--fs-lead) / 1.2 var(--serif);
+  }
+  .plot__text {
+    font-size: var(--fs-small);
+    line-height: 1.45;
+  }
+
+  /* What the case was, what was built, how it ended: lists with a mark per line, no boxes; the outcome
+     on a patch of plate paper. */
+  .padel__lists {
+    grid-column: 1 / -1;
+    grid-row: 3;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--gutter) calc(var(--gutter) * 2);
+    align-items: start;
+    margin-top: clamp(0.5rem, 2vw, 1.5rem);
+  }
+  .facts__title {
+    font: 400 var(--fs-lead) / 1.25 var(--serif);
+    margin-bottom: 12px;
+  }
+  .facts ul {
+    display: grid;
+    gap: 10px;
+  }
+  .facts li {
+    display: grid;
+    grid-template-columns: 12px minmax(0, 1fr);
+    column-gap: 12px;
+    max-width: 44ch;
+  }
+  .facts li::before {
+    content: "";
+    align-self: start;
+    margin-top: 0.8em;
+    height: 2px;
+    background: var(--ochre);
+  }
+  .facts--outcome {
+    background: var(--plate);
+    padding: clamp(1rem, 2vw, 1.5rem);
+  }
+  .facts--outcome li::before {
+    width: 9px;
+    height: 9px;
+    margin-top: 0.6em;
+    border-radius: 50%;
+    background: var(--ink);
+  }
+
+  @media (max-width: 900px) {
+    .padel__intro,
+    .padel__visual,
+    .padel__plan,
+    .padel__lists {
+      grid-column: 1 / -1;
+      grid-row: auto;
+    }
+    .padel__visual {
+      min-height: 0;
+      aspect-ratio: 3 / 2;
+    }
+  }
+  @media (max-width: 720px) {
+    .padel__lists {
+      grid-template-columns: 1fr;
+    }
+    .plots {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .plot--0 {
+      grid-column: span 2;
+    }
+    .plot--1,
+    .plot--2,
+    .plot--3,
+    .plot--4 {
+      grid-column: span 1;
+    }
+    .plot {
+      padding: 12px;
+    }
+  }
+</style>

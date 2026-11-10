@@ -1,0 +1,459 @@
+---
+import type { ComponentProps } from "astro/types";
+import { Picture } from "astro:assets";
+import fields from "../assets/images/hero-fields.png";
+import type { HomeCopy } from "../i18n/home";
+import { email } from "../i18n/home";
+
+interface Props {
+  copy: HomeCopy["hero"];
+}
+
+// The display size is capped on <html> so the longer line always fits (see Base.astro).
+const { copy } = Astro.props;
+
+// L72: the cane fields of Tucumán behind the hero, the same living picture as the footer. The camera
+// pushes in towards the road, the far mountains lag behind, the cane in both bottom corners sways from
+// its base, a gust ripples the mid field (SVG displacement whose noise drifts, SMIL, no JS) and smoke
+// drifts from the mill's chimney. Every layer is a copy of the same picture, so it downloads once.
+// Bands of the scene, in % of the picture: top, left, width, height.
+const bands = {
+  far: [0, 0, 100, 58],
+  wind: [72, 13, 78, 20],
+  caneLeft: [42, 0, 32, 58],
+  caneRight: [50, 78, 22, 50],
+  // Around the chimney's top (75.4%, 59.6%) and the plume's path up and to the right.
+  smoke: [44, 73, 12, 17],
+};
+const box = ([t, l, w, h]: number[]) => `--t:${t};--l:${l};--w:${w};--h:${h}`;
+// The hero's picture is the first big paint, so it loads eagerly; only the base copy asks for priority.
+const picture: ComponentProps<typeof Picture> = {
+  src: fields,
+  alt: "",
+  formats: ["avif", "webp"],
+  widths: [640, 960, 1280, 1600, 1915],
+  sizes: "max(100vw, 1000px)",
+  loading: "eager",
+  decoding: "async",
+};
+---
+
+<section class="hero wrap" aria-labelledby="hero-title">
+  <div class="hero__art" data-hero-art aria-hidden="true">
+    <div class="hero__frame">
+      <div class="hero__scene">
+        <Picture {...picture} fetchpriority="high" />
+        <div class="hero__band hero__band--far" style={box(bands.far)}>
+          <Picture {...picture} />
+        </div>
+        <div class="hero__band hero__wind" style={box(bands.wind)}>
+          <div class="hero__wave" style="filter:url(#hero-wind)">
+            <Picture {...picture} />
+          </div>
+        </div>
+        <div class="hero__band hero__cane--left" style={box(bands.caneLeft)}>
+          <div class="hero__sway">
+            <Picture {...picture} />
+          </div>
+        </div>
+        <div class="hero__band hero__cane--right" style={box(bands.caneRight)}>
+          <div class="hero__sway">
+            <Picture {...picture} />
+          </div>
+        </div>
+        <div class="hero__smoke" data-hero-smoke style={box(bands.smoke)}>
+          {[0, 1, 2, 3].map((n) => <span class="hero__puff" style={`--n:${n}`} />)}
+        </div>
+      </div>
+    </div>
+    <!-- The gust: a long, low noise band that pushes the cane tops sideways only (green fixed at 0.5),
+         drifting across the field. -->
+    <svg class="hero__defs" width="0" height="0">
+      <filter id="hero-wind" x="-0.05" y="-0.2" width="1.1" height="1.4" color-interpolation-filters="sRGB">
+        <feTurbulence type="fractalNoise" baseFrequency="0.008 0.05" numOctaves="1" seed="5" />
+        <feOffset>
+          <animate
+            attributeName="dx"
+            values="0;-160;0"
+            dur="12s"
+            keyTimes="0;0.5;1"
+            calcMode="spline"
+            keySplines="0.45 0 0.55 1;0.45 0 0.55 1"
+            repeatCount="indefinite"
+          />
+        </feOffset>
+        <feColorMatrix values="1 0 0 0 0  0 0 0 0 0.5  0 0 0 0 0  0 0 0 0 1" />
+        <feDisplacementMap in="SourceGraphic" scale="9" xChannelSelector="R" yChannelSelector="G" />
+      </filter>
+    </svg>
+  </div>
+  <h1 class="hero__statement display" id="hero-title">
+    <span class="line"><span class="line__in" style="--i:0">{copy.line1}</span></span>
+    <span class="line line--right"><span class="line__in" style="--i:1">{copy.line2}</span></span>
+  </h1>
+  <p class="lead hero__lead hero__load" style="--d:380ms">{copy.lead}</p>
+  <div class="hero__act hero__load" style="--d:470ms">
+    <a class="btn" href={`mailto:${email}`}>{copy.cta}</a>
+    <a class="link" href="#method">{copy.secondary}</a>
+  </div>
+</section>
+
+<style>
+  /* Desktop: the promise on two lines over the empty sky, the plate across the lower half, then the lead
+     bottom-left and the action bottom-right. The row between them takes the rest of the first screen. */
+  .hero {
+    --top: clamp(1.5rem, 6vh, 4.5rem);
+    --pb: clamp(2.5rem, 6vw, 5rem);
+    min-height: calc(100svh - 72px);
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-rows: auto 1fr auto;
+    column-gap: calc(var(--gutter) * 3);
+    padding-bottom: var(--pb);
+    position: relative;
+    /* The text veils reach 5rem past the action, which sits at the right margin: clip them at the page's
+       edge so they never widen the document (they scrolled it sideways by 48-64 px). Sideways only, so
+       the art and the veils still fade into the section below. */
+    overflow-x: clip;
+  }
+
+  /* The landscape: full bleed, anchored to the bottom of the hero, behind everything in it (and under the
+     cable in the margin). Its own sky is masked away, so the page background runs on with no edge. On
+     narrow screens the scene is wider than the screen and keeps the road and the mill in view. */
+  .hero__art {
+    --sw: max(100%, 1000px);
+    --anchor: 0.74;
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    display: flex;
+    align-items: flex-end;
+    overflow: hidden;
+    pointer-events: none;
+    container-type: size;
+  }
+  .hero__frame {
+    flex: none;
+    width: var(--sw);
+    margin-left: calc((100% - var(--sw)) * var(--anchor));
+    aspect-ratio: 1915 / 821;
+    mask-image: linear-gradient(to bottom, transparent 30%, #000 44%);
+  }
+  /* The camera pushes in towards the road; scaling around a point inside the picture never opens a gap. */
+  .hero__scene {
+    position: relative;
+    height: 100%;
+    transform-origin: 56% 72%;
+    animation: hero-camera 18s ease-in-out infinite alternate;
+  }
+  .hero__scene :global(img) {
+    width: 100%;
+    height: auto;
+  }
+  .hero__band,
+  .hero__smoke {
+    position: absolute;
+    top: calc(var(--t) * 1%);
+    left: calc(var(--l) * 1%);
+    width: calc(var(--w) * 1%);
+    height: calc(var(--h) * 1%);
+  }
+  .hero__band {
+    overflow: hidden;
+  }
+  /* Inside a band the picture keeps the scene's size and place. */
+  .hero__band > :global(picture),
+  .hero__sway > :global(picture),
+  .hero__wave > :global(picture) {
+    position: absolute;
+    top: calc(-100% * var(--t) / var(--h));
+    left: calc(-100% * var(--l) / var(--w));
+    width: calc(100% * 100 / var(--w));
+  }
+  .hero__sway,
+  .hero__wave {
+    position: absolute;
+    inset: 0;
+  }
+  .hero__wave {
+    overflow: hidden;
+  }
+
+  /* Far mountains: lag behind the camera. */
+  .hero__band--far {
+    mask-image: linear-gradient(to bottom, #000 82%, transparent);
+    animation: hero-far 18s ease-in-out infinite alternate;
+  }
+  /* The gust over the mid field, faded at every side. */
+  .hero__wind {
+    mask-image: radial-gradient(closest-side, #000 55%, transparent);
+  }
+  /* The cane in front: each clump bends from its base like a gust passing; the right one a beat later.
+     The picture inside is not clipped, so the band's straight edges never open a gap. */
+  .hero__cane--left {
+    mask-image:
+      linear-gradient(to right, #000 82%, transparent),
+      linear-gradient(to bottom, transparent, #000 10%);
+    mask-composite: intersect;
+  }
+  .hero__cane--right {
+    mask-image:
+      linear-gradient(to left, #000 80%, transparent),
+      linear-gradient(to bottom, transparent, #000 12%);
+    mask-composite: intersect;
+  }
+  .hero__sway {
+    transform-origin: 30% 100%;
+    animation: hero-sway 7s ease-in-out infinite;
+  }
+  .hero__cane--right .hero__sway {
+    transform-origin: 70% 100%;
+    animation-delay: -2.6s;
+  }
+  /* Smoke: soft puffs leave the chimney's top, rise, lean with the wind to the right, swell and fade. */
+  .hero__puff {
+    position: absolute;
+    left: 20%;
+    top: 92%;
+    width: 16%;
+    aspect-ratio: 1;
+    margin: -8% 0 0 -8%;
+    border-radius: 50%;
+    background: radial-gradient(closest-side, rgb(236 234 228 / 0.9), rgb(176 172 164 / 0.35) 70%, transparent);
+    opacity: 0;
+    animation: hero-puff 9s linear infinite;
+    animation-delay: calc(var(--n) * -2.25s);
+  }
+  .hero__defs {
+    position: absolute;
+  }
+
+  @keyframes hero-camera {
+    to {
+      transform: scale(1.07) translate(-1%, 0.6%);
+    }
+  }
+  @keyframes hero-far {
+    to {
+      transform: translate(0.4%, 1.2%);
+    }
+  }
+  @keyframes hero-sway {
+    0%,
+    100% {
+      transform: skewX(0.8deg);
+    }
+    45% {
+      transform: skewX(-2.6deg);
+    }
+    70% {
+      transform: skewX(-1.4deg);
+    }
+  }
+  @keyframes hero-puff {
+    0% {
+      opacity: 0;
+      transform: translate(0, 0) scale(0.35);
+    }
+    12% {
+      opacity: 0.9;
+    }
+    50% {
+      opacity: 0.7;
+      transform: translate(120%, -190%) scale(1.3);
+    }
+    100% {
+      opacity: 0;
+      transform: translate(360%, -300%) scale(2.4);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero__scene,
+    .hero__band--far,
+    .hero__sway,
+    .hero__puff {
+      animation: none;
+    }
+    /* The picture already draws its smoke; the SVG gust runs on its own clock, so take it out. */
+    .hero__smoke,
+    .hero__wind {
+      display: none;
+    }
+  }
+
+  /* Text over the art: the page's paper lightens the picture behind the lead and the action's link, and
+     only there (each box is as wide as its text). The veil is full over the text itself (the darkest
+     strokes show at 38% at most: 5.5:1 or more against ink) and fades out over --vx / --vy of eased
+     steps on every side, so it never shows an edge. */
+  .hero__lead,
+  .hero__act {
+    --vx: 5rem;
+    --vy: 4.5rem;
+    position: relative;
+  }
+  .hero__lead::before,
+  .hero__act::before {
+    content: "";
+    position: absolute;
+    inset: calc(-1 * var(--vy)) calc(-1 * var(--vx));
+    z-index: -1;
+    background: var(--bg);
+    opacity: 0.62;
+    pointer-events: none;
+    mask-image:
+      linear-gradient(
+        to right,
+        transparent,
+        rgb(0 0 0 / 0.12) calc(var(--vx) * 0.3),
+        rgb(0 0 0 / 0.42) calc(var(--vx) * 0.6),
+        #000 var(--vx),
+        #000 calc(100% - var(--vx)),
+        rgb(0 0 0 / 0.42) calc(100% - var(--vx) * 0.6),
+        rgb(0 0 0 / 0.12) calc(100% - var(--vx) * 0.3),
+        transparent
+      ),
+      linear-gradient(
+        transparent,
+        rgb(0 0 0 / 0.12) calc(var(--vy) * 0.28),
+        rgb(0 0 0 / 0.42) calc(var(--vy) * 0.56),
+        #000 var(--vy),
+        #000 calc(100% - var(--vy)),
+        rgb(0 0 0 / 0.42) calc(100% - var(--vy) * 0.56),
+        rgb(0 0 0 / 0.12) calc(100% - var(--vy) * 0.28),
+        transparent
+      );
+    mask-composite: intersect;
+  }
+  .hero__statement {
+    grid-area: 1 / 1 / 2 / -1;
+    margin-top: var(--top);
+    font-size: var(--fs-display);
+    transform-origin: 0 0;
+  }
+
+  .line {
+    display: block;
+    overflow: clip;
+    /* Room for descenders (the "g" of "negocio") at the tight phone line-height. */
+    padding-bottom: 0.2em;
+    margin-bottom: -0.2em;
+  }
+  .line--right {
+    text-align: right;
+  }
+  .line__in {
+    display: inline-block;
+  }
+  .hero__lead {
+    grid-area: 3 / 1;
+    align-self: end;
+    max-width: 40ch;
+    margin-top: clamp(2rem, 4vw, 3rem);
+  }
+  .hero__act {
+    grid-area: 3 / 2;
+    align-self: end;
+    display: grid;
+    justify-items: end;
+    gap: 12px;
+  }
+  .hero__act .link {
+    padding: 6px 0;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    :global(.js) .line__in {
+      transform: translate3d(0, 104%, 0);
+      animation: hero-rise 1000ms var(--ease-out) forwards;
+      animation-delay: calc(80ms + var(--i) * 110ms);
+    }
+    :global(.js) .hero__load {
+      opacity: 0;
+      transform: translate3d(0, 20px, 0);
+      filter: blur(6px);
+      animation: hero-in 700ms var(--ease-out) forwards;
+      animation-delay: var(--d);
+    }
+    @supports (animation-timeline: view()) {
+      .hero__statement {
+        animation: hero-settle linear both;
+        animation-timeline: view();
+        animation-range: exit 0% exit 100%;
+      }
+    }
+  }
+  @keyframes hero-rise {
+    to {
+      transform: none;
+    }
+  }
+  @keyframes hero-in {
+    to {
+      opacity: 1;
+      transform: none;
+      filter: none;
+    }
+  }
+  @keyframes hero-settle {
+    to {
+      transform: scale(0.92) translate3d(0, 8%, 0);
+      opacity: 0.25;
+    }
+  }
+
+  /* Tablet: the action goes under the lead, on the left. The plate is sized from the hero's height (2.1
+     times it, so the land from the mountains down fills the lower half of the screen) and anchored on
+     the road and the mill; the veils reach less far, so most of the plate shows unwashed. */
+  @media (max-width: 1199px) {
+    .hero {
+      grid-template-rows: auto 1fr auto auto;
+    }
+    .hero__art {
+      --sw: max(100%, 1000px, 210cqh);
+      --anchor: 0.8;
+    }
+    .hero__lead,
+    .hero__act {
+      --vx: 3.5rem;
+      --vy: 3.5rem;
+    }
+    .hero__lead {
+      grid-area: 3 / 1 / 4 / -1;
+    }
+    .hero__act {
+      grid-area: 4 / 1 / 5 / -1;
+      justify-self: start;
+      justify-items: start;
+      margin-top: clamp(1.5rem, 4vw, 2.5rem);
+    }
+  }
+  /* Phone: promise, lead, then the action, all on the first screen; below the action the hero runs on
+     so the plate shows clear of the text (the road and the mill), its far hills just behind the link. */
+  @media (max-width: 720px) {
+    .hero {
+      min-height: 0;
+      grid-template-columns: minmax(0, 1fr);
+      grid-template-rows: auto 1fr auto auto;
+      padding-bottom: clamp(12rem, 56vw, 16rem);
+    }
+    .hero__art {
+      --sw: 1100px;
+      --anchor: 0.74;
+    }
+    .line--right {
+      text-align: left;
+    }
+    .hero__lead {
+      margin-top: clamp(3rem, 14vh, 7rem);
+      font-size: var(--fs-body);
+    }
+    .hero__act {
+      justify-self: stretch;
+      justify-items: stretch;
+    }
+    .hero__act .link {
+      justify-self: start;
+    }
+  }
+</style>

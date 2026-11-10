@@ -1,0 +1,77 @@
+---
+import type { Lang } from "../../i18n/ui";
+import { caseHref, caseUi, type CaseKey } from "../../i18n/cases";
+import { email } from "../../i18n/home";
+
+// The end of a case page: the call to write, then the other case and the way back to the home.
+interface Props {
+  lang: Lang;
+  current: CaseKey;
+  /** The other case's title, for its link. */
+  otherTitle: string;
+}
+
+const { lang, current, otherTitle } = Astro.props;
+const copy = caseUi[lang].close;
+const other: CaseKey = current === "automation" ? "club-padel" : "automation";
+---
+
+<section class="close" id="contact" aria-labelledby="close-title">
+  <div class="wrap grid close__grid">
+    <h2 id="close-title" class="head" data-reveal>{copy.title}</h2>
+    <div class="close__body">
+      <p class="lead">{copy.text}</p>
+      <a class="btn" href={`mailto:${email}?subject=${encodeURIComponent(copy.subject)}`}>{copy.cta}</a>
+    </div>
+    <ul class="close__links">
+      <li>
+        <a class="link" href={caseHref(other, lang)}>{copy.other}<span class="close__other">: {otherTitle}</span></a>
+      </li>
+      <li><a class="link" href={`/${lang}/`}>{copy.back}</a></li>
+    </ul>
+  </div>
+</section>
+
+<style>
+  .close {
+    background: var(--plate);
+    padding-block: clamp(3.5rem, 7vw, 6.5rem);
+  }
+  .close__grid {
+    row-gap: clamp(1.5rem, 3vw, 2.5rem);
+    align-items: start;
+  }
+  .close h2 {
+    grid-column: 1 / span 6;
+  }
+  .close__body {
+    grid-column: 7 / -1;
+    display: grid;
+    gap: 24px;
+    justify-items: start;
+  }
+  .close__body .lead {
+    max-width: 44ch;
+  }
+  .close__links {
+    grid-column: 7 / -1;
+    display: grid;
+    gap: 8px;
+  }
+  .close__links a {
+    display: inline-block;
+    padding-block: 6px;
+  }
+  .close__other {
+    font-style: italic;
+    font-family: var(--serif);
+  }
+
+  @media (max-width: 900px) {
+    .close h2,
+    .close__body,
+    .close__links {
+      grid-column: 1 / -1;
+    }
+  }
+</style>

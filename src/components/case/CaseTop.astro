@@ -1,0 +1,110 @@
+---
+import type { ImageMetadata } from "astro";
+import ImageSlot from "../ImageSlot.astro";
+
+// The opening of a case page: the page's one heading, the case in two sentences, the business and its
+// problem in a short ledger, and the case's picture on a plate beside them.
+interface Props {
+  title: string;
+  summary: string;
+  facts: { term: string; text: string }[];
+  image: ImageMetadata;
+  alt: string;
+  position?: string;
+  case: "automation" | "padel";
+}
+
+const { title, summary, facts, image, alt, position, case: estate } = Astro.props;
+---
+
+<section class="top" data-case-top={estate} aria-labelledby="case-title">
+  <div class="wrap grid top__grid">
+    <div class="top__text">
+      <h1 id="case-title" class="top__title">{title}</h1>
+      <p class="lead">{summary}</p>
+      <dl class="top__facts">
+        {
+          facts.map((fact) => (
+            <div>
+              <dt>{fact.term}</dt>
+              <dd>{fact.text}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
+    <div class="plate top__plate">
+      <ImageSlot
+        name={`case-${estate}`}
+        src={image}
+        alt={alt}
+        ratio="4 / 3"
+        position={position}
+        eager
+        sizes="(max-width: 900px) 100vw, 45vw"
+        widths={[640, 960, 1440]}
+      />
+    </div>
+  </div>
+</section>
+
+<style>
+  .top {
+    padding-block: clamp(2.5rem, 6vw, 5.5rem) clamp(3rem, 6vw, 5rem);
+  }
+  .top__grid {
+    row-gap: clamp(2rem, 4vw, 3rem);
+    align-items: end;
+  }
+  .top__text {
+    grid-column: 1 / span 7;
+    display: grid;
+    gap: clamp(1.25rem, 2.4vw, 1.75rem);
+  }
+  /* The page's one heading, at the home's section size; the chapters under it are a step smaller. */
+  .top__title {
+    font-family: var(--serif);
+    font-size: var(--fs-head);
+    letter-spacing: -0.02em;
+    line-height: 1.08;
+    max-width: 18ch;
+  }
+  .top__text .lead {
+    max-width: 52ch;
+  }
+  /* The business and its problem, as an atlas legend: the term in serif italic, the text beside it. */
+  .top__facts {
+    display: grid;
+    gap: 12px;
+    max-width: 60ch;
+  }
+  .top__facts div {
+    display: grid;
+    grid-template-columns: 8.5rem minmax(0, 1fr);
+    column-gap: var(--gutter);
+  }
+  .top__facts dt {
+    font: 400 var(--fs-body) / 1.65 var(--serif);
+    font-style: italic;
+    color: var(--ink-2);
+  }
+  .top__plate {
+    grid-column: 8 / -1;
+    padding: clamp(0.625rem, 1.4vw, 1rem);
+  }
+  .top__plate :global(img) {
+    filter: sepia(0.25) saturate(0.8);
+  }
+
+  @media (max-width: 900px) {
+    .top__text,
+    .top__plate {
+      grid-column: 1 / -1;
+    }
+  }
+  @media (max-width: 480px) {
+    .top__facts div {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

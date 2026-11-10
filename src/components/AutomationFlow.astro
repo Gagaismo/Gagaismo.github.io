@@ -1,0 +1,366 @@
+---
+import type { HomeCopy } from "../i18n/home";
+import Feed from "./Feed.astro";
+import WorkflowGraph from "./WorkflowGraph.astro";
+
+interface Props {
+  copy: HomeCopy["flow"];
+  /** "subhead" on a case page, where the flow is one chapter among others. */
+  heading?: "head" | "subhead";
+}
+
+const { copy, heading = "head" } = Astro.props;
+const [failHead, failTail] = copy.failure.split(": ");
+const at = copy.title.lastIndexOf(copy.highlight);
+const [titleHead, titleTail] = [copy.title.slice(0, at), copy.title.slice(at + copy.highlight.length)];
+
+// The flow drawn as a plan in dark ink on the brighter paper: five stations, a dashed track underneath
+// that a solid line draws along as the message travels it, the failure path hatched in brick, a compass
+// rose and a scale bar whose length is one station to the next.
+// Wide layout: five stations in a row, the track underneath.
+const W = { node: 232, gap: 30, top: 30, h: 88, track: 176 };
+const wide = copy.steps.map((label, i) => ({ label, x: i * (W.node + W.gap), cx: i * (W.node + W.gap) + W.node / 2 }));
+const last = wide[wide.length - 1]!;
+const branchX = wide[3]!.cx;
+const pitch = W.node + W.gap;
+
+// Narrow layout: the same stations stacked, the track on the left.
+const N = { x: 56, w: 296, h: 64, step: 100, first: 50, track: 26 };
+const tall = copy.steps.map((label, i) => ({ label, cy: N.first + i * N.step }));
+const tallEnd = tall[tall.length - 1]!.cy;
+// The failure note sits under the last station; the compass and the scale bar under it.
+const fail = tallEnd + 50;
+
+// When each station lights (ms into the 4.7 s sequence): the first as the envelope lands on it, the rest
+// as the envelope reaches them on each hop (hops leave at 1000 ms + 860 ms each and last 600 ms; the
+// hop curve crosses the station at 77% of its time). The keyframes below use the same timeline.
+const lit = [400, 1460, 2320, 3180, 4040];
+
+// Colours from src/styles/global.css, written into the drawing.
+const ink = "#1f2a22";
+const ink3 = "#8a9183";
+const plate = "#fbf6e6";
+const sage = "#dce3d0";
+const straw = "#ebdcae";
+const brick = "#9c4127";
+---
+
+<section class="flow-sec wrap sec-pad" data-case="automation" aria-labelledby="flow-title">
+  <div class="grid flow__head">
+    <h2 id="flow-title" class={heading} data-reveal>{titleHead}<span class="flow__hl">{copy.highlight}</span>{titleTail}</h2>
+  </div>
+
+  <figure class="flow plate" data-flow>
+    <ol class="sr-only">
+      {copy.steps.map((step) => <li>{step}</li>)}
+    </ol>
+    <p class="sr-only">{copy.failure}</p>
+
+    <svg class="flow__svg flow__svg--wide" viewBox="0 0 1280 352" aria-hidden="true" focusable="false">
+      <defs>
+        <pattern id="flow-hatch-wide" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+          <path d="M0 0V7" stroke={brick} stroke-width="1.5"></path>
+        </pattern>
+      </defs>
+      <g class="track">
+        <path d={`M${wide[0]!.cx} ${W.track}H${last.cx}`} stroke={ink3} stroke-width="1.5" stroke-dasharray="3 7" fill="none"></path>
+        <rect class="progress progress--x" x={wide[0]!.cx} y={W.track - 1.25} width={last.cx - wide[0]!.cx} height="2.5" fill={ink}></rect>
+      </g>
+      <path d={`M${branchX} ${W.track + 8} V248`} stroke={brick} stroke-width="1.5" stroke-dasharray="6 6" fill="none"></path>
+      <rect x={branchX - 260} y="248" width="520" height="60" fill={plate} stroke={brick} stroke-width="1.5"></rect>
+      <rect x={branchX - 260} y="248" width="30" height="60" fill="url(#flow-hatch-wide)"></rect>
+      <text x={branchX + 15} y="284" text-anchor="middle" class="flow__fail">{copy.failure}</text>
+      {
+        wide.map((s, i) => (
+          <g>
+            {i > 0 && <path d={`M${s.x - W.gap + 4} ${W.top + W.h / 2} H${s.x - 6} m-8 -6 l8 6 l-8 6`} stroke={ink} stroke-width="1.5" fill="none" />}
+            <path d={`M${s.cx} ${W.top + W.h} V${W.track - 9}`} stroke={ink3} stroke-width="1.25" stroke-dasharray="2 5" />
+            <rect x={s.x} y={W.top} width={W.node} height={W.h} fill={plate} stroke={ink} stroke-width="1.5" />
+            <text x={s.cx} y={W.top + W.h / 2 + 8} text-anchor="middle" class="flow__label">{s.label}</text>
+            <g class="flow__lit" style={`--at:${lit[i]}ms`}>
+              <rect x={s.x} y={W.top} width={W.node} height={W.h} fill={sage} stroke={ink} stroke-width="1.5" />
+              <text x={s.cx} y={W.top + W.h / 2 + 8} text-anchor="middle" class="flow__label">{s.label}</text>
+            </g>
+            <circle cx={s.cx} cy={W.track} r="7" fill={plate} stroke={ink} stroke-width="1.5" data-cable-tap={i === 0 || undefined} />
+          </g>
+        ))
+      }
+      <g class="token token--x">
+        <g class="token__pop">
+          <rect x={wide[0]!.cx - 16} y={W.track - 11} width="32" height="22" rx="2" fill={straw} stroke={ink} stroke-width="1.5"></rect>
+          <path d={`M${wide[0]!.cx - 15} ${W.track - 9} l15 11 l15 -11`} fill="none" stroke={ink} stroke-width="1.5"></path>
+        </g>
+      </g>
+      <!-- Scale bar: one station to the next. -->
+      <g data-scale transform="translate(0 296)">
+        {[0, 1, 2, 3].map((n) => <rect x={(n * pitch) / 4} y="0" width={pitch / 4} height="6" fill={n % 2 ? plate : ink} stroke={ink} stroke-width="1" />)}
+        <path d={`M0 -5V11M${pitch} -5V11`} stroke={ink} stroke-width="1" />
+        <text x={pitch / 2} y="36" text-anchor="middle" class="flow__note">{copy.scale}</text>
+      </g>
+      <!-- Compass rose: north needle half inked, east-west arms, the ring. -->
+      <g data-compass transform="translate(1238 288)">
+        <circle r="22" fill="none" stroke={ink} stroke-width="1" />
+        <path d="M-30 0L0 -4L30 0L0 4Z" fill={plate} stroke={ink} stroke-width="1" />
+        <path d="M0 -34L6 0L0 34L-6 0Z" fill={plate} stroke={ink} stroke-width="1" />
+        <path d="M0 -34L6 0H-6Z" fill={ink} />
+        <circle r="2.5" fill={ink} />
+        <text y="-40" text-anchor="middle" class="flow__note flow__north">N</text>
+      </g>
+    </svg>
+
+    <svg class="flow__svg flow__svg--tall" viewBox={`0 0 360 ${fail + 166}`} aria-hidden="true" focusable="false">
+      <defs>
+        <pattern id="flow-hatch-tall" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+          <path d="M0 0V7" stroke={brick} stroke-width="1.5"></path>
+        </pattern>
+      </defs>
+      <path d={`M${N.track} ${N.first}V${tallEnd}`} stroke={ink3} stroke-width="1.5" stroke-dasharray="3 7" fill="none"></path>
+      <rect class="progress progress--y" x={N.track - 1.25} y={N.first} width="2.5" height={tallEnd - N.first} fill={ink}></rect>
+      <path d={`M${N.track} ${tallEnd + 10} V${fail + 42} H${N.x}`} stroke={brick} stroke-width="1.5" stroke-dasharray="6 6" fill="none"></path>
+      <rect x={N.x} y={fail} width={N.w} height="84" fill={plate} stroke={brick} stroke-width="1.5"></rect>
+      <rect x={N.x} y={fail} width="20" height="84" fill="url(#flow-hatch-tall)"></rect>
+      <text x={N.x + 34} y={fail + 34} class="flow__fail">{failTail ? `${failHead}:` : failHead}</text>
+      {failTail && <text x={N.x + 34} y={fail + 62} class="flow__fail">{failTail}</text>}
+      {
+        tall.map((s, i) => (
+          <g>
+            <rect x={N.x} y={s.cy - N.h / 2} width={N.w} height={N.h} fill={plate} stroke={ink} stroke-width="1.5" />
+            <text x={N.x + 18} y={s.cy + 8} class="flow__label">{s.label}</text>
+            <g class="flow__lit" style={`--at:${lit[i]}ms`}>
+              <rect x={N.x} y={s.cy - N.h / 2} width={N.w} height={N.h} fill={sage} stroke={ink} stroke-width="1.5" />
+              <text x={N.x + 18} y={s.cy + 8} class="flow__label">{s.label}</text>
+            </g>
+            <circle cx={N.track} cy={s.cy} r="7" fill={plate} stroke={ink} stroke-width="1.5" data-cable-tap={i === 0 || undefined} />
+          </g>
+        ))
+      }
+      <g class="token token--y">
+        <g class="token__pop">
+          <rect x={N.track - 16} y={N.first - 11} width="32" height="22" rx="2" fill={straw} stroke={ink} stroke-width="1.5"></rect>
+          <path d={`M${N.track - 15} ${N.first - 9} l15 11 l15 -11`} fill="none" stroke={ink} stroke-width="1.5"></path>
+        </g>
+      </g>
+      <g data-scale transform={`translate(${N.x} ${fail + 124})`}>
+        {[0, 1, 2, 3].map((n) => <rect x={(n * N.step) / 4} y="0" width={N.step / 4} height="6" fill={n % 2 ? plate : ink} stroke={ink} stroke-width="1" />)}
+        <path d={`M0 -5V11M${N.step} -5V11`} stroke={ink} stroke-width="1" />
+        <text x={N.step / 2} y="34" text-anchor="middle" class="flow__note">{copy.scale}</text>
+      </g>
+      <g data-compass transform={`translate(318 ${fail + 128})`}>
+        <circle r="18" fill="none" stroke={ink} stroke-width="1" />
+        <path d="M-24 0L0 -3.5L24 0L0 3.5Z" fill={plate} stroke={ink} stroke-width="1" />
+        <path d="M0 -26L5 0L0 26L-5 0Z" fill={plate} stroke={ink} stroke-width="1" />
+        <path d="M0 -26L5 0H-5Z" fill={ink} />
+        <circle r="2" fill={ink} />
+        <text y="-31" text-anchor="middle" class="flow__note flow__north">N</text>
+      </g>
+    </svg>
+  </figure>
+
+  <div class="grid flow__below">
+    <Feed copy={copy.feed} />
+    <p class="lead flow__legend">{copy.intro}</p>
+  </div>
+
+  <WorkflowGraph copy={copy.graph} />
+</section>
+
+<style>
+  /* On the home the method follows on the same paper: one section gap between the real graph and its
+     heading, as between the other paper sections, not the two paddings stacked. */
+  /* Phones keep both paddings, so the collapsed graph summary never sits on the method heading. */
+  @media (min-width: 721px) {
+    .flow-sec:has(+ :global(#method)) {
+      padding-bottom: 0;
+    }
+  }
+  /* L56: the word "venta" sits on the straw fill. */
+  .flow__hl {
+    background: var(--straw);
+    padding-inline: 0.1em;
+    box-decoration-break: clone;
+  }
+  .flow__head {
+    padding-bottom: clamp(2rem, 4vw, 3.5rem);
+  }
+  .flow__head h2 {
+    grid-column: 1 / span 7;
+  }
+  .flow__svg {
+    width: 100%;
+    height: auto;
+    overflow: visible;
+  }
+  .flow__svg--tall {
+    display: none;
+    max-width: 420px;
+  }
+  .flow__label {
+    font: 600 20px var(--sans);
+    fill: var(--ink);
+  }
+  .flow__fail {
+    font: 600 18px var(--sans);
+    fill: var(--ink);
+  }
+  .flow__note {
+    font: italic 400 16px var(--serif);
+    fill: var(--ink-2);
+  }
+  .flow__north {
+    font-style: normal;
+    fill: var(--ink);
+  }
+  /* Under the plan: the event log on the left, the plan's legend on the right. */
+  .flow__below {
+    margin-top: var(--gutter);
+    row-gap: 24px;
+  }
+  .flow__below > :global(.log) {
+    grid-column: 1 / span 7;
+  }
+  .flow__legend {
+    grid-column: 9 / -1;
+    padding-top: clamp(1rem, 2.6vw, 2.25rem);
+    max-width: 32ch;
+  }
+
+  /* Static, complete diagram by default (no script, reduced motion): every station lit, the track full,
+     no envelope. Only with .js and motion allowed are the stations dark until the sequence plays. */
+  .token {
+    opacity: 0;
+  }
+  .flow__lit,
+  .token__pop,
+  .progress {
+    transform-box: fill-box;
+  }
+  .flow__lit,
+  .token__pop {
+    transform-origin: 50% 50%;
+  }
+  .progress--x {
+    transform-origin: 0 50%;
+  }
+  .progress--y {
+    transform-origin: 50% 0;
+  }
+
+  /* The page's one protagonist. src/scripts/motion.ts puts .flow-play on <body> when the figure comes
+     into view and removes it once the figure has left the screen, so each visit plays it again (4.7 s, timed, not
+     scrubbed by the scroll: the settle only reads at its designed speed).
+     Choreography (motion-prompt #004 line draw with a dot on the tip, #010 overshoot on the station
+     light; github.com/showheyohtaki/motion-prompt, MIT): the cable's branch draws into the first
+     station, the envelope pops out of it, then hops station to station on an exponential ease-out (it
+     leaves quickly and decelerates into the next station, no pull-back, no pass) while the ink line
+     draws itself along the pencilled track behind it; each station lights with a small swell as the
+     envelope reaches it. Transform and opacity only. */
+  @media (prefers-reduced-motion: no-preference) {
+    :global(.js) .flow__lit {
+      opacity: 0;
+    }
+    :global(.js) .progress--x {
+      transform: scaleX(0);
+    }
+    :global(.js) .progress--y {
+      transform: scaleY(0);
+    }
+    :global(.js .flow-play) .flow .flow__lit {
+      animation: flow-lit 520ms var(--ease-out) var(--at) both;
+    }
+    :global(.js .flow-play) .flow .token__pop {
+      animation: flow-pop 480ms var(--ease-out) 300ms both;
+    }
+    :global(.js .flow-play) .flow .token--x {
+      animation: flow-hop-x 4700ms linear both;
+    }
+    :global(.js .flow-play) .flow .token--y {
+      animation: flow-hop-y 4700ms linear both;
+    }
+    :global(.js .flow-play) .flow .progress--x {
+      animation: flow-fill-x 4700ms linear both;
+    }
+    :global(.js .flow-play) .flow .progress--y {
+      animation: flow-fill-y 4700ms linear both;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .flow .flow__lit {
+      opacity: 1;
+    }
+    .flow .token {
+      opacity: 0;
+    }
+    .flow .progress {
+      transform: none;
+    }
+  }
+
+  @keyframes flow-lit {
+    from { opacity: 0; transform: scale(0.94); }
+    40% { opacity: 1; transform: scale(1.025); }
+    to { opacity: 1; transform: none; }
+  }
+  @keyframes flow-pop {
+    from { opacity: 0; transform: scale(0.6); }
+    60% { opacity: 1; transform: scale(1.12); }
+    to { opacity: 1; transform: none; }
+  }
+  /* Hops leave at 1000, 1860, 2720, 3580 ms and land 600 ms later; the envelope fades into the last
+     station at 4460-4700 ms. cubic-bezier(0.16, 1, 0.3, 1) is an exponential ease-out: the hop
+     settles calmly, never past the station. */
+  @keyframes flow-hop-x {
+    0%, 21.28% { opacity: 1; transform: translateX(0); animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1); }
+    34.04%, 39.57% { transform: translateX(262px); animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1); }
+    52.34%, 57.87% { transform: translateX(524px); animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1); }
+    70.64%, 76.17% { transform: translateX(786px); animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1); }
+    88.94% { transform: translateX(1048px); }
+    94.89% { opacity: 1; }
+    100% { opacity: 0; transform: translateX(1048px); }
+  }
+  /* Tall layout: each hop is one N.step (100 user units). */
+  @keyframes flow-hop-y {
+    0%, 21.28% { opacity: 1; transform: translateY(0); animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1); }
+    34.04%, 39.57% { transform: translateY(100px); animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1); }
+    52.34%, 57.87% { transform: translateY(200px); animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1); }
+    70.64%, 76.17% { transform: translateY(300px); animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1); }
+    88.94% { transform: translateY(400px); }
+    94.89% { opacity: 1; }
+    100% { opacity: 0; transform: translateY(400px); }
+  }
+  /* The track fills behind the envelope on the same hops, without the back curve (a bar never pulls back). */
+  @keyframes flow-fill-x {
+    0%, 21.28% { transform: scaleX(0); animation-timing-function: cubic-bezier(0.77, 0, 0.175, 1); }
+    34.04%, 39.57% { transform: scaleX(0.25); animation-timing-function: cubic-bezier(0.77, 0, 0.175, 1); }
+    52.34%, 57.87% { transform: scaleX(0.5); animation-timing-function: cubic-bezier(0.77, 0, 0.175, 1); }
+    70.64%, 76.17% { transform: scaleX(0.75); animation-timing-function: cubic-bezier(0.77, 0, 0.175, 1); }
+    88.94%, 100% { transform: scaleX(1); }
+  }
+  @keyframes flow-fill-y {
+    0%, 21.28% { transform: scaleY(0); animation-timing-function: cubic-bezier(0.77, 0, 0.175, 1); }
+    34.04%, 39.57% { transform: scaleY(0.25); animation-timing-function: cubic-bezier(0.77, 0, 0.175, 1); }
+    52.34%, 57.87% { transform: scaleY(0.5); animation-timing-function: cubic-bezier(0.77, 0, 0.175, 1); }
+    70.64%, 76.17% { transform: scaleY(0.75); animation-timing-function: cubic-bezier(0.77, 0, 0.175, 1); }
+    88.94%, 100% { transform: scaleY(1); }
+  }
+
+  @media (max-width: 900px) {
+    .flow__head h2,
+    .flow__below > :global(.log),
+    .flow__legend {
+      grid-column: 1 / -1;
+    }
+    .flow__legend {
+      grid-row: 1;
+      padding-top: 0;
+    }
+  }
+  @media (max-width: 720px) {
+    .flow__svg--wide {
+      display: none;
+    }
+    .flow__svg--tall {
+      display: block;
+    }
+  }
+</style>

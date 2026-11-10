@@ -1,0 +1,9 @@
+node_modules/
+dist/
+.astro/
+.taste-skill/
+prototypes/
+odd/
+
+# Design canvas history stays local (snapshots embed client material)
+design/

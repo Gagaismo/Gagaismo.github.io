@@ -1,0 +1,111 @@
+---
+// One chapter of a case page: a heading and a few paragraphs to read, and the sheets that prove them.
+// `layout` changes the composition from one chapter to the next: the sheets beside the text, under it,
+// or on the left; `tone` lays the chapter on the case's wash instead of the page's paper.
+interface Props {
+  id: string;
+  title: string;
+  text?: string[];
+  layout?: "aside" | "below" | "flip";
+  tone?: "sage" | "straw";
+  case: "automation" | "padel";
+}
+
+const { id, title, text = [], layout = "aside", tone, case: estate } = Astro.props;
+---
+
+<section class:list={["chapter", `chapter--${layout}`, tone && `chapter--${tone}`]} data-case={estate} aria-labelledby={id}>
+  <div class="wrap grid chapter__grid">
+    <div class="chapter__text">
+      <h2 id={id} class="subhead" data-reveal>{title}</h2>
+      <div class="prose">
+        <slot />
+        {text.map((p) => <p>{p}</p>)}
+      </div>
+    </div>
+    {
+      Astro.slots.has("sheets") && (
+        <div class="chapter__sheets">
+          <slot name="sheets" />
+        </div>
+      )
+    }
+  </div>
+</section>
+
+<style>
+  .chapter {
+    padding-block: clamp(3.5rem, 7vw, 6.5rem);
+  }
+  .chapter--sage {
+    background: var(--sage);
+  }
+  .chapter--straw {
+    background: var(--straw);
+  }
+  .chapter__grid {
+    row-gap: clamp(2rem, 4vw, 3rem);
+    align-items: start;
+  }
+  .chapter__text {
+    display: grid;
+    gap: clamp(1.25rem, 2.4vw, 1.75rem);
+  }
+  .prose {
+    display: grid;
+    gap: 1em;
+  }
+  .prose :global(p) {
+    max-width: 62ch;
+  }
+
+  /* Beside: the text on the left half, the sheets on the right. */
+  .chapter--aside .chapter__text {
+    grid-column: 1 / span 6;
+  }
+  .chapter--aside .chapter__sheets {
+    grid-column: 8 / -1;
+  }
+  /* Under: the text over seven columns, the sheets across the page under it. */
+  .chapter--below .chapter__text {
+    grid-column: 1 / span 7;
+  }
+  .chapter--below .chapter__sheets {
+    grid-column: 1 / -1;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+  }
+  /* Flipped: the sheets on the left, the text on the right. */
+  .chapter--flip .chapter__text {
+    grid-column: 7 / -1;
+    grid-row: 1;
+  }
+  .chapter--flip .chapter__sheets {
+    grid-column: 1 / span 5;
+    grid-row: 1;
+  }
+  .chapter__sheets > :global(.sheet--wide) {
+    grid-column: 1 / -1;
+  }
+  .chapter__sheets {
+    display: grid;
+    gap: clamp(1.5rem, 3vw, 2.25rem);
+    align-items: start;
+  }
+
+  /* Beside taller sheets, the text stays in view under the sticky header while they scroll past. */
+  @media (min-width: 901px) {
+    .chapter--aside .chapter__text,
+    .chapter--flip .chapter__text {
+      position: sticky;
+      top: 104px;
+    }
+  }
+
+  @media (max-width: 900px) {
+    .chapter .chapter__text,
+    .chapter .chapter__sheets {
+      grid-column: 1 / -1;
+      grid-row: auto;
+    }
+  }
+</style>
