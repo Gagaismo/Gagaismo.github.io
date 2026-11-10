@@ -395,8 +395,14 @@ figure {
   }
 }
 
+/* A heading's words (src/components/Words.astro) are boxes of their own in every state, so moving them
+   never reflows the heading. */
+.w {
+  display: inline-block;
+}
+
 @media (prefers-reduced-motion: no-preference) {
-  .js [data-reveal] {
+  .js [data-reveal]:not([data-reveal="words"]) {
     opacity: 0;
     transform: translate3d(0, 16px, 0);
     transition:
@@ -407,6 +413,23 @@ figure {
   .js [data-reveal].is-in {
     opacity: 1;
     transform: none;
+  }
+  /* Headings come in word by word: each word rises a little out of a soft blur, 70ms after the one
+     before, once the heading enters. */
+  .js [data-reveal="words"] .w {
+    opacity: 0;
+    transform: translate3d(0, 0.35em, 0);
+    filter: blur(6px);
+    transition:
+      opacity var(--t-reveal) var(--ease-out),
+      transform var(--t-reveal) var(--ease-out),
+      filter var(--t-reveal) var(--ease-out);
+    transition-delay: calc(var(--w) * var(--stagger));
+  }
+  .js [data-reveal="words"].is-in .w {
+    opacity: 1;
+    transform: none;
+    filter: none;
   }
   /* Pictures settle into their frame: the frame clips, the picture fades and scales down */
   .js [data-shutter] > * {

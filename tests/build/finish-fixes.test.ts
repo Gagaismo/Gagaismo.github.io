@@ -5,7 +5,7 @@ import { describe, expect, it } from "vitest";
 
 // T14, the impeccable finish review's fix list (L81, F2-F8) and the T4 honesty fix (F9): drawn icons
 // instead of text glyphs, clear space between each cable station and its heading, a clean peek in the
-// method's carousel, the hero plate raised on tablets and phones, the real graph at full width with the
+// method's carousel (F4, removed in T22 with the carousel: tests/build/scroll-motion.test.ts), the hero plate raised on tablets and phones, the real graph at full width with the
 // normal gap after it, larger method sheets, and the padel plan stating only confirmed facts.
 
 const dist = fileURLToPath(new URL("../../dist/", import.meta.url));
@@ -67,7 +67,6 @@ describe("F2: icons are drawn, not typed", () => {
   it.each(pages)("%s: no plus, minus or arrow glyph stands in for an icon", (path) => {
     const html = read(path);
     for (const m of html.matchAll(/<summary\b[^>]*>([\s\S]*?)<\/summary>/g)) expect(text(m[1]!), path).not.toMatch(glyph);
-    for (const m of html.matchAll(/<p class="swipe[^"]*"[^>]*>([\s\S]*?)<\/p>/g)) expect(text(m[1]!), path).not.toMatch(glyph);
     // No text node made only of an icon glyph anywhere on the page.
     expect(text(html).split(" ").filter((word) => /^[+−→←›»✕×✓]$/.test(word)), path).toEqual([]);
   });
@@ -76,23 +75,19 @@ describe("F2: icons are drawn, not typed", () => {
     expect(css).not.toMatch(/content:\s*["'](\+|−|→|←|\\2212|\\2192|\\2b)["']/i);
   });
 
-  it.each(langs)("/%s/: the graph's disclosure and the method's hint carry an inline SVG hidden from assistive tech", (lang) => {
+  // T22: the method's swipe hint and its arrow left with the carousel.
+  it.each(langs)("/%s/: the graph's disclosure carries an inline SVG hidden from assistive tech", (lang) => {
     const html = read(lang);
     const summary = html.match(/<summary class="wf__open[^"]*"[^>]*>([\s\S]*?)<\/summary>/)?.[1] ?? "";
     expect(summary).toMatch(/<svg\b[^>]*class="wf__mark[^"]*"[^>]*aria-hidden="true"|<svg\b[^>]*aria-hidden="true"[^>]*class="wf__mark/);
-    const hint = html.match(/<p class="swipe[^"]*"[^>]*>([\s\S]*?)<\/p>/)?.[1] ?? "";
-    expect(hint).toMatch(/<svg\b[^>]*aria-hidden="true"/);
   });
 
   // T17 (S11): the disclosure's plus now sits in a 14 px ring (a survey station) instead of one text
-  // line tall; the hint's arrow keeps the text's height.
-  it("draws both icons in the page's 1.5px ink line, the minus taking the plus's place when open", () => {
-    for (const selector of [".wf__mark", ".swipe__arrow"]) {
-      const b = body(selector);
-      expect(b, selector).toMatch(/stroke:\s*currentColor/);
-      expect(b, selector).toMatch(/stroke-width:\s*1\.5(px)?(;|$)/);
-    }
-    expect(body(".swipe__arrow")).toMatch(/height:\s*\.?\d*\.?\d+em\b/);
+  // line tall.
+  it("draws the disclosure's icon in the page's 1.5px ink line, the minus taking the plus's place when open", () => {
+    const b = body(".wf__mark");
+    expect(b).toMatch(/stroke:\s*currentColor/);
+    expect(b).toMatch(/stroke-width:\s*1\.5(px)?(;|$)/);
     expect(body(".wf__mark")).toMatch(/height:\s*14px/);
     expect(body(".wf[open] .wf__mark-v")).toMatch(/transform:\s*scaleY\(0\)/);
   });
@@ -110,41 +105,6 @@ describe("F3: clear space between each cable station and its heading", () => {
     const pad = rule![2]!.match(/padding-left:\s*max\(0(?:px)?,\s*(\d+)px\s*-\s*var\(--inset\)\s*\/\s*2\)/);
     expect(pad, "padding-left: max(0px, Npx - var(--inset) / 2)").not.toBeNull();
     expect(Number(pad![1]) - 7).toBeGreaterThanOrEqual(12);
-  });
-});
-
-describe("F4: the method carousel peeks cleanly", () => {
-  const narrow = /max-width:\s*1100px|width\s*<=\s*1100px/;
-
-  it("sizes each step from the row so the next shows 15-20% of its width", () => {
-    const steps = body(".steps", narrow);
-    const peek = steps.match(/--peek:\s*calc\(var\(--card\)\s*\*\s*([\d.]+)\)/);
-    expect(peek).not.toBeNull();
-    expect(Number(peek![1])).toBeGreaterThanOrEqual(0.15);
-    expect(Number(peek![1])).toBeLessThanOrEqual(0.2);
-    expect(steps).toMatch(/--card:\s*calc\(\(100cqw\s*-\s*var\(--show\)\s*\*\s*var\(--gutter\)\)\s*\/\s*\(var\(--show\)\s*\+\s*\.?0?\.18\)\)/);
-    expect(body(".stairs", narrow)).toMatch(/grid-auto-columns:\s*var\(--card\)/);
-    expect(body(".method .wrap", narrow)).toMatch(/container-type:\s*inline-size/);
-  });
-
-  it("fades the peek into the paper so no word is cut at the edge, unfaded under keyboard focus", () => {
-    const steps = body(".steps", narrow);
-    // Fully transparent before the next card starts (the soft edge sits in the gap), no half-opaque stop.
-    const fade = steps.match(/mask-image:\s*linear-gradient\(to right,\s*#000 calc\(100% - var\(--peek\) - (\d+)px\),\s*(?:transparent|#0000) calc\(100% - var\(--peek\) - (\d+)px\)\)/);
-    expect(fade).not.toBeNull();
-    expect(Number(fade![2])).toBeGreaterThanOrEqual(1);
-    expect(Number(fade![1])).toBeGreaterThan(Number(fade![2]));
-    expect(steps).not.toMatch(/rgb\(0 0 0 \/ 0?\.\d+\)|#00000080/);
-    expect(body(".steps:focus-visible", narrow)).toMatch(/mask-image:\s*none/);
-    // The last step can reach the clear part of the row.
-    expect(body(".stairs", narrow)).toMatch(/padding-inline-end:\s*calc\(var\(--peek\)\s*\+\s*var\(--gutter\)\)/);
-  });
-
-  it.each(langs)("/%s/: keeps scroll-snap, keyboard access and the hint", (lang) => {
-    expect(body(".steps", narrow)).toMatch(/scroll-snap-type:\s*x mandatory/);
-    expect(body(".stage", narrow)).toMatch(/scroll-snap-align:\s*start/);
-    expect(read(lang)).toMatch(/<div class="steps[^"]*"[^>]*data-steps[^>]*role="region"[^>]*tabindex="0"/);
-    expect(body(".swipe", narrow)).toMatch(/display:\s*block/);
   });
 });
 
@@ -203,11 +163,12 @@ describe("F8: the method's sheets read at body size", () => {
     const root = body(":root");
     expect(root.match(/--fs-[a-z]+\s*:/g)).toHaveLength(6);
     expect(root).toMatch(/--fs-small:\s*\.875rem/);
-    // The plan is 260 units wide and renders 195 px wide at 1440 (a fifth of the 80rem row, less the
-    // gutters and the padding; S11, it was 223 px before the page had a maximum width).
+    // The plan is 260 units wide. On its stacking card (T22) it renders 260 px at most and 228 px at its
+    // narrowest, on a 360 px phone: two 28 px insets, the card's 20 px padding and the sheet's 18 px.
+    // (In the five-column row it was 195 px at 1440.)
     for (const selector of [".map__nodes", ".map__links"]) {
       const size = Number(body(selector).match(/(\d+)px/)?.[1] ?? 0);
-      expect((size * 195) / 260, selector).toBeGreaterThanOrEqual(13);
+      expect((size * (360 - 2 * 28 - 2 * 20 - 2 * 18)) / 260, selector).toBeGreaterThanOrEqual(13);
     }
   });
 

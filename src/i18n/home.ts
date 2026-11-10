@@ -55,13 +55,8 @@ export interface HomeCopy {
   method: {
     title: string;
     intro: string;
-    /** Accessible name of the steps' scroller. */
+    /** Accessible name of the list of steps (the stacking cards). */
     label: string;
-    /** Shown only where the steps scroll sideways. */
-    swipe: string;
-    /** Beside the scale bar under the scrolling steps: the step on screen, or the two on screen from
-     *  601 px. {n} and {m} are filled by CSS counters, {total} by the number of steps. */
-    tally: { one: string; two: string };
     /** One short sentence per step, each proven by its artifact. */
     steps: { when: string; line: string; text: string; caption: string }[];
     survey: { title: string; rows: { task: string; how: string }[] };
@@ -207,8 +202,6 @@ const es: HomeCopy = {
     title: "Cómo trabajo, paso a paso",
     intro: "Cada paso deja algo concreto que podés ver antes de seguir. Estos son los de la academia.",
     label: "Los cinco pasos",
-    swipe: "Deslizá para ver cada paso",
-    tally: { one: "Paso {n} de {total}", two: "Pasos {n} y {m} de {total}" },
     steps: [
       {
         when: "Primero,",
@@ -470,8 +463,6 @@ const en: HomeCopy = {
     title: "How I work, step by step",
     intro: "Every step leaves something concrete you can see before we move on. These are the academy's.",
     label: "The five steps",
-    swipe: "Swipe to see each step",
-    tally: { one: "Step {n} of {total}", two: "Steps {n} and {m} of {total}" },
     steps: [
       {
         when: "First,",

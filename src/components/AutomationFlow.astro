@@ -2,6 +2,7 @@
 import type { HomeCopy } from "../i18n/home";
 import Feed from "./Feed.astro";
 import WorkflowGraph from "./WorkflowGraph.astro";
+import Words from "./Words.astro";
 
 interface Props {
   copy: HomeCopy["flow"];
@@ -13,6 +14,8 @@ const { copy, heading = "head" } = Astro.props;
 const [failHead, failTail] = copy.failure.split(": ");
 const at = copy.title.lastIndexOf(copy.highlight);
 const [titleHead, titleTail] = [copy.title.slice(0, at), copy.title.slice(at + copy.highlight.length)];
+// The highlighted word comes in as one word of the heading, its straw fill with it.
+const headWords = titleHead.split(/\s+/).filter(Boolean).length;
 
 // The flow drawn as a plan in dark ink on the brighter paper: five stations, a dashed track underneath
 // that a solid line draws along as the message travels it, the failure path hatched in brick, a compass
@@ -47,7 +50,7 @@ const brick = "#9c4127";
 
 <section class="flow-sec wrap sec-pad" data-case="automation" aria-labelledby="flow-title">
   <div class="grid flow__head">
-    <h2 id="flow-title" class={heading} data-reveal>{titleHead}<span class="flow__hl">{copy.highlight}</span>{titleTail}</h2>
+    <h2 id="flow-title" class={heading} data-reveal="words"><Words text={titleHead} /><span class="flow__hl w" style={`--w:${headWords}`}>{copy.highlight}</span><Words text={titleTail} from={headWords + 1} /></h2>
   </div>
 
   <figure class="flow plate" data-flow>

@@ -1,6 +1,7 @@
 ---
 import type { HomeCopy } from "../i18n/home";
 import ImageSlot from "./ImageSlot.astro";
+import Words from "./Words.astro";
 import owner from "../assets/images/business-owner.jpg";
 
 interface Props {
@@ -16,7 +17,7 @@ const { copy } = Astro.props;
 <section class="offer sec-pad" id="offer" aria-labelledby="offer-title">
   <div class="wrap">
     <div class="grid offer__head">
-      <h2 class="head" id="offer-title" data-reveal>{copy.title}</h2>
+      <h2 class="head" id="offer-title" data-reveal="words"><Words text={copy.title} /></h2>
       <p>{copy.intro}</p>
       <div class="plate offer__plate">
         <ImageSlot

@@ -1,5 +1,8 @@
 ---
 import type { HomeCopy } from "../i18n/home";
+import Words from "./Words.astro";
+// Places the cards of the stack (see below); its own file, so the page's inline script stays small.
+import stackScript from "../scripts/stack.js?url&no-inline";
 
 interface Props {
   copy: HomeCopy["method"];
@@ -9,157 +12,138 @@ const { copy } = Astro.props;
 const [survey, map, decision, health, review] = copy.steps;
 const n = copy.map.nodes;
 const l = copy.map.links;
-// The count beside the scale bar: the words around the step numbers, which CSS counters fill in.
-const count = (template: string) =>
-  template
-    .replace("{total}", String(copy.steps.length))
-    .split(/(\{[nm]\})/)
-    .map((part) => (part === "{n}" ? { counter: "n" } : part === "{m}" ? { counter: "m" } : { text: part }));
 ---
 
 <section class="method sec-pad" id="method" data-case="automation" aria-labelledby="method-title">
   <div class="wrap">
     <div class="grid method__head">
-      <h2 id="method-title" class="head" data-reveal>{copy.title}</h2>
+      <h2 id="method-title" class="head" data-reveal="words"><Words text={copy.title} /></h2>
       <p>{copy.intro}</p>
     </div>
 
-    <!-- Above the scrolling row, right under the intro (the row is as tall as its tallest step, so under
-         it they would wait far below a short one): a scale bar of five segments, inked up to the step on
-         screen, and the count in the caption's serif, both driven by the row's own scroll (CSS only); then
-         the hint. -->
-    <div class="method__foot">
-      <div class="tally" aria-hidden="true">
-        <span class="tally__bar">{copy.steps.map(() => <i />)}</span>
-        {
-          (["one", "two"] as const).map((k) => (
-            <span class={`tally__count tally__count--${k}`}>
-              {count(copy.tally[k]).map((p) => ("counter" in p ? <span class={`tally__${p.counter}`} /> : p.text))}
-            </span>
-          ))
-        }
-      </div>
-      <p class="swipe small" aria-hidden="true">
-        {copy.swipe}
-        <svg class="swipe__arrow" viewBox="0 0 20 12" width="20" height="12" aria-hidden="true" focusable="false">
-          <path d="M1 6 H18 M13 1 L18 6 L13 11" />
-        </svg>
-      </p>
-    </div>
-
-    <!-- Five steps in a row on wide screens; below 1100 px a sideways scroll that snaps to each step, with
-         the next one peeking in and fading into the paper. No script: the browser scrolls it with touch,
-         wheel or the arrow keys. -->
-    <div class="steps" data-steps role="region" aria-label={copy.label} tabindex="0">
-      <ol class="stairs">
-        <li class="stage" style="--s:1">
+    <!-- Five cards of mica, one per step, each with the sheet that proves it. Reading down, each card
+         sticks under the header a little lower than the one before and the next slides over it, the
+         covered ones sinking back (src/scripts/stack.js places them; the scale follows the scroll where
+         the browser can tie it). Without the script, or with less motion asked for, a plain list. -->
+    <ol class="stack" data-cards aria-label={copy.label}>
+      <li class="stage plate" style="--s:1">
+        <div class="stage__copy">
           <h3 class="stage__line"><span class="when">{survey!.when}</span> {survey!.line}</h3>
           <p class="stage__text">{survey!.text}</p>
-          <figure class="stage__art">
-            <div class="plate art">
-              <h4 class="art__title">{copy.survey.title}</h4>
-              <dl class="survey">
-                {
-                  copy.survey.rows.map((row) => (
-                    <div>
-                      <dt>{row.task}</dt>
-                      <dd>{row.how}</dd>
-                    </div>
-                  ))
-                }
-              </dl>
-            </div>
-            <figcaption class="caption">{survey!.caption}</figcaption>
-          </figure>
-        </li>
+        </div>
+        <figure class="stage__art">
+          <div class="plate art">
+            <h4 class="art__title">{copy.survey.title}</h4>
+            <dl class="survey">
+              {
+                copy.survey.rows.map((row) => (
+                  <div>
+                    <dt>{row.task}</dt>
+                    <dd>{row.how}</dd>
+                  </div>
+                ))
+              }
+            </dl>
+          </div>
+          <figcaption class="caption">{survey!.caption}</figcaption>
+        </figure>
+      </li>
 
-        <li class="stage" style="--s:2">
+      <li class="stage plate" style="--s:2">
+        <div class="stage__copy">
           <h3 class="stage__line"><span class="when">{map!.when}</span> {map!.line}</h3>
           <p class="stage__text">{map!.text}</p>
-          <figure class="stage__art">
-            <div class="plate art">
-              <h4 class="art__title">{copy.map.title}</h4>
-              <svg class="map" viewBox="0 0 260 248" role="img" aria-label={copy.map.label}>
-                <defs>
-                  <marker id="map-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-                    <path d="M0 0 L10 5 L0 10 z" fill="#1f2a22" />
-                  </marker>
-                </defs>
-                <g stroke="#1f2a22" stroke-width="1.5" fill="none" marker-end="url(#map-arrow)">
-                  <path d="M52 43 V103" /><path d="M102 106 L154 46" /><path d="M52 143 V203" /><path d="M102 124 H156" /><path d="M102 224 H156" />
-                </g>
-                <g stroke="#1f2a22" stroke-width="1.25">
-                  <g fill="#ebdcae"><rect x="2" y="5" width="100" height="38" /><rect x="2" y="105" width="100" height="38" /></g>
-                  <g fill="#dce3d0"><rect x="158" y="5" width="100" height="38" /><rect x="2" y="205" width="100" height="38" /></g>
-                  <g fill="#f4f1ea"><rect x="158" y="205" width="100" height="38" /><rect x="158" y="105" width="100" height="38" /></g>
-                </g>
-                <g class="map__nodes" text-anchor="middle">
-                  <text x="52" y="31">{n[0]}</text><text x="52" y="131">{n[1]}</text><text x="208" y="31">{n[2]}</text>
-                  <text x="208" y="231">{n[3]}</text><text x="52" y="231">{n[4]}</text><text x="208" y="131">{n[5]}</text>
-                </g>
-                <g class="map__links">
-                  <text x="60" y="78">{l[0]}</text><text x="138" y="84">{l[1]}</text><text x="60" y="178">{l[2]}</text>
-                  <text x="129" y="144" text-anchor="middle">{l[3]}</text><text x="129" y="216" text-anchor="middle">{l[4]}</text>
-                </g>
-              </svg>
-              <dl class="gloss">
-                {
-                  copy.map.glossary.map((item) => (
-                    <div>
-                      <dt>{item.title}</dt>
-                      <dd>{item.text}</dd>
-                    </div>
-                  ))
-                }
-              </dl>
-            </div>
-            <figcaption class="caption">{map!.caption}</figcaption>
-          </figure>
-        </li>
+        </div>
+        <figure class="stage__art">
+          <div class="plate art">
+            <h4 class="art__title">{copy.map.title}</h4>
+            <svg class="map" viewBox="0 0 260 248" role="img" aria-label={copy.map.label}>
+              <defs>
+                <marker id="map-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                  <path d="M0 0 L10 5 L0 10 z" fill="#1f2a22" />
+                </marker>
+              </defs>
+              <g stroke="#1f2a22" stroke-width="1.5" fill="none" marker-end="url(#map-arrow)">
+                <path d="M52 43 V103" /><path d="M102 106 L154 46" /><path d="M52 143 V203" /><path d="M102 124 H156" /><path d="M102 224 H156" />
+              </g>
+              <g stroke="#1f2a22" stroke-width="1.25">
+                <g fill="#ebdcae"><rect x="2" y="5" width="100" height="38" /><rect x="2" y="105" width="100" height="38" /></g>
+                <g fill="#dce3d0"><rect x="158" y="5" width="100" height="38" /><rect x="2" y="205" width="100" height="38" /></g>
+                <g fill="#f4f1ea"><rect x="158" y="205" width="100" height="38" /><rect x="158" y="105" width="100" height="38" /></g>
+              </g>
+              <g class="map__nodes" text-anchor="middle">
+                <text x="52" y="31">{n[0]}</text><text x="52" y="131">{n[1]}</text><text x="208" y="31">{n[2]}</text>
+                <text x="208" y="231">{n[3]}</text><text x="52" y="231">{n[4]}</text><text x="208" y="131">{n[5]}</text>
+              </g>
+              <g class="map__links">
+                <text x="60" y="78">{l[0]}</text><text x="138" y="84">{l[1]}</text><text x="60" y="178">{l[2]}</text>
+                <text x="129" y="144" text-anchor="middle">{l[3]}</text><text x="129" y="216" text-anchor="middle">{l[4]}</text>
+              </g>
+            </svg>
+            <dl class="gloss">
+              {
+                copy.map.glossary.map((item) => (
+                  <div>
+                    <dt>{item.title}</dt>
+                    <dd>{item.text}</dd>
+                  </div>
+                ))
+              }
+            </dl>
+          </div>
+          <figcaption class="caption">{map!.caption}</figcaption>
+        </figure>
+      </li>
 
-        <li class="stage" style="--s:3">
+      <li class="stage plate" style="--s:3">
+        <div class="stage__copy">
           <h3 class="stage__line"><span class="when">{decision!.when}</span> {decision!.line}</h3>
           <p class="stage__text">{decision!.text}</p>
-          <figure class="stage__art">
-            <article class="plate plate--sage art adr">
-              <p class="adr__title">{copy.decision.title}</p>
-              <p>{copy.decision.context}</p>
-              <p class="adr__status">{copy.decision.status}</p>
-            </article>
-            <figcaption class="caption">{decision!.caption}</figcaption>
-          </figure>
-        </li>
+        </div>
+        <figure class="stage__art">
+          <article class="plate plate--sage art adr">
+            <p class="adr__title">{copy.decision.title}</p>
+            <p>{copy.decision.context}</p>
+            <p class="adr__status">{copy.decision.status}</p>
+          </article>
+          <figcaption class="caption">{decision!.caption}</figcaption>
+        </figure>
+      </li>
 
-        <li class="stage" style="--s:4">
+      <li class="stage plate" style="--s:4">
+        <div class="stage__copy">
           <h3 class="stage__line"><span class="when">{health!.when}</span> {health!.line}</h3>
           <p class="stage__text">{health!.text}</p>
-          <figure class="stage__art">
-            <div class="plate art">
-              <h4 class="art__title">{copy.health.title}</h4>
-              <ul class="checks">
-                {copy.health.checks.map((check) => <li>{check}</li>)}
-              </ul>
-            </div>
-            <figcaption class="caption">{health!.caption}</figcaption>
-          </figure>
-        </li>
+        </div>
+        <figure class="stage__art">
+          <div class="plate art">
+            <h4 class="art__title">{copy.health.title}</h4>
+            <ul class="checks">
+              {copy.health.checks.map((check) => <li>{check}</li>)}
+            </ul>
+          </div>
+          <figcaption class="caption">{health!.caption}</figcaption>
+        </figure>
+      </li>
 
-        <li class="stage" style="--s:5">
+      <li class="stage plate" style="--s:5">
+        <div class="stage__copy">
           <h3 class="stage__line"><span class="when">{review!.when}</span> {review!.line}</h3>
           <p class="stage__text">{review!.text}</p>
-          <figure class="stage__art">
-            <div class="plate plate--straw art">
-              <h4 class="art__title">{copy.review.title}</h4>
-              <ul class="checks checks--review">
-                {copy.review.states.map((state) => <li>{state}</li>)}
-              </ul>
-            </div>
-            <figcaption class="caption">{review!.caption}</figcaption>
-          </figure>
-        </li>
-      </ol>
-    </div>
+        </div>
+        <figure class="stage__art">
+          <div class="plate plate--straw art">
+            <h4 class="art__title">{copy.review.title}</h4>
+            <ul class="checks checks--review">
+              {copy.review.states.map((state) => <li>{state}</li>)}
+            </ul>
+          </div>
+          <figcaption class="caption">{review!.caption}</figcaption>
+        </figure>
+      </li>
+    </ol>
   </div>
+  <script is:inline type="module" src={stackScript}></script>
 </section>
 
 <style>
@@ -175,21 +159,29 @@ const count = (template: string) =>
     grid-column: 8 / -1;
     max-width: 46ch;
   }
-  /* Each step keeps its own height: a short step does not stretch to the tallest one's sheet. */
-  .stairs {
+  .stack {
     display: grid;
-    grid-auto-flow: column;
-    grid-auto-columns: minmax(0, 1fr);
-    align-items: start;
-    gap: var(--gutter);
+    gap: clamp(1rem, 2vw, 1.5rem);
   }
-  /* Each step a little lower than the one before, each proven by the sheet it leaves behind, on the
-     brighter paper with its caption under it. */
+  /* Each step a card of mica: what happens on the left, the sheet it leaves behind on the right (under
+     it from 900 px down), on the brighter paper with its caption under it. --sink is how far the card
+     sinks back once every card after it has covered it. */
   .stage {
+    --sink: calc(1 - (5 - var(--s)) * 0.025);
+    /* Cards cover one another: an opaque plate, or the card underneath shows through the mica. */
+    background-color: var(--plate);
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    grid-template-areas: "copy art";
+    align-items: start;
+    gap: 18px calc(var(--gutter) * 2);
+    padding: clamp(1.25rem, 2.6vw, 2.25rem);
+  }
+  .stage__copy {
+    grid-area: copy;
     display: grid;
     align-content: start;
     gap: 12px;
-    padding-top: calc((var(--s) - 1) * 1rem);
   }
   .stage__line {
     font-family: var(--serif);
@@ -201,7 +193,9 @@ const count = (template: string) =>
     max-width: 34ch;
   }
   .stage__art {
-    margin-top: 6px;
+    grid-area: art;
+    justify-self: end;
+    width: min(100%, 36rem);
   }
   .art {
     padding: 18px;
@@ -226,13 +220,13 @@ const count = (template: string) =>
     font-size: var(--fs-small);
     color: var(--brick);
   }
+  /* Drawn at its own size at most, so the labels and the links in the drawing's units (18) render 18 px
+     and no larger; on the narrowest phones the plan shrinks with its sheet. */
   .map {
     width: 100%;
-    max-width: 320px;
+    max-width: 260px;
     height: auto;
   }
-  /* In the drawing's own units: at 1440 px (a fifth of the 80rem page, less the gutters and the plate's
-     padding) the plan renders 195 px wide, at 0.75, so the labels and the links stay 13.5 px. */
   .map__nodes {
     font: 600 18px var(--sans);
     fill: var(--ink);
@@ -296,203 +290,57 @@ const count = (template: string) =>
     border-radius: 0;
     background: var(--ink);
   }
-  .swipe {
-    display: none;
-    color: var(--ink-2);
-  }
-  .method__foot {
-    display: none;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-    gap: 8px var(--gutter);
-    margin-bottom: 16px;
-  }
-
-  /* The step on screen, as a whole number the row's scroll sets (see the narrow rules below). */
-  @property --step {
-    syntax: "<integer>";
-    inherits: true;
-    initial-value: 1;
-  }
-  @property --last {
-    syntax: "<integer>";
-    inherits: true;
-    initial-value: 1;
-  }
-  /* Shown only where the browser can tie it to the row's scroll; elsewhere the hint alone remains. */
-  .tally {
-    display: none;
-    align-items: center;
-    gap: 12px;
-    counter-reset: n var(--step) m var(--last);
-  }
-  /* The plan's scale bar: five segments in a 1.25px ink frame, inked up to the last step on screen. */
-  .tally__bar {
-    position: relative;
-    display: grid;
-    grid-template-columns: repeat(5, 18px);
-    height: 8px;
-    border: var(--line) solid var(--ink);
-  }
-  .tally__bar::before {
-    content: "";
-    position: absolute;
-    inset: 0 auto 0 0;
-    width: calc(var(--last) * 20%);
-    background: var(--ink);
-  }
-  .tally__bar i + i {
-    border-left: var(--line) solid var(--ink);
-  }
-  .tally__count {
-    font: 400 var(--fs-small) / 1.3 var(--serif);
-    font-style: italic;
-    color: var(--ink-2);
-    font-variant-numeric: tabular-nums;
-  }
-  .tally__count--two {
-    display: none;
-  }
-  .tally__n::after {
-    content: counter(n);
-  }
-  .tally__m::after {
-    content: counter(m);
-  }
-  @keyframes tally-one {
-    from {
-      --step: 1;
-      --last: 1;
-    }
-    to {
-      --step: 5;
-      --last: 5;
-    }
-  }
-  @keyframes tally-two {
-    from {
-      --step: 1;
-      --last: 2;
-    }
-    to {
-      --step: 4;
-      --last: 5;
-    }
-  }
-  /* A drawn arrow in the page's 1.5px ink line, as tall as the hint's capitals. */
-  .swipe__arrow {
-    display: inline-block;
-    width: 1.4em;
-    height: 0.85em;
-    margin-left: 0.4em;
-    vertical-align: -0.05em;
-    fill: none;
-    stroke: currentColor;
-    stroke-width: 1.5;
-  }
-
-  /* Narrower screens: the row becomes a sideways scroll that snaps to each step, inside the page
-     margins. One step (two from 601 px) fills the row and the next shows 18% of its width, its edge
-     whole, then fades into the paper so no word is cut at the screen's edge. The last step can still
-     reach the clear part: the row ends with that much room. */
   @media (max-width: 1100px) {
     .method__head h2,
     .method__head p {
       grid-column: 1 / -1;
     }
-    .method .wrap {
-      container-type: inline-size;
-      timeline-scope: --steps;
-    }
-    .steps {
-      --show: 2;
-      --card: calc((100cqw - var(--show) * var(--gutter)) / (var(--show) + 0.18));
-      --peek: calc(var(--card) * 0.18);
-      overflow-x: auto;
-      overscroll-behavior-x: contain;
-      scroll-snap-type: x mandatory;
-      scroll-timeline: --steps x;
-      /* No native scrollbar: the scale bar above the row says where you are. */
-      scrollbar-width: none;
-      /* The next card is hidden: the short soft edge falls in the gap before it, so not even a sliver
-         of its letters shows; the "Deslizá" hint above says more steps follow. */
-      mask-image: linear-gradient(to right, #000 calc(100% - var(--peek) - 6px), transparent calc(100% - var(--peek) - 1px));
-    }
-    .steps::-webkit-scrollbar {
-      display: none;
-    }
-    /* Keyboard focus shows the whole row and its outline, unfaded. */
-    .steps:focus-visible {
-      outline-offset: -3px;
-      mask-image: none;
-    }
-    .stairs {
-      grid-auto-columns: var(--card);
-      width: max-content;
-      padding-inline-end: calc(var(--peek) + var(--gutter));
-    }
+  }
+  @media (max-width: 900px) {
     .stage {
-      scroll-snap-align: start;
-      padding-top: 0;
+      grid-template-columns: minmax(0, 1fr);
+      grid-template-areas: "copy" "art";
     }
-    .swipe {
-      display: block;
-    }
-    .method__foot {
-      display: flex;
+    .stage__art {
+      justify-self: stretch;
+      width: auto;
     }
   }
-  /* The scroll drives two whole numbers: the first step on screen and the last. One step shows at a
-     time up to 600 px, two from 601 px, so the row's five snap points (four from 601 px) land on whole
-     steps. Without a script, and kept under reduced motion: it moves only when the reader scrolls, and
-     it jumps from step to step rather than travelling. */
-  @supports (animation-timeline: scroll()) and (timeline-scope: none) {
-    @media (max-width: 1100px) {
-      .tally {
-        display: flex;
-        animation-name: tally-two;
-        animation-duration: auto;
+
+  /* The stack. Each card sticks under the header once src/scripts/stack.js has set its top (20 px lower
+     than the card before, or higher for a card taller than the screen) and marked the list; until then,
+     and whenever less motion is asked for, the cards are a plain list. */
+  @media (prefers-reduced-motion: no-preference) {
+    .stack[data-on] > .stage {
+      position: sticky;
+    }
+  }
+  /* Where the browser ties animations to the scroll, a card sinks back from its top edge while the next
+     one slides over it: the list's scroll past the top of the screen is shared out evenly, a fifth per
+     card. The last card is never covered. */
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      .stack[data-on] {
+        view-timeline: --stack block;
+      }
+      .stack[data-on] > .stage {
+        transform-origin: 50% 0;
+        /* Longhands: the minifier folds a shorthand and its timeline into one shorthand that browsers
+           reject. */
+        animation-name: stage-sink;
         animation-timing-function: linear;
         animation-fill-mode: both;
-        animation-timeline: --steps;
+        animation-timeline: --stack;
+        animation-range: exit-crossing calc((var(--s) - 1) * 20%) exit-crossing calc(var(--s) * 20%);
       }
-      .tally__count--two {
-        display: inline;
-      }
-      .tally__count--one {
-        display: none;
-      }
-    }
-    @media (max-width: 600px) {
-      .tally {
-        animation-name: tally-one;
-      }
-      .tally__count--one {
-        display: inline;
-      }
-      .tally__count--two {
-        display: none;
-      }
-    }
-    @media (max-width: 1100px) and (prefers-reduced-motion: reduce) {
-      .tally {
-        animation-name: tally-two !important;
-        animation-duration: auto !important;
-        animation-timing-function: linear !important;
-        animation-fill-mode: both !important;
-        animation-timeline: --steps !important;
-      }
-    }
-    @media (max-width: 600px) and (prefers-reduced-motion: reduce) {
-      .tally {
-        animation-name: tally-one !important;
+      .stack[data-on] > .stage:last-child {
+        animation-name: none;
       }
     }
   }
-  @media (max-width: 600px) {
-    .steps {
-      --show: 1;
+  @keyframes stage-sink {
+    to {
+      scale: var(--sink);
     }
   }
 </style>

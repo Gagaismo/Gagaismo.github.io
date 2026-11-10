@@ -42,13 +42,12 @@ describe.each(langs)("shorter page /%s/", (lang) => {
     expect(text).not.toMatch(/\b23 (más|more)\b/);
   });
 
-  it("puts the five method steps in one keyboard-reachable, labelled scroller", () => {
+  // T22: the sideways scroller became a stack of cards, one labelled list read top to bottom.
+  it("puts the five method steps in one labelled list", () => {
     const method = element(page(lang), /<section\b[^>]*\bid="method"/);
-    const scroller = element(method, /<[a-z]+\b[^>]*\bdata-steps(?=[\s>])/);
-    expect(scroller).toMatch(/^<[a-z]+\b[^>]*\btabindex="0"/);
-    expect(scroller).toMatch(/^<[a-z]+\b[^>]*\brole="region"/);
-    expect(scroller).toMatch(/^<[a-z]+\b[^>]*\baria-label="[^"]{4,}"/);
-    expect(scroller.match(/<li\b[^>]*\bclass="[^"]*\bstage\b/g)).toHaveLength(5);
+    const list = element(method, /<ol\b[^>]*\bdata-cards(?=[\s>])/);
+    expect(list).toMatch(/^<ol\b[^>]*\baria-label="[^"]{4,}"/);
+    expect(list.match(/<li\b[^>]*\bclass="[^"]*\bstage\b/g)).toHaveLength(5);
   });
 
   // L40: the offer sells what can be built and how it helps the owner, with no tool lists.

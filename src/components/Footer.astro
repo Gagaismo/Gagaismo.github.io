@@ -445,6 +445,55 @@ const picture: ComponentProps<typeof Picture> = {
     }
   }
 
+  /* As the picture scrolls into view it settles: the whole scene comes in a little large and eases back
+     to its place, the far mountains rise into place slower than the page, the foliage in front shrinks
+     back faster. At the end of the page every layer is where the loop expects it. The loops animate
+     `transform`; the scroll moves `translate` and `scale`, added to its list, so the two add up. */
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      .foot__art {
+        view-timeline: --foot block;
+      }
+      /* Longhands: the minifier folds a shorthand and its timeline into one shorthand that browsers
+         reject. Each list is the loop first, as in the rules above, then the scroll. */
+      .foot__scene,
+      .foot__band--far,
+      .foot__band--near {
+        animation-duration: 16s, auto;
+        animation-timing-function: ease-in-out, linear;
+        animation-iteration-count: infinite, 1;
+        animation-direction: alternate, normal;
+        animation-fill-mode: none, both;
+        animation-timeline: auto, --foot;
+        animation-range: normal, entry 0% entry 100%;
+      }
+      .foot__scene {
+        animation-name: foot-camera, foot-settle;
+      }
+      .foot__band--far {
+        animation-name: foot-far, foot-lag;
+      }
+      .foot__band--near {
+        animation-name: foot-near, foot-close;
+      }
+    }
+  }
+  @keyframes foot-settle {
+    from {
+      scale: 1.08;
+    }
+  }
+  @keyframes foot-lag {
+    from {
+      translate: 0 -5%;
+    }
+  }
+  @keyframes foot-close {
+    from {
+      scale: 1.12;
+    }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .foot__scene,
     .foot__band--far,

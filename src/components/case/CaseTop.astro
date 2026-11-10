@@ -1,6 +1,7 @@
 ---
 import type { ImageMetadata } from "astro";
 import ImageSlot from "../ImageSlot.astro";
+import Words from "../Words.astro";
 
 // The opening of a case page: the page's one heading, the case in two sentences, the business and its
 // problem in a short ledger, and the case's picture on a plate beside them.
@@ -22,7 +23,7 @@ const { title, summary, facts, factsCaption, image, alt, position, case: estate 
 <section class="top" data-case-top={estate} aria-labelledby="case-title">
   <div class="wrap grid top__grid">
     <div class="top__text">
-      <h1 id="case-title" class="top__title">{title}</h1>
+      <h1 id="case-title" class="top__title" data-reveal="words"><Words text={title} /></h1>
       <p class="lead">{summary}</p>
       <figure class="top__card">
         <dl class="plate top__facts">

@@ -5,7 +5,7 @@ import { describe, expect, it } from "vitest";
 
 // T17, S11 (L93): the designer asked to refine the components that look stock. Each one moves to the
 // page's own drawing language (serif captions, 1.5px ink lines, survey stations, tone steps) without a
-// new colour: the method carousel, the composer, the buttons, the header and its language switch, the
+// new colour: the method carousel (replaced by stacking cards in T22, tests/build/scroll-motion.test.ts), the composer, the buttons, the header and its language switch, the
 // contact rows, the offer ledger, the padel outcome, the real graph, the case facts, the footer icon
 // and the disclosure.
 
@@ -54,33 +54,6 @@ const body = (selector: string, at?: RegExp) =>
     .filter((r) => r.selector.split(",").map((s) => s.trim()).includes(selector) && (at ? at.test(r.at) : !r.at))
     .map((r) => r.body)
     .join(";");
-const text = (html: string) => html.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
-const narrow = /max-width:\s*1100px|width\s*<=\s*1100px/;
-
-describe("1. the method carousel", () => {
-  it("lets each step keep its own height and hides the native scrollbar", () => {
-    expect(body(".stairs")).toMatch(/align-items:\s*start/);
-    expect(body(".steps", narrow)).toMatch(/scrollbar-width:\s*none/);
-    expect(body(".steps::-webkit-scrollbar", narrow)).toMatch(/display:\s*none/);
-  });
-
-  it("drives a five-segment scale bar and the step count from the row's scroll, with no script", () => {
-    expect(css).toMatch(/@property\s+--step\s*\{[^}]*syntax:\s*["']<integer>["']/);
-    expect(body(".steps", narrow)).toMatch(/scroll-timeline:\s*--steps\s+x/);
-    expect(body(".method .wrap", narrow)).toMatch(/timeline-scope:\s*--steps/);
-    expect(body(".tally", /animation-timeline/)).toMatch(/animation-timeline:\s*--steps/);
-  });
-
-  it.each(langs)("/%s/: shows the bar and the count beside the hint, hidden from assistive tech", (lang) => {
-    const html = read(lang);
-    const tally = html.match(/<div class="tally[^"]*"[^>]*>([\s\S]*?)<\/div>/);
-    expect(tally, "a .tally block").not.toBeNull();
-    expect(tally![0]).toMatch(/aria-hidden="true"/);
-    expect(tally![1].match(/<i\b/g)?.length).toBe(5);
-    expect(text(tally![1])).toContain(lang === "es" ? "Paso" : "Step");
-    expect(text(tally![1])).toContain(lang === "es" ? "de 5" : "of 5");
-  });
-});
 
 describe("2. the composer's topics", () => {
   it("draws its own ring instead of the native radio", () => {
@@ -270,16 +243,6 @@ describe("T17 review: the padel register", () => {
     expect(body(".facts--register")).toMatch(/container-type:\s*inline-size/);
     expect(body(".register", /@container/)).toMatch(/grid-template-columns:\s*max-content\s+minmax\(0,\s*1fr\)/);
     expect(body(".register li", /@container/)).toMatch(/grid-template-columns:\s*subgrid/);
-  });
-});
-
-describe("T17 review: the method tally", () => {
-  it.each(langs)("/%s/: sits above the row, right under the intro, so it never waits under the tallest step", (lang) => {
-    const html = read(lang);
-    const foot = html.indexOf('class="method__foot');
-    const steps = html.indexOf('class="steps');
-    expect(foot).toBeGreaterThan(html.indexOf('id="method-title"'));
-    expect(foot).toBeLessThan(steps);
   });
 });
 

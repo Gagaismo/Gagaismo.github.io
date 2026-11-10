@@ -1,6 +1,7 @@
 ---
 import type { HomeCopy } from "../i18n/home";
 import ImageSlot from "./ImageSlot.astro";
+import Words from "./Words.astro";
 import cancha from "../assets/images/padel-court.jpg";
 
 interface Props {
@@ -23,7 +24,7 @@ const plate = "#fbf6e6";
 <section class="padel sec-pad" id="padel" data-case="padel" aria-labelledby="padel-title">
   <div class="wrap grid padel__grid">
     <div class="padel__intro">
-      <h2 id="padel-title" class="head" data-reveal>{copy.title}</h2>
+      <h2 id="padel-title" class="head" data-reveal="words"><Words text={copy.title} /></h2>
       <p class="lead">{copy.lead}</p>
       {caseLink && <a class="link padel__case" href={caseLink.href}>{caseLink.label}</a>}
     </div>

@@ -3,6 +3,7 @@ import type { Lang } from "../../i18n/ui";
 import { caseHref, caseUi, type CaseKey } from "../../i18n/cases";
 import { email } from "../../i18n/home";
 import BtnMark from "../BtnMark.astro";
+import Words from "../Words.astro";
 
 // The end of a case page: the call to write, then the other case and the way back to the home.
 interface Props {
@@ -19,7 +20,7 @@ const other: CaseKey = current === "automation" ? "club-padel" : "automation";
 
 <section class="close" id="contact" aria-labelledby="close-title">
   <div class="wrap grid close__grid">
-    <h2 id="close-title" class="head" data-reveal>{copy.title}</h2>
+    <h2 id="close-title" class="head" data-reveal="words"><Words text={copy.title} /></h2>
     <div class="close__body">
       <p class="lead">{copy.text}</p>
       <a class="btn" href={`mailto:${email}?subject=${encodeURIComponent(copy.subject)}`}>{copy.cta}<BtnMark kind="mail" /></a>

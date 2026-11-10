@@ -1,0 +1,16 @@
+---
+// A heading's words, each in a span of its own so they can come in one after another once the heading
+// (data-reveal="words") enters (src/styles/global.css). The spaces stay plain text between the spans, so
+// the heading reads, and is named, exactly as written. `from` continues the count after words already
+// placed in the same heading.
+interface Props {
+  text: string;
+  from?: number;
+}
+
+const { text, from = 0 } = Astro.props;
+let n = from;
+const parts = text.split(/(\s+)/).filter(Boolean).map((part) => (/^\s+$/.test(part) ? { space: part } : { word: part, i: n++ }));
+---
+
+{parts.map((p) => ("space" in p ? p.space : <span class="w" style={`--w:${p.i}`}>{p.word}</span>))}

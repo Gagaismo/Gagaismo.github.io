@@ -3,6 +3,7 @@ import type { HomeCopy } from "../i18n/home";
 import { Image } from "astro:assets";
 import ImageSlot from "./ImageSlot.astro";
 import PhoneFrame from "./PhoneFrame.astro";
+import Words from "./Words.astro";
 import antes from "../assets/images/before-desk.jpg";
 import afterScreen from "../assets/images/case/after-screen.png";
 
@@ -19,7 +20,7 @@ const screens = [afterScreen];
 
 <section class="compare" id="automation" data-case="automation" aria-labelledby="change-title">
   <div class="wrap grid compare__head">
-    <h2 id="change-title" class="head" data-reveal>{copy.title}</h2>
+    <h2 id="change-title" class="head" data-reveal="words"><Words text={copy.title} /></h2>
     <div class="compare__intro">
       <p class="lead">{copy.intro}</p>
     </div>

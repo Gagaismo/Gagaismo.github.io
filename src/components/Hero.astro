@@ -340,11 +340,72 @@ const picture: ComponentProps<typeof Picture> = {
       animation-delay: var(--d);
     }
     @supports (animation-timeline: view()) {
+      /* Longhands throughout: the minifier folds a shorthand and its timeline into one shorthand that
+         browsers reject. */
       .hero__statement {
-        animation: hero-settle linear both;
+        animation-name: hero-settle;
+        animation-timing-function: linear;
+        animation-fill-mode: both;
         animation-timeline: view();
         animation-range: exit 0% exit 100%;
       }
+      /* Parallax and a slow zoom as the hero scrolls away, on top of the living loop: the picture
+         sinks and grows a little, the far mountains sink further (slower than the page), the cane in
+         the corners grows from its base (faster). From the first scroll to the hero's last pixel;
+         nothing moves on the first screen, and the glass panels over the art never move. The loops
+         animate `transform`; the scroll moves `translate` and `scale`, so the two add up. */
+      .hero {
+        view-timeline: --hero block;
+      }
+      .hero__frame {
+        transform-origin: 56% 100%;
+        animation-name: hero-sink;
+        animation-timing-function: linear;
+        animation-fill-mode: both;
+        animation-timeline: --hero;
+        animation-range: exit-crossing 0% exit-crossing 100%;
+      }
+      /* The loop first, as in the rule above, then the scroll. */
+      .hero__band--far {
+        animation-name: hero-far, hero-lag;
+        animation-duration: 18s, auto;
+        animation-timing-function: ease-in-out, linear;
+        animation-iteration-count: infinite, 1;
+        animation-direction: alternate, normal;
+        animation-fill-mode: none, both;
+        animation-timeline: auto, --hero;
+        animation-range: normal, exit-crossing 0% exit-crossing 100%;
+      }
+      .hero__cane--left,
+      .hero__cane--right {
+        animation-name: hero-near;
+        animation-timing-function: linear;
+        animation-fill-mode: both;
+        animation-timeline: --hero;
+        animation-range: exit-crossing 0% exit-crossing 100%;
+      }
+      .hero__cane--left {
+        transform-origin: 0 100%;
+      }
+      .hero__cane--right {
+        transform-origin: 100% 100%;
+      }
+    }
+  }
+  @keyframes hero-sink {
+    to {
+      translate: 0 7%;
+      scale: 1.06;
+    }
+  }
+  @keyframes hero-lag {
+    to {
+      translate: 0 5%;
+    }
+  }
+  @keyframes hero-near {
+    to {
+      scale: 1.08;
     }
   }
   @keyframes hero-rise {

@@ -1,4 +1,6 @@
 ---
+import Words from "../Words.astro";
+
 // One chapter of a case page: a heading and a few paragraphs to read, and the sheets that prove them.
 // `layout` changes the composition from one chapter to the next: the sheets beside the text, under it,
 // or on the left; `tone` lays the chapter on the case's wash instead of the page's paper.
@@ -17,7 +19,7 @@ const { id, title, text = [], layout = "aside", tone, case: estate } = Astro.pro
 <section class:list={["chapter", `chapter--${layout}`, tone && `chapter--${tone}`]} data-case={estate} aria-labelledby={id}>
   <div class="wrap grid chapter__grid">
     <div class="chapter__text">
-      <h2 id={id} class="subhead" data-reveal>{title}</h2>
+      <h2 id={id} class="subhead" data-reveal="words"><Words text={title} /></h2>
       <div class="prose">
         <slot />
         {text.map((p) => <p>{p}</p>)}
