@@ -45,6 +45,11 @@ const fit = `calc((100vw - 2 * var(--inset) - 12px) / ${(Math.max(copy.hero.line
     <title>{title}</title>
     <meta name="description" content={description} />
     <meta name="theme-color" content="#f4f1ea" />
+    <!-- The serif LG on a moss-metal tile (T24), drawn by scripts/make-icons.mjs. -->
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
     <link rel="preload" href={sansRegular} as="font" type="font/woff2" crossorigin />
     <link rel="canonical" href={new URL(href(lang), Astro.site)} />
     {
