@@ -200,8 +200,8 @@ const picture: ComponentProps<typeof Picture> = {
   .foot__icon {
     display: grid;
     place-items: center;
-    width: 36px;
-    height: 36px;
+    width: 32px;
+    height: 32px;
     border: 1px solid #e9e2cf;
     border-radius: 6px;
     background: rgb(255 255 255 / 0.4);
@@ -212,8 +212,12 @@ const picture: ComponentProps<typeof Picture> = {
   .foot__icon svg {
     fill: none;
     stroke: currentColor;
-    stroke-width: 1.6;
+    stroke-width: 1.5;
     stroke-linejoin: round;
+  }
+  /* 1.5 CSS px whatever the drawing's own units. */
+  .foot__icon svg :is(rect, path) {
+    vector-effect: non-scaling-stroke;
   }
   .foot__icon:active {
     transform: scale(0.97);

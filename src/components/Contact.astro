@@ -1,6 +1,7 @@
 ---
 import type { HomeCopy } from "../i18n/home";
 import { email, mailto } from "../i18n/home";
+import BtnMark from "./BtnMark.astro";
 
 interface Props {
   copy: HomeCopy["contact"];
@@ -40,7 +41,7 @@ const first = copy.drafts[0]!;
         <p class="draft__label" id="draft-label">{copy.draftLabel}</p>
         <p class="draft__text" id="draft" aria-labelledby="draft-label" aria-live="polite">{first.text}</p>
         <div class="draft__actions">
-          <a class="btn" id="send" href={mailto(copy.subject, first.text)}>{copy.send}</a>
+          <a class="btn" id="send" href={mailto(copy.subject, first.text)}>{copy.send}<BtnMark kind="mail" /></a>
           <button type="button" class="btn btn--quiet" id="copy" data-ok={copy.copied} data-fail={copy.copyFailed}>
             {copy.copy}
           </button>
@@ -50,7 +51,7 @@ const first = copy.drafts[0]!;
     </div>
   </div>
 
-  <ul class="rows">
+  <ul class="rows wrap">
     <li class="row">
       <a class="display" href={`mailto:${email}`}>{email}</a><small>{copy.emailNote}</small>
     </li>
@@ -95,13 +96,14 @@ const first = copy.drafts[0]!;
     margin-bottom: 14px;
     padding: 0;
   }
+  /* Each topic a line on the brighter paper; the chosen one takes the case's sage wash. */
   .opt {
     display: flex;
     align-items: center;
     gap: 14px;
     min-height: 44px;
     padding: 10px 16px;
-    background: var(--tone);
+    background: var(--plate);
     margin-bottom: 8px;
     cursor: pointer;
     transition:
@@ -112,24 +114,44 @@ const first = copy.drafts[0]!;
   .opt:active {
     transform: scale(0.985);
   }
+  /* The radio drawn as a survey station: a 1.5px ink ring on the paper; chosen, a sage band around an
+     ink dot, like the cable's stations. The whole line takes the keyboard outline. */
   .opt input {
-    width: 16px;
-    height: 16px;
-    accent-color: var(--green);
+    appearance: none;
+    width: 14px;
+    height: 14px;
     margin: 0;
     flex: none;
+    border: 1.5px solid var(--ink);
+    border-radius: 50%;
+    background: var(--paper);
+    cursor: pointer;
+  }
+  .opt input:checked {
+    background: var(--ink);
+    box-shadow: inset 0 0 0 2.5px var(--sage);
+  }
+  .opt input:focus-visible {
+    outline: none;
   }
   .opt:has(input:checked) {
-    background: var(--ink);
-    color: #fff;
+    background: var(--sage);
   }
   .opt:has(input:focus-visible) {
     outline: 3px solid var(--focus);
     outline-offset: 2px;
   }
+  @media (forced-colors: active) {
+    .opt input {
+      border-color: CanvasText;
+    }
+    .opt input:checked {
+      background: CanvasText;
+    }
+  }
   @media (hover: hover) and (pointer: fine) {
     .opt:hover:not(:has(input:checked)) {
-      background: var(--tone-strong);
+      background: var(--tone);
     }
   }
   .draft {
@@ -160,23 +182,26 @@ const first = copy.drafts[0]!;
     min-height: 1.5em;
   }
 
+  /* The close: two lines on the page's grid, each label a serif caption in the first columns and the
+     address or the place beside it, at the section heading's size. No band behind them. */
   .rows {
+    display: grid;
+    row-gap: clamp(1rem, 2vw, 1.5rem);
     margin-top: clamp(3rem, 6vw, 5rem);
+    padding-bottom: clamp(1.5rem, 3vw, 2.5rem);
   }
   .row {
-    display: flex;
-    justify-content: space-between;
-    align-items: end;
-    gap: var(--gutter);
-    padding: 20px var(--inset) 16px;
-    min-height: clamp(64px, 5.5vw, 88px);
-  }
-  .row:nth-child(odd) {
-    background: var(--tone);
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--gutter);
+    align-items: baseline;
   }
   .row a,
   .row span {
+    grid-column: 4 / -1;
+    grid-row: 1;
     font-size: var(--fs-head);
+    line-height: 1.1;
     text-decoration: none;
     overflow-wrap: anywhere;
   }
@@ -189,10 +214,11 @@ const first = copy.drafts[0]!;
     }
   }
   .row small {
-    font-size: var(--fs-small);
-    color: var(--muted);
-    padding-bottom: 6px;
-    text-align: right;
+    grid-column: 1 / span 3;
+    grid-row: 1;
+    font: 400 var(--fs-small) / 1.45 var(--serif);
+    font-style: italic;
+    color: var(--ink-2);
   }
 
   @media (max-width: 1100px) {
@@ -217,14 +243,15 @@ const first = copy.drafts[0]!;
     .draft__actions .btn {
       flex: 1 1 100%;
     }
-    .row {
-      flex-direction: column;
-      align-items: start;
-      gap: 6px;
-    }
+    /* The caption over its line. */
+    .row a,
+    .row span,
     .row small {
-      text-align: left;
-      padding: 0;
+      grid-column: 1 / -1;
+    }
+    .row a,
+    .row span {
+      grid-row: 2;
     }
   }
 </style>

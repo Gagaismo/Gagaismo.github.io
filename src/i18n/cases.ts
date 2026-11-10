@@ -43,6 +43,8 @@ export interface CaseUi {
   problem: string;
   /** First chapter, above the entry's own text. */
   business: string;
+  /** Under the case's facts at the top of its page. */
+  factsCaption: string;
   /** Under the closing heading: the other case and the home. */
   close: { title: string; text: string; cta: string; subject: string; other: string; back: string };
 }
@@ -94,6 +96,7 @@ export const caseUi: Record<Lang, CaseUi> = {
     sector: "Rubro",
     problem: "El problema",
     business: "El negocio y su problema",
+    factsCaption: "Ficha del caso",
     close: {
       title: "¿Tu negocio tiene algo parecido?",
       text: "Contame cómo trabajás hoy. Te respondo con preguntas para entenderlo y, si encaja, con una propuesta por escrito.",
@@ -108,6 +111,7 @@ export const caseUi: Record<Lang, CaseUi> = {
     sector: "Business",
     problem: "The problem",
     business: "The business and its problem",
+    factsCaption: "The case at a glance",
     close: {
       title: "Does your business have something similar?",
       text: "Tell me how you work today. I'll reply with questions to understand it and, if it's a fit, a written proposal.",

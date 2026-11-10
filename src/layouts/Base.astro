@@ -3,6 +3,7 @@ import "../styles/global.css";
 import { languages, t, type Lang } from "../i18n/ui";
 import { home } from "../i18n/home";
 import Footer from "../components/Footer.astro";
+import BtnMark from "../components/BtnMark.astro";
 
 interface Props {
   lang: Lang;
@@ -53,7 +54,9 @@ const fit = `calc((100vw - 2 * var(--inset) - 12px) / ${(Math.max(copy.hero.line
     <!-- Sticky bar on the page's paper, continuous with the hero: stays on screen while the page scrolls. -->
     <header class="site" id="top">
       <div class="top wrap">
-        <a class="wordmark" href={`/${lang}/`}>Lautaro Guebel</a>
+        <!-- The full name on one line; on the narrowest phones the serif monogram stands in for it on
+             screen, and the name stays the link's accessible name. -->
+        <a class="wordmark" href={`/${lang}/`}><span class="wordmark__full">Lautaro Guebel</span><span class="wordmark__mono" aria-hidden="true">LG</span></a>
         <nav aria-label={copy.nav.label}>
           <ul>
             <li><a href={at("#automation")}>{copy.nav.cases}</a></li>
@@ -77,7 +80,7 @@ const fit = `calc((100vw - 2 * var(--inset) - 12px) / ${(Math.max(copy.hero.line
               )
             }
           </div>
-          <a class="btn top__cta" href="#contact">{copy.nav.cta}</a>
+          <a class="btn top__cta" href="#contact">{copy.nav.cta}<BtnMark kind="arrow" /></a>
         </div>
       </div>
     </header>
@@ -123,36 +126,58 @@ const fit = `calc((100vw - 2 * var(--inset) - 12px) / ${(Math.max(copy.hero.line
     align-items: center;
     gap: 12px;
   }
-  /* ES | EN: two words in the text face; the current one in ink and underlined, the other in the muted
-     ink (6.8:1), darkening on hover. */
+  /* ES · EN: two words in the serif with a drawn ink-2 dot between them; the current one in ink with
+     the link's underline, the other in the muted ink (6.8:1), darkening on hover. 44 x 40 targets. */
   .langs {
+    position: relative;
     display: flex;
+  }
+  .langs::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 3px;
+    height: 3px;
+    margin: -1.5px 0 0 -1.5px;
+    border-radius: 50%;
+    background: var(--ink-2);
   }
   .langs a {
     display: grid;
     place-items: center;
     min-width: 44px;
     min-height: 40px;
-    font: 600 var(--fs-small) var(--sans);
+    font: 400 var(--fs-small) / 1 var(--serif);
     color: var(--ink-2);
     text-decoration: none;
-    text-underline-offset: 0.35em;
-    text-decoration-thickness: 1.5px;
+    text-underline-offset: 0.22em;
     transition: color var(--t-hover) ease;
   }
   .langs a[aria-current="page"] {
     color: var(--ink);
     text-decoration-line: underline;
+    text-decoration-thickness: 0.07em;
   }
   .top__cta {
     min-height: 36px;
     padding: 6px 16px;
+    font-size: var(--fs-small);
     white-space: nowrap;
   }
+  /* The name on one line, in the serif at the subhead size; a step down on phones. */
   .wordmark {
-    font: 700 var(--fs-lead) / 1 var(--serif);
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font: 400 var(--fs-sub) / 1 var(--serif);
+    letter-spacing: -0.01em;
     text-decoration: none;
     padding: 12px 0;
+  }
+  .wordmark__mono {
+    display: none;
   }
   nav {
     margin-left: auto;
@@ -164,9 +189,10 @@ const fit = `calc((100vw - 2 * var(--inset) - 12px) / ${(Math.max(copy.hero.line
   nav a {
     display: inline-block;
     padding: 12px 0;
-    font-size: var(--fs-small);
+    font: 400 var(--fs-small) / 1.3 var(--serif);
     text-decoration: none;
-    text-underline-offset: 0.3em;
+    text-underline-offset: 0.22em;
+    text-decoration-thickness: 0.07em;
   }
   @media (hover: hover) and (pointer: fine) {
     nav a:hover {
@@ -177,6 +203,15 @@ const fit = `calc((100vw - 2 * var(--inset) - 12px) / ${(Math.max(copy.hero.line
     }
   }
 
+  /* Below the desktop the links share the bar: the name a step smaller, the button without its mark. */
+  @media (max-width: 1100px) {
+    .wordmark {
+      font-size: var(--fs-body);
+    }
+    .top__cta :global(.btn__mark) {
+      display: none;
+    }
+  }
   @media (max-width: 720px) {
     .top {
       min-height: 56px;
@@ -187,9 +222,32 @@ const fit = `calc((100vw - 2 * var(--inset) - 12px) / ${(Math.max(copy.hero.line
     .top__end {
       margin-left: auto;
     }
-    /* The serif wordmark stacks on two lines; the button keeps its label on one. */
+    /* Name, ES · EN and the button on one line down to 381 px: the gaps and the button's sides tighter. */
+    .top {
+      gap: 12px;
+    }
+    .top__end {
+      gap: 8px;
+    }
     .top__cta {
-      padding-inline: 16px;
+      padding-inline: 12px;
+    }
+  }
+  /* Too narrow for the full name beside the switch and the button: the serif monogram, as in the
+     footer. The name stays in the link for assistive tech. */
+  @media (max-width: 380px) {
+    .wordmark__full {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+      white-space: nowrap;
+    }
+    .wordmark__mono {
+      display: inline;
+      font-size: var(--fs-sub);
+      letter-spacing: -0.02em;
     }
   }
 </style>

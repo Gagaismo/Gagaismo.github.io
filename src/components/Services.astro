@@ -8,7 +8,7 @@ interface Props {
 }
 
 // What can be built for a small business, told as what the owner gains (L40: no tool names). Set as a
-// ledger on the plate paper: one line per thing, the old way struck through in brick ink beside it, so an
+// ledger on the plate paper: one entry per thing, the old way struck through in brick ink above it, so an
 // owner spots their own problem at a glance.
 const { copy } = Astro.props;
 ---
@@ -74,11 +74,14 @@ const { copy } = Astro.props;
     filter: sepia(0.2) saturate(0.82);
   }
 
-  /* The ledger: the plate paper, one line per thing, every other line a step darker like a ruled book
-     without the rules. Wide: the old way on the left, struck through, then the new way and its sentence.
-     The heading comes first in the markup, so on phones it leads and the old way follows it. */
+  /* The ledger: one plate, one entry per thing, the entries apart by space alone. Two columns: on the
+     left the old way, struck through in small serif italic, over the new way's title; on the right its
+     sentence, level with the title. The title comes first in the markup, so assistive tech reads it
+     first; on phones the three stack in the visual order. */
   .ledger {
-    padding: clamp(0.5rem, 1.2vw, 0.75rem);
+    display: grid;
+    row-gap: clamp(1.5rem, 3vw, 2.25rem);
+    padding: clamp(1.25rem, 2.6vw, 2rem) var(--plate-pad);
   }
   .entry {
     display: grid;
@@ -86,20 +89,18 @@ const { copy } = Astro.props;
     column-gap: var(--gutter);
     row-gap: 4px;
     align-items: baseline;
-    padding: clamp(1rem, 2vw, 1.5rem) clamp(0.75rem, 1.6vw, 1.25rem);
-  }
-  .entry:nth-child(even) {
-    background: var(--paper);
   }
   .entry__title {
-    grid-column: 5 / span 4;
-    grid-row: 1;
+    grid-column: 1 / span 6;
+    grid-row: 2;
     font: 400 var(--fs-sub) / 1.15 var(--serif);
     letter-spacing: -0.01em;
   }
   .entry__was {
-    grid-column: 1 / span 4;
+    grid-column: 1 / span 6;
     grid-row: 1;
+    font: 400 var(--fs-small) / 1.4 var(--serif);
+    font-style: italic;
     color: var(--ink-2);
   }
   .entry__was s {
@@ -107,9 +108,9 @@ const { copy } = Astro.props;
     text-decoration-thickness: 0.1em;
   }
   .entry__text {
-    grid-column: 9 / -1;
-    grid-row: 1;
-    max-width: 44ch;
+    grid-column: 7 / -1;
+    grid-row: 2;
+    max-width: 52ch;
   }
   /* The contact follows right below, so the offer closes on this sentence, no button. */
   .offer__close {
@@ -117,15 +118,6 @@ const { copy } = Astro.props;
     max-width: 38ch;
   }
 
-  @media (max-width: 1100px) {
-    .entry__title {
-      grid-column: 5 / -1;
-    }
-    .entry__text {
-      grid-column: 5 / -1;
-      grid-row: 2;
-    }
-  }
   @media (max-width: 900px) {
     .offer__head h2,
     .offer__head p,
@@ -142,10 +134,10 @@ const { copy } = Astro.props;
     .entry__was,
     .entry__text {
       grid-column: 1 / -1;
-      grid-row: auto;
     }
-    .entry__was {
-      font-size: var(--fs-small);
+    .entry__text {
+      grid-row: 3;
+      margin-top: 4px;
     }
   }
 </style>

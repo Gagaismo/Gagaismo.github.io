@@ -59,6 +59,9 @@ export interface HomeCopy {
     label: string;
     /** Shown only where the steps scroll sideways. */
     swipe: string;
+    /** Beside the scale bar under the scrolling steps: the step on screen, or the two on screen from
+     *  601 px. {n} and {m} are filled by CSS counters, {total} by the number of steps. */
+    tally: { one: string; two: string };
     /** One short sentence per step, each proven by its artifact. */
     steps: { when: string; line: string; text: string; caption: string }[];
     survey: { title: string; rows: { task: string; how: string }[] };
@@ -78,7 +81,8 @@ export interface HomeCopy {
     builtTitle: string;
     built: string[];
     outcomeTitle: string;
-    outcomes: string[];
+    /** A register of what happened: when (with an ISO date only where the copy states one) and what. */
+    outcomes: { when: string; date?: string; text: string }[];
     imageAlt: string;
   };
   /** What I can build for a small business, each thing told as the owner's benefit (L40: no tool names). */
@@ -204,6 +208,7 @@ const es: HomeCopy = {
     intro: "Cada paso deja algo concreto que podés ver antes de seguir. Estos son los de la academia.",
     label: "Los cinco pasos",
     swipe: "Deslizá para ver cada paso",
+    tally: { one: "Paso {n} de {total}", two: "Pasos {n} y {m} de {total}" },
     steps: [
       {
         when: "Primero,",
@@ -289,7 +294,10 @@ const es: HomeCopy = {
     builtTitle: "Lo que construí",
     built: ["Funciona en el celular y en la compu.", "Un historial de cambios que no se borra."],
     outcomeTitle: "Cómo terminó",
-    outcomes: ["Demo aprobada el 17/09/2026.", "Dos cambios pedidos en la demo, incorporados el mismo día."],
+    outcomes: [
+      { when: "17/09/2026", date: "2026-09-17", text: "Demo aprobada." },
+      { when: "El mismo día", text: "Dos cambios pedidos en la demo, incorporados." },
+    ],
     imageAlt: "Cancha de pádel vacía al aire libre, con piso azul, paredes de vidrio y dos pelotas junto al vidrio.",
   },
   offer: {
@@ -463,6 +471,7 @@ const en: HomeCopy = {
     intro: "Every step leaves something concrete you can see before we move on. These are the academy's.",
     label: "The five steps",
     swipe: "Swipe to see each step",
+    tally: { one: "Step {n} of {total}", two: "Steps {n} and {m} of {total}" },
     steps: [
       {
         when: "First,",
@@ -548,7 +557,10 @@ const en: HomeCopy = {
     builtTitle: "What I built",
     built: ["Works on phone and desktop.", "A change history that can't be erased."],
     outcomeTitle: "How it ended",
-    outcomes: ["Demo approved on 17/09/2026.", "Two changes requested in the demo, added the same day."],
+    outcomes: [
+      { when: "17/09/2026", date: "2026-09-17", text: "Demo approved." },
+      { when: "The same day", text: "Two changes requested in the demo, added." },
+    ],
     imageAlt: "Empty outdoor padel court with a blue floor, glass walls and two balls by the glass.",
   },
   offer: {

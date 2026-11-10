@@ -4,6 +4,7 @@ import { Picture } from "astro:assets";
 import fields from "../assets/images/hero-fields.png";
 import type { HomeCopy } from "../i18n/home";
 import { email } from "../i18n/home";
+import BtnMark from "./BtnMark.astro";
 
 interface Props {
   copy: HomeCopy["hero"];
@@ -93,7 +94,7 @@ const picture: ComponentProps<typeof Picture> = {
   </h1>
   <p class="lead hero__lead hero__load" style="--d:380ms">{copy.lead}</p>
   <div class="hero__act hero__load" style="--d:470ms">
-    <a class="btn" href={`mailto:${email}`}>{copy.cta}</a>
+    <a class="btn" href={`mailto:${email}`}>{copy.cta}<BtnMark kind="mail" /></a>
     <a class="link" href="#method">{copy.secondary}</a>
   </div>
 </section>

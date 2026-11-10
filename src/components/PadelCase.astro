@@ -15,7 +15,6 @@ const { copy, caseLink } = Astro.props;
 const lists = [
   { title: copy.problemTitle, items: copy.problems },
   { title: copy.builtTitle, items: copy.built },
-  { title: copy.outcomeTitle, items: copy.outcomes },
 ];
 const ink = "#1f2a22";
 const plate = "#fbf6e6";
@@ -68,8 +67,8 @@ const plate = "#fbf6e6";
 
     <div class="padel__lists">
       {
-        lists.map((list, i) => (
-          <div class:list={["facts", i === 2 && "facts--outcome"]}>
+        lists.map((list) => (
+          <div class="facts">
             <h3 class="facts__title">{list.title}</h3>
             <ul>
               {list.items.map((item) => (
@@ -79,6 +78,21 @@ const plate = "#fbf6e6";
           </div>
         ))
       }
+      <!-- How it ended, as a register: survey stations on one ink line, each with when it happened (the
+           demo's real date, then "the same day") and what. -->
+      <div class="facts">
+        <h3 class="facts__title">{copy.outcomeTitle}</h3>
+        <ol class="register">
+          {
+            copy.outcomes.map((o) => (
+              <li>
+                {o.date ? <time class="register__when" datetime={o.date}>{o.when}</time> : <span class="register__when">{o.when}</span>}
+                <span>{o.text}</span>
+              </li>
+            ))
+          }
+        </ol>
+      </div>
     </div>
   </div>
 </section>
@@ -175,8 +189,8 @@ const plate = "#fbf6e6";
     line-height: 1.45;
   }
 
-  /* What the case was, what was built, how it ended: lists with a mark per line, no boxes; the outcome
-     on a patch of plate paper. */
+  /* What the case was and what was built: lists with an ochre dash per line, no boxes, the dash level
+     with the middle of the line's first letters. How it ended: a register, below. */
   .padel__lists {
     grid-column: 1 / -1;
     grid-row: 3;
@@ -192,31 +206,61 @@ const plate = "#fbf6e6";
   }
   .facts ul {
     display: grid;
-    gap: 10px;
+    gap: 12px;
   }
   .facts li {
     display: grid;
     grid-template-columns: 12px minmax(0, 1fr);
-    column-gap: 12px;
+    column-gap: 14px;
     max-width: 44ch;
+    line-height: 1.5;
   }
-  .facts li::before {
+  .facts ul li::before {
     content: "";
     align-self: start;
-    margin-top: 0.8em;
+    margin-top: calc(0.75em - 1px);
     height: 2px;
     background: var(--ochre);
   }
-  .facts--outcome {
-    background: var(--plate);
-    padding: clamp(1rem, 2vw, 1.5rem);
+
+  /* The register: an ink line down the side with a station per entry (an ink ring on the plate paper,
+     like the contract's days on the case page), the when in the serif, the what under it. */
+  .register {
+    display: grid;
+    gap: 18px;
   }
-  .facts--outcome li::before {
-    width: 9px;
-    height: 9px;
-    margin-top: 0.6em;
-    border-radius: 50%;
+  /* The line runs from each station to the next one, so it starts and stops on a station. */
+  .register li:not(:last-child)::after {
+    content: "";
+    position: absolute;
+    left: 7px;
+    top: calc(0.2em + 15px);
+    bottom: calc(-18px - 0.2em);
+    width: var(--line);
     background: var(--ink);
+  }
+  .register li {
+    position: relative;
+    display: grid;
+    gap: 2px;
+    padding-left: 30px;
+    max-width: 44ch;
+    line-height: 1.5;
+  }
+  .register li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.2em;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: var(--plate);
+    box-shadow: inset 0 0 0 var(--line-bold) var(--ink);
+  }
+  .register__when {
+    font: 400 var(--fs-lead) / 1.25 var(--serif);
+    font-variant-numeric: tabular-nums;
   }
 
   @media (max-width: 900px) {

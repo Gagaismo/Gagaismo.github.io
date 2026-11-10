@@ -124,28 +124,29 @@ const screens = [afterScreen];
   }
 
   /* The lists carry no boxes: a filled mark in front of each line, a dash for the old way and a sage
-     dot for the new one. */
+     dot for the new one, each centred on the middle of the line's first row. */
   .side__list {
     display: grid;
-    gap: 14px;
+    gap: 12px;
   }
   .side__list li {
     display: grid;
-    grid-template-columns: 14px minmax(0, 1fr);
+    grid-template-columns: 12px minmax(0, 1fr);
     column-gap: 14px;
     max-width: 52ch;
+    line-height: 1.5;
   }
   .side__list li::before {
     content: "";
     align-self: start;
-    margin-top: 0.8em;
+    margin-top: calc(0.75em - 1px);
     height: 2px;
     background: var(--ink-2);
   }
   .side--after .side__list li::before {
-    width: 10px;
-    height: 10px;
-    margin-top: 0.55em;
+    width: 9px;
+    height: 9px;
+    margin-top: calc(0.75em - 4.5px);
     border-radius: 50%;
     background: var(--sage-ink);
   }

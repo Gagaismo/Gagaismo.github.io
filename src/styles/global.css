@@ -213,11 +213,13 @@ figure {
   background: var(--plate);
 }
 
-/* Buttons: one shape on the whole page, square corners */
+/* Buttons: one shape on the whole page, square corners, the label followed by a drawn mark (an envelope
+   or an arrow, src/components/BtnMark.astro) that steps forward on hover. */
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: 10px;
   min-height: 44px;
   padding: 10px 20px;
   font: 600 var(--fs-body) / 1.2 var(--sans);
@@ -233,9 +235,30 @@ figure {
 .btn:active {
   transform: scale(0.97);
 }
+.btn__mark {
+  flex: none;
+  width: 1.125em;
+  height: auto;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  stroke-linejoin: miter;
+  transition: transform var(--t-hover) var(--ease-out);
+}
+.btn__mark * {
+  vector-effect: non-scaling-stroke;
+}
+/* The second action: ink text underlined like a link, on the paper, no block of tone. */
 .btn--quiet {
-  background: var(--tone);
+  background: transparent;
   color: var(--ink);
+  padding-inline: 4px;
+  text-decoration: underline;
+  text-decoration-thickness: 0.07em;
+  text-underline-offset: 0.22em;
+  transition:
+    transform var(--t-press) var(--ease-out),
+    text-decoration-thickness var(--t-hover) ease;
 }
 .link {
   text-decoration: underline;
@@ -248,7 +271,8 @@ figure {
     background: var(--green-deep);
   }
   .btn--quiet:hover {
-    background: var(--tone-strong);
+    background: transparent;
+    text-decoration-thickness: 0.14em;
   }
   .link:hover {
     text-decoration-thickness: 0.14em;
@@ -267,6 +291,12 @@ figure {
 ::view-transition-new(root) {
   animation-duration: 280ms;
   animation-timing-function: var(--ease-out);
+}
+
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .btn:hover .btn__mark {
+    transform: translateX(2px);
+  }
 }
 
 @media (prefers-reduced-motion: no-preference) {

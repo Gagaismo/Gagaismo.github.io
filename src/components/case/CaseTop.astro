@@ -8,13 +8,15 @@ interface Props {
   title: string;
   summary: string;
   facts: { term: string; text: string }[];
+  /** Under the facts' cartouche. */
+  factsCaption: string;
   image: ImageMetadata;
   alt: string;
   position?: string;
   case: "automation" | "padel";
 }
 
-const { title, summary, facts, image, alt, position, case: estate } = Astro.props;
+const { title, summary, facts, factsCaption, image, alt, position, case: estate } = Astro.props;
 ---
 
 <section class="top" data-case-top={estate} aria-labelledby="case-title">
@@ -22,16 +24,19 @@ const { title, summary, facts, image, alt, position, case: estate } = Astro.prop
     <div class="top__text">
       <h1 id="case-title" class="top__title">{title}</h1>
       <p class="lead">{summary}</p>
-      <dl class="top__facts">
-        {
-          facts.map((fact) => (
-            <div>
-              <dt>{fact.term}</dt>
-              <dd>{fact.text}</dd>
-            </div>
-          ))
-        }
-      </dl>
+      <figure class="top__card">
+        <dl class="plate top__facts">
+          {
+            facts.map((fact) => (
+              <div>
+                <dt>{fact.term}</dt>
+                <dd>{fact.text}</dd>
+              </div>
+            ))
+          }
+        </dl>
+        <figcaption class="caption">{factsCaption}</figcaption>
+      </figure>
     </div>
     <div class="plate top__plate">
       <ImageSlot
@@ -72,21 +77,28 @@ const { title, summary, facts, image, alt, position, case: estate } = Astro.prop
   .top__text .lead {
     max-width: 52ch;
   }
-  /* The business and its problem, as an atlas legend: the term in serif italic, the text beside it. */
+  /* The business and its problem, as an atlas cartouche: on the brighter paper, each term in serif
+     italic over its text, the two side by side where there is room; its caption under it. */
+  .top__card {
+    max-width: 60ch;
+  }
   .top__facts {
     display: grid;
-    gap: 12px;
-    max-width: 60ch;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+    gap: 14px var(--gutter);
   }
   .top__facts div {
     display: grid;
-    grid-template-columns: 8.5rem minmax(0, 1fr);
-    column-gap: var(--gutter);
+    align-content: start;
+    gap: 2px;
   }
   .top__facts dt {
-    font: 400 var(--fs-body) / 1.65 var(--serif);
+    font: 400 var(--fs-small) / 1.45 var(--serif);
     font-style: italic;
     color: var(--ink-2);
+  }
+  .top__facts dd {
+    line-height: 1.5;
   }
   .top__plate {
     grid-column: 8 / -1;
@@ -102,9 +114,9 @@ const { title, summary, facts, image, alt, position, case: estate } = Astro.prop
       grid-column: 1 / -1;
     }
   }
-  @media (max-width: 480px) {
-    .top__facts div {
-      grid-template-columns: 1fr;
+  @media (max-width: 560px) {
+    .top__facts {
+      grid-template-columns: minmax(0, 1fr);
     }
   }
 </style>

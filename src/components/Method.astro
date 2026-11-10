@@ -9,6 +9,12 @@ const { copy } = Astro.props;
 const [survey, map, decision, health, review] = copy.steps;
 const n = copy.map.nodes;
 const l = copy.map.links;
+// The count beside the scale bar: the words around the step numbers, which CSS counters fill in.
+const count = (template: string) =>
+  template
+    .replace("{total}", String(copy.steps.length))
+    .split(/(\{[nm]\})/)
+    .map((part) => (part === "{n}" ? { counter: "n" } : part === "{m}" ? { counter: "m" } : { text: part }));
 ---
 
 <section class="method sec-pad" id="method" data-case="automation" aria-labelledby="method-title">
@@ -130,12 +136,26 @@ const l = copy.map.links;
         </li>
       </ol>
     </div>
-    <p class="swipe small" aria-hidden="true">
-      {copy.swipe}
-      <svg class="swipe__arrow" viewBox="0 0 20 12" width="20" height="12" aria-hidden="true" focusable="false">
-        <path d="M1 6 H18 M13 1 L18 6 L13 11" />
-      </svg>
-    </p>
+    <!-- Under the scrolling row: a scale bar of five segments, inked up to the step on screen, and the
+         count in the caption's serif, both driven by the row's own scroll (CSS only); then the hint. -->
+    <div class="method__foot">
+      <div class="tally" aria-hidden="true">
+        <span class="tally__bar">{copy.steps.map(() => <i />)}</span>
+        {
+          (["one", "two"] as const).map((k) => (
+            <span class={`tally__count tally__count--${k}`}>
+              {count(copy.tally[k]).map((p) => ("counter" in p ? <span class={`tally__${p.counter}`} /> : p.text))}
+            </span>
+          ))
+        }
+      </div>
+      <p class="swipe small" aria-hidden="true">
+        {copy.swipe}
+        <svg class="swipe__arrow" viewBox="0 0 20 12" width="20" height="12" aria-hidden="true" focusable="false">
+          <path d="M1 6 H18 M13 1 L18 6 L13 11" />
+        </svg>
+      </p>
+    </div>
   </div>
 </section>
 
@@ -152,10 +172,12 @@ const l = copy.map.links;
     grid-column: 8 / -1;
     max-width: 46ch;
   }
+  /* Each step keeps its own height: a short step does not stretch to the tallest one's sheet. */
   .stairs {
     display: grid;
     grid-auto-flow: column;
     grid-auto-columns: minmax(0, 1fr);
+    align-items: start;
     gap: var(--gutter);
   }
   /* Each step a little lower than the one before, each proven by the sheet it leaves behind, on the
@@ -273,8 +295,87 @@ const l = copy.map.links;
   }
   .swipe {
     display: none;
-    margin-top: 12px;
     color: var(--ink-2);
+  }
+  .method__foot {
+    display: none;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px var(--gutter);
+    margin-top: 14px;
+  }
+
+  /* The step on screen, as a whole number the row's scroll sets (see the narrow rules below). */
+  @property --step {
+    syntax: "<integer>";
+    inherits: true;
+    initial-value: 1;
+  }
+  @property --last {
+    syntax: "<integer>";
+    inherits: true;
+    initial-value: 1;
+  }
+  /* Shown only where the browser can tie it to the row's scroll; elsewhere the hint alone remains. */
+  .tally {
+    display: none;
+    align-items: center;
+    gap: 12px;
+    counter-reset: n var(--step) m var(--last);
+  }
+  /* The plan's scale bar: five segments in a 1.25px ink frame, inked up to the last step on screen. */
+  .tally__bar {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(5, 18px);
+    height: 8px;
+    border: var(--line) solid var(--ink);
+  }
+  .tally__bar::before {
+    content: "";
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: calc(var(--last) * 20%);
+    background: var(--ink);
+  }
+  .tally__bar i + i {
+    border-left: var(--line) solid var(--ink);
+  }
+  .tally__count {
+    font: 400 var(--fs-small) / 1.3 var(--serif);
+    font-style: italic;
+    color: var(--ink-2);
+    font-variant-numeric: tabular-nums;
+  }
+  .tally__count--two {
+    display: none;
+  }
+  .tally__n::after {
+    content: counter(n);
+  }
+  .tally__m::after {
+    content: counter(m);
+  }
+  @keyframes tally-one {
+    from {
+      --step: 1;
+      --last: 1;
+    }
+    to {
+      --step: 5;
+      --last: 5;
+    }
+  }
+  @keyframes tally-two {
+    from {
+      --step: 1;
+      --last: 2;
+    }
+    to {
+      --step: 4;
+      --last: 5;
+    }
   }
   /* A drawn arrow in the page's 1.5px ink line, as tall as the hint's capitals. */
   .swipe__arrow {
@@ -299,6 +400,7 @@ const l = copy.map.links;
     }
     .method .wrap {
       container-type: inline-size;
+      timeline-scope: --steps;
     }
     .steps {
       --show: 2;
@@ -307,12 +409,15 @@ const l = copy.map.links;
       overflow-x: auto;
       overscroll-behavior-x: contain;
       scroll-snap-type: x mandatory;
-      padding-bottom: 10px;
-      scrollbar-width: thin;
-      scrollbar-color: var(--sage-ink) transparent;
+      scroll-timeline: --steps x;
+      /* No native scrollbar: the scale bar under the row says where you are. */
+      scrollbar-width: none;
       /* The next card is hidden: the short soft edge falls in the gap before it, so not even a sliver
          of its letters shows; the "Deslizá" hint below says more steps follow. */
       mask-image: linear-gradient(to right, #000 calc(100% - var(--peek) - 6px), transparent calc(100% - var(--peek) - 1px));
+    }
+    .steps::-webkit-scrollbar {
+      display: none;
     }
     /* Keyboard focus shows the whole row and its outline, unfaded. */
     .steps:focus-visible {
@@ -330,6 +435,56 @@ const l = copy.map.links;
     }
     .swipe {
       display: block;
+    }
+    .method__foot {
+      display: flex;
+    }
+  }
+  /* The scroll drives two whole numbers: the first step on screen and the last. One step shows at a
+     time up to 600 px, two from 601 px, so the row's five snap points (four from 601 px) land on whole
+     steps. Without a script, and kept under reduced motion: it moves only when the reader scrolls, and
+     it jumps from step to step rather than travelling. */
+  @supports (animation-timeline: scroll()) and (timeline-scope: none) {
+    @media (max-width: 1100px) {
+      .tally {
+        display: flex;
+        animation-name: tally-two;
+        animation-duration: auto;
+        animation-timing-function: linear;
+        animation-fill-mode: both;
+        animation-timeline: --steps;
+      }
+      .tally__count--two {
+        display: inline;
+      }
+      .tally__count--one {
+        display: none;
+      }
+    }
+    @media (max-width: 600px) {
+      .tally {
+        animation-name: tally-one;
+      }
+      .tally__count--one {
+        display: inline;
+      }
+      .tally__count--two {
+        display: none;
+      }
+    }
+    @media (max-width: 1100px) and (prefers-reduced-motion: reduce) {
+      .tally {
+        animation-name: tally-two !important;
+        animation-duration: auto !important;
+        animation-timing-function: linear !important;
+        animation-fill-mode: both !important;
+        animation-timeline: --steps !important;
+      }
+    }
+    @media (max-width: 600px) and (prefers-reduced-motion: reduce) {
+      .tally {
+        animation-name: tally-one !important;
+      }
     }
   }
   @media (max-width: 600px) {

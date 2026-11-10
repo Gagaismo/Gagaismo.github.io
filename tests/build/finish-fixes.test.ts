@@ -84,13 +84,16 @@ describe("F2: icons are drawn, not typed", () => {
     expect(hint).toMatch(/<svg\b[^>]*aria-hidden="true"/);
   });
 
-  it("draws both icons in the page's 1.5px ink line, one text line tall, the minus taking the plus's place when open", () => {
+  // T17 (S11): the disclosure's plus now sits in a 14 px ring (a survey station) instead of one text
+  // line tall; the hint's arrow keeps the text's height.
+  it("draws both icons in the page's 1.5px ink line, the minus taking the plus's place when open", () => {
     for (const selector of [".wf__mark", ".swipe__arrow"]) {
       const b = body(selector);
       expect(b, selector).toMatch(/stroke:\s*currentColor/);
       expect(b, selector).toMatch(/stroke-width:\s*1\.5(px)?(;|$)/);
-      expect(b, selector).toMatch(/height:\s*\.?\d*\.?\d+em\b/);
     }
+    expect(body(".swipe__arrow")).toMatch(/height:\s*\.?\d*\.?\d+em\b/);
+    expect(body(".wf__mark")).toMatch(/height:\s*14px/);
     expect(body(".wf[open] .wf__mark-v")).toMatch(/transform:\s*scaleY\(0\)/);
   });
 });
