@@ -25,9 +25,10 @@ const footer = {
   ...copy.footer,
   columns: copy.footer.columns.map((column) => ({ ...column, links: column.links.map((link) => ({ ...link, href: at(link.href) })) })),
 };
-// Caps the display size so the longer hero line always fits the width. The serif averages ~0.48em per
+// Caps the display size so the longer hero line always fits the text column (the viewport less both
+// insets and the 12 px a cable station may push the heading in). The serif averages ~0.48em per
 // character in Georgia (measured on the hero lines); 0.5 leaves room for wider fallback serifs.
-const fit = `${(92 / (Math.max(copy.hero.line1.length, copy.hero.line2.length) * 0.5)).toFixed(2)}vw`;
+const fit = `calc((100vw - 2 * var(--inset) - 12px) / ${(Math.max(copy.hero.line1.length, copy.hero.line2.length) * 0.5).toFixed(2)})`;
 ---
 
 <!doctype html>
@@ -101,7 +102,7 @@ const fit = `${(92 / (Math.max(copy.hero.line1.length, copy.hero.line2.length) *
     padding: 12px 16px;
   }
   .skip:focus {
-    left: var(--margin);
+    left: var(--inset);
   }
 
   .site {
@@ -115,7 +116,7 @@ const fit = `${(92 / (Math.max(copy.hero.line1.length, copy.hero.line2.length) *
     display: flex;
     align-items: center;
     gap: var(--gutter);
-    min-height: 72px;
+    min-height: 60px;
   }
   .top__end {
     display: flex;
@@ -144,8 +145,8 @@ const fit = `${(92 / (Math.max(copy.hero.line1.length, copy.hero.line2.length) *
     text-decoration-line: underline;
   }
   .top__cta {
-    min-height: 40px;
-    padding-block: 8px;
+    min-height: 36px;
+    padding: 6px 16px;
     white-space: nowrap;
   }
   .wordmark {
@@ -178,7 +179,7 @@ const fit = `${(92 / (Math.max(copy.hero.line1.length, copy.hero.line2.length) *
 
   @media (max-width: 720px) {
     .top {
-      min-height: 64px;
+      min-height: 56px;
     }
     nav {
       display: none;

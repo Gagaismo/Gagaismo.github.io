@@ -164,7 +164,7 @@ const l = copy.map.links;
     display: grid;
     align-content: start;
     gap: 12px;
-    padding-top: calc((var(--s) - 1) * 1.25rem);
+    padding-top: calc((var(--s) - 1) * 1rem);
   }
   .stage__line {
     font-family: var(--serif);
@@ -206,14 +206,14 @@ const l = copy.map.links;
     max-width: 320px;
     height: auto;
   }
-  /* In the drawing's own units: at its narrowest (a fifth of 1440 px) the plan renders at 0.86, so the
-     labels stay 15 px and the links 14 px or more. */
+  /* In the drawing's own units: at 1440 px (a fifth of the 80rem page, less the gutters and the plate's
+     padding) the plan renders 195 px wide, at 0.75, so the labels and the links stay 13.5 px. */
   .map__nodes {
     font: 600 18px var(--sans);
     fill: var(--ink);
   }
   .map__links {
-    font: italic 400 16px var(--serif);
+    font: italic 400 18px var(--serif);
     fill: var(--ink-2);
   }
   .gloss {

@@ -190,6 +190,11 @@ const brick = "#9c4127";
     height: auto;
     overflow: visible;
   }
+  /* The wide plan stops growing at 68rem, so its 20-unit labels render about 17 px (S11). */
+  .flow__svg--wide {
+    max-width: 68rem;
+    margin-inline: auto;
+  }
   .flow__svg--tall {
     display: none;
     max-width: 420px;

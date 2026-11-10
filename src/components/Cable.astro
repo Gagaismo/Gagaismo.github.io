@@ -24,17 +24,18 @@ const nodes = [
   :global(#content) {
     position: relative;
   }
-  /* Each station sits in the margin, level with its heading; the heading keeps 13 px of paper between the
-     station's ring and its first letter at every width (the station's right edge is half the margin plus
-     7 px from the page's edge), so the ring never reads as a bullet glued to the word. */
+  /* Each station sits in the inset, level with its heading; the heading keeps 13 px of paper between the
+     station's ring and its first letter at every width (the station's right edge is half the inset plus
+     7 px from the page's edge), so the ring never reads as a bullet glued to the word. From a 40 px inset
+     up the padding is 0. */
   :global(:is(#hero-title, #change-title, #method-title, #padel-title, #offer-title, #contact-title)) {
-    padding-left: max(0px, 20px - var(--margin) / 2);
+    padding-left: max(0px, 20px - var(--inset) / 2);
   }
-  /* The lane is the page margin: content never sits there, so the wire never crosses text. */
+  /* The lane is the page inset: content never sits there, so the wire never crosses text. */
   .cable {
     position: absolute;
     left: 0;
-    width: var(--margin);
+    width: var(--inset);
     pointer-events: none;
     visibility: hidden;
     color: var(--sage-ink);

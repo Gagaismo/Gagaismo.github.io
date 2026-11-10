@@ -102,10 +102,10 @@ describe("F3: clear space between each cable station and its heading", () => {
     const rule = css.match(/:is\(([^)]*#hero-title[^)]*)\)\s*\{([^}]*)\}/);
     expect(rule, "a padding rule over the stations' headings").not.toBeNull();
     for (const id of ids) expect(rule![1]).toContain(`#${id}`);
-    // The station is 14 px wide and centred in the margin: its right edge is margin / 2 + 7 px from the
-    // page's edge, the heading's text starts at the margin plus this padding.
-    const pad = rule![2]!.match(/padding-left:\s*max\(0(?:px)?,\s*(\d+)px\s*-\s*var\(--margin\)\s*\/\s*2\)/);
-    expect(pad, "padding-left: max(0px, Npx - var(--margin) / 2)").not.toBeNull();
+    // The station is 14 px wide and centred in the inset (S11; the margin before it): its right edge is inset / 2 + 7 px from the
+    // page's edge, the heading's text starts at the inset plus this padding.
+    const pad = rule![2]!.match(/padding-left:\s*max\(0(?:px)?,\s*(\d+)px\s*-\s*var\(--inset\)\s*\/\s*2\)/);
+    expect(pad, "padding-left: max(0px, Npx - var(--inset) / 2)").not.toBeNull();
     expect(Number(pad![1]) - 7).toBeGreaterThanOrEqual(12);
   });
 });
@@ -200,10 +200,11 @@ describe("F8: the method's sheets read at body size", () => {
     const root = body(":root");
     expect(root.match(/--fs-[a-z]+\s*:/g)).toHaveLength(6);
     expect(root).toMatch(/--fs-small:\s*\.875rem/);
-    // The plan is 260 units wide and renders 223 px wide at 1440 (a fifth of the row, less the padding).
+    // The plan is 260 units wide and renders 195 px wide at 1440 (a fifth of the 80rem row, less the
+    // gutters and the padding; S11, it was 223 px before the page had a maximum width).
     for (const selector of [".map__nodes", ".map__links"]) {
       const size = Number(body(selector).match(/(\d+)px/)?.[1] ?? 0);
-      expect((size * 223) / 260, selector).toBeGreaterThanOrEqual(13);
+      expect((size * 195) / 260, selector).toBeGreaterThanOrEqual(13);
     }
   });
 

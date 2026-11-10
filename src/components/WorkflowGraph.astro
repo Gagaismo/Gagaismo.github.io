@@ -196,7 +196,7 @@ const brick = "#9c4127";
     display: flex;
     align-items: center;
     gap: 12px;
-    min-height: 52px;
+    min-height: 44px;
     padding: 12px 16px;
     background: var(--plate);
     font-weight: 600;
@@ -248,6 +248,11 @@ const brick = "#9c4127";
   .wf__svg {
     width: 100%;
     height: auto;
+  }
+  /* The wide plan stops growing at 68rem, like the flow plan above it (S11). */
+  .wf__svg--wide {
+    max-width: 68rem;
+    margin-inline: auto;
   }
   .wf__svg--tall {
     display: none;

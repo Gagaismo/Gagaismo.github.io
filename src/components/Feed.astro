@@ -41,7 +41,7 @@ const shown = copy.events.slice(0, copy.times.length).reverse();
   }
   .feed {
     --n: 4;
-    --card-h: 52px;
+    --card-h: 44px;
     --step: var(--card-h);
     width: 100%;
   }
@@ -139,7 +139,7 @@ const shown = copy.events.slice(0, copy.times.length).reverse();
   /* Phone: the time above the event, so the event keeps the whole line. */
   @media (max-width: 720px) {
     .feed {
-      --card-h: 60px;
+      --card-h: 52px;
     }
     .feed__card {
       grid-template-columns: auto minmax(0, 1fr);

@@ -96,16 +96,16 @@ const screens = [afterScreen];
     grid-template-columns: minmax(0, 1fr);
     align-content: start;
     gap: clamp(1.5rem, 3vw, 2.5rem);
-    padding: clamp(2rem, 4vw, 3.5rem) var(--margin) clamp(2.5rem, 5vw, 4.5rem);
+    padding: clamp(2rem, 4vw, 3.5rem) var(--inset) clamp(2.5rem, 5vw, 4.5rem);
   }
   /* Before: the page's own paper, the old way in the muted ink. After: the case's sage wash, a step in
      tone, so the change reads at once. */
   .side--before {
-    padding-right: calc(var(--gutter) / 2 + var(--margin));
+    padding-right: calc(var(--gutter) / 2 + var(--inset));
   }
   .side--after {
     background: var(--sage);
-    padding-left: calc(var(--gutter) / 2 + var(--margin));
+    padding-left: calc(var(--gutter) / 2 + var(--inset));
   }
   .specimen {
     font-size: var(--fs-display);
@@ -191,7 +191,7 @@ const screens = [afterScreen];
     }
     .side--before,
     .side--after {
-      padding-inline: var(--margin);
+      padding-inline: var(--inset);
     }
     .side--after :global(.slot) {
       aspect-ratio: auto;
