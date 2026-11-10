@@ -138,18 +138,31 @@ const fit = `calc((100vw - 2 * var(--inset) - 12px) / ${(Math.max(copy.hero.line
     gap: 8px;
     min-height: 60px;
   }
-  /* Two pills of glass, 44 px tall: the thicker fill used over the engravings and its rim of light, no
-     shadow (T23). Ink keeps 7.7:1 on the fill over the darkest stroke on the page, before any blur. */
+  /* Two pills of brushed metal, 44 px tall (chosen in the impeccable live canvas, L108): a near-opaque
+     tone fill, fine horizontal brush lines, a diagonal sheen and a top-light / bottom-ink rim; no drop
+     shadow (T23). Ink stays well above AA on the 0.92 tone fill whatever sits behind. */
   .wordmark,
   .top__nav {
+    --metal-rim: inset 0 1px 0 rgb(255 255 255 / 0.9), inset 0 -1px 0 rgb(31 42 34 / 0.14),
+      0 0 0 1px rgb(31 42 34 / 0.12);
     min-height: 44px;
     border-radius: var(--radius-pill);
-    background: var(--glass);
-    backdrop-filter: var(--glass-blur);
+    background-color: rgb(234 229 216 / 0.92);
+    background-image: repeating-linear-gradient(0deg, rgb(255 255 255 / 0.16) 0 1px, transparent 1px 3px),
+      linear-gradient(100deg, rgb(255 255 255 / 0) 20%, rgb(255 255 255 / 0.55) 42%, rgb(255 255 255 / 0) 64%),
+      linear-gradient(180deg, rgb(255 255 255 / 0.45), rgb(221 214 196 / 0.4));
+    backdrop-filter: blur(10px);
     pointer-events: auto;
   }
   .top__nav {
-    box-shadow: var(--glass-rim);
+    box-shadow: var(--metal-rim);
+  }
+  @media (prefers-reduced-transparency: reduce) {
+    .wordmark,
+    .top__nav {
+      background-color: var(--tone);
+      backdrop-filter: none;
+    }
   }
   /* The wordmark is a link, so its rim is a layer of its own: a shadow on the link itself, even inset
      light, reads as a button effect to the taste inspector (T23). */
@@ -158,14 +171,14 @@ const fit = `calc((100vw - 2 * var(--inset) - 12px) / ${(Math.max(copy.hero.line
     position: absolute;
     inset: 0;
     border-radius: inherit;
-    box-shadow: var(--glass-rim);
+    box-shadow: var(--metal-rim);
     pointer-events: none;
   }
   /* Safari before 18, in its own @supports (see .glass in global.css). */
   @supports (-webkit-backdrop-filter: none) {
     .wordmark,
     .top__nav {
-      -webkit-backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: blur(10px);
     }
   }
   /* The name on one line, in the serif at the subhead size; a step down below the desktop. Never cut: it

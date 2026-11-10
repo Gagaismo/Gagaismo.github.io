@@ -68,15 +68,18 @@ describe("the header's three pills", () => {
     expect(action).toBeGreaterThan(switcher);
   });
 
-  it("draws the wordmark and the link group as glass pills, and the action as the green pill", () => {
+  // L108: the two pills are brushed metal, chosen in the impeccable live canvas: a near-opaque tone fill
+  // with brush lines and a sheen, a light blur and their own metal rim.
+  it("draws the wordmark and the link group as brushed-metal pills, and the action as the green pill", () => {
     for (const selector of [".wordmark", ".top__nav"]) {
       const pill = body(selector);
       expect(pill, selector).toMatch(/border-radius:\s*var\(--radius-pill\)/);
-      expect(pill, selector).toMatch(/background:\s*var\(--glass\)/);
-      expect(pill, selector).toMatch(/backdrop-filter:\s*var\(--glass-blur\)/);
+      expect(pill, selector).toMatch(/background-color:\s*(#eae5d8eb|rgb\(234 229 216\s*\/\s*0?\.92\))/);
+      expect(pill, selector).toMatch(/background-image:\s*repeating-linear-gradient\(/);
+      expect(pill, selector).toMatch(/backdrop-filter:\s*blur\(10px\)/);
       // The wordmark's rim is drawn by its ::before (T23, tests/build/modern-finish.test.ts).
       const rim = selector === ".wordmark" ? body(".wordmark::before") + body(".wordmark:before") : pill;
-      expect(rim, selector).toMatch(/var\(--glass-rim\)/);
+      expect(rim, selector).toMatch(/var\(--metal-rim\)/);
       expect(pill, selector).toMatch(/pointer-events:\s*auto/);
     }
     expect(body(".btn")).toMatch(/border-radius:\s*var\(--radius-pill\)/);

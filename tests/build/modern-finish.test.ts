@@ -96,13 +96,13 @@ describe("T23: glass casts no shadow", () => {
     expect(body(".top__cta")).not.toMatch(/box-shadow/);
   });
 
-  it("keeps the header's glass pills to their rim of light", () => {
-    expect(body(".top__nav")).toMatch(/box-shadow:\s*var\(--glass-rim\)\s*(;|$)/);
+  it("keeps the header's metal pills to their rim of light", () => {
+    expect(body(".top__nav")).toMatch(/box-shadow:\s*var\(--metal-rim\)\s*(;|$)/);
     // The wordmark is a link: the inspector reads any box-shadow on it, even inset light, as a button
     // effect, so its rim is drawn by a layer of its own, the same rim on the same pill.
     expect(body(".wordmark")).not.toMatch(/box-shadow/);
     const rim = body(".wordmark::before") + body(".wordmark:before");
-    expect(rim).toMatch(/box-shadow:\s*var\(--glass-rim\)/);
+    expect(rim).toMatch(/box-shadow:\s*var\(--metal-rim\)/);
     expect(rim).toMatch(/border-radius:\s*inherit/);
     expect(rim).toMatch(/pointer-events:\s*none/);
   });
