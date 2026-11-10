@@ -134,11 +134,12 @@ describe.each(langs)("atlas part 2 /%s/", (lang) => {
   });
 
   // The contact follows the offer directly: no closing button there, the closing sentence ends it.
-  it("ends the offer with its closing sentence, without a 'tell me your case' button", () => {
+  // L119 (impeccable live canvas) supersedes the no-button rule: one action under the intro, to the contact.
+  it("puts one 'tell me your case' action under the intro and ends on the closing sentence", () => {
     const section = sectionOf(page(lang), "offer-title");
-    expect(section).not.toMatch(/\bclass="[^"]*\bbtn\b/);
-    expect(section).not.toMatch(/href="#contact"/);
-    expect(text(section)).not.toContain(lang === "es" ? "Contame tu caso" : "Tell me about your case");
+    expect(section.match(/\bclass="[^"]*\bbtn\b/g)?.length).toBe(1);
+    expect(section.match(/href="#contact"/g)?.length).toBe(1);
+    expect(text(section)).toContain(lang === "es" ? "Contame tu caso" : "Tell me about your business");
     const paragraphs = [...section.matchAll(/<p\b[^>]*>([\s\S]*?)<\/p>/g)].map((m) => text(m[1]!).trim());
     expect(paragraphs.at(-1)).toBe(
       lang === "es"

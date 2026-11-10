@@ -91,6 +91,8 @@ export interface HomeCopy {
     wasLabel: string;
     /** The offer's last sentence; the contact section right below is the call to action. */
     close: string;
+    /** The offer's call to action, under the intro (L119). */
+    cta: string;
   };
   contact: {
     title: string;
@@ -325,6 +327,7 @@ const es: HomeCopy = {
       },
     ],
     close: "Arrancamos por lo que más tiempo te come, y lo ves funcionando antes de seguir con lo próximo.",
+    cta: "Contame tu caso",
   },
   contact: {
     title: "Empecemos por tu caso",
@@ -580,6 +583,7 @@ const en: HomeCopy = {
       },
     ],
     close: "We start with whatever eats most of your time, and you see it working before we move on to the next thing.",
+    cta: "Tell me about your business",
   },
   contact: {
     title: "Let's start with your case",
