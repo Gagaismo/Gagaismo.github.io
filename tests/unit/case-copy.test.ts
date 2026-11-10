@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { automationStory, caseUi, padelStory } from "../../src/i18n/cases";
+import { home } from "../../src/i18n/home";
 
 // Every string path, with array indexes, so es and en must have the same shape and list lengths.
 function paths(value: unknown, prefix = ""): string[] {
@@ -29,5 +30,13 @@ describe.each([
 
   it("has no empty strings", () => {
     for (const lang of ["es", "en"] as const) expect(strings(copy[lang]).filter((s) => s.trim() === "")).toEqual([]);
+  });
+});
+
+// T24 (L123): the padel case page ends with the same delivery as the home's register (L115).
+describe("padel delivery", () => {
+  it.each(["es", "en"] as const)("%s: matches the home register's last entry", (lang) => {
+    expect(padelStory[lang].outcome.delivery).toEqual(home[lang].padel.outcomes.at(-1));
+    expect(padelStory[lang].outcome.delivery).toMatchObject({ when: "17/10/2026", date: "2026-10-17" });
   });
 });

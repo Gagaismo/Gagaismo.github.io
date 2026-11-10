@@ -86,6 +86,8 @@ export interface PadelStory {
   outcome: Chapter & {
     runs: string;
     runsCaption: string;
+    /** The last entry of the result, dated like the home's register (L115): when, its ISO date, what. */
+    delivery: { when: string; date: string; text: string };
     decision: Sheet & { decision: string; context: string; optionsTitle: string; options: string[]; consequence: string; status: string };
   };
 }
@@ -468,9 +470,11 @@ export const padelStory: Record<Lang, PadelStory> = {
       text: [
         "El 17/09/2026 le mostramos el sistema al club y la demo quedó aprobada. En la misma reunión pidieron dos cambios: que la lista de limpieza se reinicie por turno, para saber qué se hizo en cada uno, y que el quincho acepte como máximo dos reservas por día.",
         "Ese mismo día los dos cambios quedaron escritos en la especificación, en el glosario y en una decisión de diseño. Las reservas de las canchas siguen en el sistema que el club ya usaba: quedaron afuera a propósito.",
+        "Un mes después, el 17/10/2026, el sistema quedó terminado y entregado.",
       ],
       runs: "El resultado",
-      runsCaption: "Lo que quedó escrito después de la demo.",
+      runsCaption: "De la demo a la entrega.",
+      delivery: { when: "17/10/2026", date: "2026-10-17", text: "Sistema terminado y entregado." },
       decision: {
         title: "La decisión de ese día",
         caption: "La primera decisión escrita del proyecto, resumida.",
@@ -585,9 +589,11 @@ export const padelStory: Record<Lang, PadelStory> = {
       text: [
         "On 17/09/2026 we showed the system to the club and the demo was approved. In the same meeting they asked for two changes: that the cleaning checklist resets every shift, to know what was done in each, and that the barbecue area takes at most two bookings a day.",
         "That same day both changes were written into the specification, the glossary and a design decision. Court bookings stay in the system the club already used: they were left out on purpose.",
+        "A month later, on 17/10/2026, the system was finished and delivered.",
       ],
       runs: "The result",
-      runsCaption: "What was written down after the demo.",
+      runsCaption: "From the demo to delivery.",
+      delivery: { when: "17/10/2026", date: "2026-10-17", text: "System finished and delivered." },
       decision: {
         title: "That day's decision",
         caption: "The project's first written decision, summarised.",

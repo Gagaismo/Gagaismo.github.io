@@ -10,7 +10,8 @@ import cancha from "../../assets/images/padel-court.jpg";
 // The padel club told for an owner: the club and the prototype it outgrew, how it was analysed (the
 // survey, the club's rules, the glossary), what was built (the home's plan enlarged: the six roles and the
 // parts of the system, only what the project's documents confirm), a supply request's steps, the barbecue area's daily limit), how it is checked, and how it
-// ended: the approved demo and the decision written the same day. The entry's own text opens the story.
+// ended: the approved demo, the decision written the same day and the delivery a month later. The entry's
+// own text opens the story.
 interface Props {
   lang: Lang;
   data: { title: string; summary: string; sector: string; problem: string; outcomes: string[] };
@@ -150,6 +151,9 @@ const turnedAway = 4;
   <Sheet slot="sheets" title={outcome.runs} caption={outcome.runsCaption}>
     <ul class="marks marks--dot">
       {data.outcomes.map((item) => <li>{item}</li>)}
+      <li>
+        <span><time class="delivery__when" datetime={outcome.delivery.date}>{outcome.delivery.when}</time> — {outcome.delivery.text}</span>
+      </li>
     </ul>
   </Sheet>
   <Sheet slot="sheets" title={outcome.decision.title} caption={outcome.decision.caption} tone="straw">
@@ -255,6 +259,11 @@ const turnedAway = 4;
     margin-top: 0.6em;
     border-radius: 50%;
     background: var(--ink);
+  }
+  /* The delivery's date, set like the home register's whens (L115). */
+  .delivery__when {
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
   }
 
   .gloss {
