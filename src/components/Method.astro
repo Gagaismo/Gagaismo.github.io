@@ -147,6 +147,11 @@ const l = copy.map.links;
 </section>
 
 <style>
+  /* The method stands out from the paper as a band of the automation wash (L114, impeccable live
+     canvas): the opaque plate cards read crisply on the sage, each with a fine ink ring. */
+  .method {
+    background: var(--sage);
+  }
   .method__head {
     align-items: end;
     row-gap: 16px;
@@ -170,6 +175,7 @@ const l = copy.map.links;
     --sink: calc(1 - (5 - var(--s)) * 0.025);
     /* Cards cover one another: an opaque plate, or the card underneath shows through the mica. */
     background-color: var(--plate);
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.9), 0 0 0 1px rgb(31 42 34 / 0.1);
     display: grid;
     grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
     grid-template-areas: "copy art";
