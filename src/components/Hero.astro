@@ -321,7 +321,8 @@ const picture: ComponentProps<typeof Picture> = {
     grid-area: 3 / 2;
     align-self: end;
     display: grid;
-    justify-items: end;
+    /* The action and its link centred in their glass panel (L109, impeccable live canvas). */
+    justify-items: center;
     gap: 8px;
   }
   .hero__act .link {
@@ -446,7 +447,7 @@ const picture: ComponentProps<typeof Picture> = {
     .hero__act {
       grid-area: 4 / 1 / 5 / -1;
       justify-self: start;
-      justify-items: start;
+      justify-items: center;
       margin-top: clamp(1.5rem, 4vw, 2.5rem);
     }
   }
