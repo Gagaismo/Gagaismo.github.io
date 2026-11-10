@@ -79,10 +79,29 @@ const { copy } = Astro.props;
      left the old way, struck through in small serif italic, over the new way's title; on the right its
      sentence, level with the title. The title comes first in the markup, so assistive tech reads it
      first; on phones the three stack in the visual order. */
+  /* The offer is the page's ink panel (chosen in the impeccable live canvas, L117): the one dark field,
+     so what can be built for a pyme is the thing that stands out. Plate titles (13:1), sage text
+     (11:1), the old way in plate at 72% with a straw strike. */
   .ledger {
     display: grid;
-    row-gap: clamp(1.5rem, 3vw, 2.25rem);
-    padding: clamp(1.25rem, 2.6vw, 2rem) var(--plate-pad);
+    row-gap: clamp(1.75rem, 3.4vw, 2.75rem);
+    padding: clamp(1.75rem, 3.6vw, 3rem) clamp(1.25rem, 3vw, 2.75rem);
+    background: var(--ink);
+    color: var(--plate);
+    border-radius: var(--radius-panel);
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.12), 0 0 0 1px rgb(31 42 34 / 0.4);
+  }
+  .ledger .entry__title {
+    color: var(--plate);
+  }
+  .ledger .entry__text {
+    color: var(--sage);
+  }
+  .ledger .entry__was {
+    color: rgb(251 246 230 / 0.72);
+  }
+  .ledger .entry__was s {
+    text-decoration-color: var(--straw);
   }
   .entry {
     display: grid;
