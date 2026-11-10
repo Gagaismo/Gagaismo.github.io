@@ -39,7 +39,6 @@ const { copy } = Astro.props;
         ))
       }
     </ul>
-    <p class="lead offer__close">{copy.close}</p>
   </div>
 </section>
 
@@ -53,10 +52,7 @@ const { copy } = Astro.props;
   .offer .head {
     color: var(--plate);
   }
-  .offer__head p,
-  .offer__close {
-    color: var(--sage);
-  }
+  .offer__head p,
   .offer ::selection {
     background: var(--sage-ink);
     color: var(--plate);
@@ -158,12 +154,7 @@ const { copy } = Astro.props;
     grid-column: 7 / -1;
     grid-row: 2;
     max-width: 52ch;
-  }
-  /* The contact follows right below, so the offer closes on this sentence, no button. */
-  .offer__close {
-    padding-top: clamp(2rem, 4vw, 3rem);
-    max-width: 38ch;
-  }
+  }
 
   @media (max-width: 900px) {
     .offer__head h2,

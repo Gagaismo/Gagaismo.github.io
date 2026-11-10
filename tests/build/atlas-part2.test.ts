@@ -135,17 +135,13 @@ describe.each(langs)("atlas part 2 /%s/", (lang) => {
 
   // The contact follows the offer directly: no closing button there, the closing sentence ends it.
   // L119 (impeccable live canvas) supersedes the no-button rule: one action under the intro, to the contact.
-  it("puts one 'tell me your case' action under the intro and ends on the closing sentence", () => {
+  // L120: the user removed the closing sentence in the live canvas; the ledger now ends the section.
+  it("puts one 'tell me your case' action under the intro and ends on the ledger", () => {
     const section = sectionOf(page(lang), "offer-title");
     expect(section.match(/\bclass="[^"]*\bbtn\b/g)?.length).toBe(1);
     expect(section.match(/href="#contact"/g)?.length).toBe(1);
     expect(text(section)).toContain(lang === "es" ? "Contame tu caso" : "Tell me about your business");
-    const paragraphs = [...section.matchAll(/<p\b[^>]*>([\s\S]*?)<\/p>/g)].map((m) => text(m[1]!).trim());
-    expect(paragraphs.at(-1)).toBe(
-      lang === "es"
-        ? "Arrancamos por lo que más tiempo te come, y lo ves funcionando antes de seguir con lo próximo."
-        : "We start with whatever eats most of your time, and you see it working before we move on to the next thing.",
-    );
+    expect(section).not.toMatch(/offer__close/);
   });
 
   // The plan already has a Roles plot; "what I built" no longer repeats it.

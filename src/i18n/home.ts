@@ -90,7 +90,6 @@ export interface HomeCopy {
     /** Hidden prefix that reads the struck-through line aloud as the old way. */
     wasLabel: string;
     /** The offer's last sentence; the contact section right below is the call to action. */
-    close: string;
     /** The offer's call to action, under the intro (L119). */
     cta: string;
   };
@@ -326,7 +325,6 @@ const es: HomeCopy = {
         text: "Un solo sistema en el celular y en la compu: tu equipo ve solo su parte y queda registrado quién cambió qué.",
       },
     ],
-    close: "Arrancamos por lo que más tiempo te come, y lo ves funcionando antes de seguir con lo próximo.",
     cta: "Contame tu caso",
   },
   contact: {
@@ -582,7 +580,6 @@ const en: HomeCopy = {
         text: "One system on your phone and computer: your team sees only their part, and every change is on record.",
       },
     ],
-    close: "We start with whatever eats most of your time, and you see it working before we move on to the next thing.",
     cta: "Tell me about your business",
   },
   contact: {
