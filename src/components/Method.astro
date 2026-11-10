@@ -45,7 +45,7 @@ const l = copy.map.links;
               }
             </dl>
           </div>
-          <figcaption class="caption">{survey!.caption}</figcaption>
+          {survey!.caption && <figcaption class="caption">{survey!.caption}</figcaption>}
         </figure>
       </li>
 

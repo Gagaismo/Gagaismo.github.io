@@ -58,7 +58,7 @@ export interface HomeCopy {
     /** Accessible name of the list of steps (the stacking cards). */
     label: string;
     /** One short sentence per step, each proven by its artifact. */
-    steps: { when: string; line: string; text: string; caption: string }[];
+    steps: { when: string; line: string; text: string; caption?: string }[];
     survey: { title: string; rows: { task: string; how: string }[] };
     map: { title: string; label: string; nodes: string[]; links: string[]; glossary: Item[] };
     decision: { title: string; context: string; status: string };
@@ -207,7 +207,6 @@ const es: HomeCopy = {
         when: "Primero,",
         line: "te escucho.",
         text: "Entiendo cómo trabajás hoy y dónde se pierde tiempo.",
-        caption: "Relevamiento resumido para esta página.",
       },
       {
         when: "Después,",
@@ -468,7 +467,6 @@ const en: HomeCopy = {
         when: "First,",
         line: "I listen.",
         text: "I learn how you work today and where time gets lost.",
-        caption: "Survey summarised for this page.",
       },
       {
         when: "Then,",

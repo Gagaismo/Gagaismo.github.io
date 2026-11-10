@@ -141,15 +141,19 @@ const plate = "#fbf6e6";
     grid-row: 2;
     position: relative;
   }
+  /* The title's row is as tall as the compass beside it, so the plots start 14 px under the rose and
+     never run under it (L113, impeccable live canvas). */
   .plan__title {
     font: 600 var(--fs-lead) / 1.25 var(--sans);
     letter-spacing: -0.01em;
+    min-height: 52px;
+    padding-right: 56px;
     margin-bottom: 14px;
   }
   .plan__compass {
     position: absolute;
-    top: clamp(0.5rem, 1.6vw, 1.25rem);
-    right: clamp(0.75rem, 2vw, 1.5rem);
+    top: var(--plate-pad);
+    right: var(--plate-pad);
     width: 40px;
     height: auto;
     overflow: visible;
