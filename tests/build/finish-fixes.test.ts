@@ -116,8 +116,8 @@ describe("F5: the hero plate on tablets and phones", () => {
     expect(body(".hero__art")).toMatch(/container-type:\s*size/);
     const sw = body(".hero__art", tablet).match(/--sw:\s*max\(100%,\s*1000px,\s*(\d+)cqh\)/);
     expect(sw).not.toBeNull();
-    // The picture is 1915 x 821 and its land starts at 48% of its height: 2 x the hero's height puts the
-    // mountains at the middle of the hero.
+    // The picture is 4100 x 1758 (T19, same framing as the 1915 x 821 one) and its land starts at 48% of
+    // its height: 2 x the hero's height puts the mountains at the middle of the hero.
     expect(Number(sw![1])).toBeGreaterThanOrEqual(200);
   });
 

@@ -117,7 +117,7 @@ describe.each(langs)("footer /%s/", (lang) => {
       expect(img).toMatch(/\salt(="")?(?=[\s>])/);
     }
     expect(foot).toMatch(/<source\b[^>]*\btype="image\/avif"/);
-    expect(foot).toMatch(/<source\b[^>]*\bsrcset="[^"]*\b1916w/);
+    expect(foot).toMatch(/<source\b[^>]*\bsrcset="[^"]*\b4100w/);
   });
 
   // L70/L71: "una canoa o balsa pequeña atravesando el agua".

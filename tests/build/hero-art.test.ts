@@ -102,7 +102,7 @@ describe.each(langs)("hero art /%s/", (lang) => {
     expect(imgs.filter((img) => /\bfetchpriority="high"/.test(img))).toHaveLength(1);
     expect(art).toMatch(/<source\b[^>]*\btype="image\/avif"/);
     expect(art).toMatch(/<source\b[^>]*\btype="image\/webp"/);
-    expect(art).toMatch(/<source\b[^>]*\bsrcset="[^"]*\b1915w/);
+    expect(art).toMatch(/<source\b[^>]*\bsrcset="[^"]*\b4100w/);
     expect(art).not.toMatch(/<script\b/);
   });
 

@@ -76,7 +76,8 @@ const contrast = (a: number[], b: number[]) => {
 const over = ([r, g, b, a]: number[], bg: number[]) => [r!, g!, b!].map((c, i) => c * a! + bg[i]! * (1 - a!));
 const ink = [0x1f, 0x2a, 0x22];
 // The darkest pixel of the hero engraving's visible land (below its masked sky), measured on
-// src/assets/images/hero-fields.png with no blur: the worst case behind the hero's glass.
+// the 1915-px hero-fields.png with no blur: the worst case behind the hero's glass. The T19 plate's darkest
+// visible pixel is rgb(51 55 48), lighter, so this stays a safe bound.
 const darkestArt = [12, 22, 2];
 
 describe("radius tokens", () => {

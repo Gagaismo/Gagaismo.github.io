@@ -35,7 +35,7 @@ const screens = [afterScreen];
           alt={copy.before.imageAlt}
           ratio="4 / 3"
           sizes="(max-width: 720px) 100vw, 50vw"
-          widths={[480, 720]}
+          widths={[480, 720, 1080]}
         />
       </div>
       <ul class="side__list">
@@ -49,7 +49,7 @@ const screens = [afterScreen];
           {
             screens.map((src, i) => (
               <PhoneFrame data-reveal style={`--i:${i + 1}`}>
-                <Image src={src} alt={copy.screens.alts[i]!} width={360} sizes="(max-width: 720px) 42vw, 210px" />
+                <Image src={src} alt={copy.screens.alts[i]!} widths={[240, 480, 720]} sizes="(max-width: 720px) 42vw, 210px" />
               </PhoneFrame>
             ))
           }

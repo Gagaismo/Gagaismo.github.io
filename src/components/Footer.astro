@@ -28,13 +28,13 @@ const ripples = [
   { id: "foot-wave-a", seed: 3, dx: [-48, 11], dy: [18, 7] },
   { id: "foot-wave-b", seed: 11, dx: [40, 13], dy: [-16, 8.5] },
 ];
-// The scene is never narrower than 1000px (see .foot__art); the source is 1916px wide, so 2x screens
-// get a slightly soft picture.
+// The scene is never narrower than 1000px (see .foot__art). T19: the source is 4100px wide (the approved
+// picture redrawn by ChatGPT in tiles, same framing), so 2x screens get a sharp picture.
 const picture: ComponentProps<typeof Picture> = {
   src: landscape,
   alt: "",
   formats: ["avif", "webp"],
-  widths: [640, 960, 1280, 1600, 1916],
+  widths: [640, 960, 1280, 1920, 2560, 3200, 4100],
   sizes: "max(100vw, 1000px)",
   loading: "lazy",
   decoding: "async",
@@ -280,7 +280,7 @@ const picture: ComponentProps<typeof Picture> = {
     margin-left: calc((100% - var(--sw)) * 0.76);
     /* 2.6% of the scene's height hangs below the frame, so the camera can rise without a gap. */
     margin-bottom: calc(var(--sw) * -0.0112);
-    aspect-ratio: 1916 / 821;
+    aspect-ratio: 4100 / 1757;
     transform-origin: 50% 100%;
     animation: foot-camera 16s ease-in-out infinite alternate;
   }

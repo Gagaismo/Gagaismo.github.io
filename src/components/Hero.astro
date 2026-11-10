@@ -28,12 +28,14 @@ const bands = {
 };
 const box = ([t, l, w, h]: number[]) => `--t:${t};--l:${l};--w:${w};--h:${h}`;
 // The hero's picture is the first big paint, so it loads eagerly; only the base copy asks for priority.
+// T19: the source is 4100 px wide (the approved picture redrawn by ChatGPT in tiles), so the widest frame,
+// 210cqh on tablets, still gets a 2x candidate. `sizes` follows .hero__art's --sw at each breakpoint.
 const picture: ComponentProps<typeof Picture> = {
   src: fields,
   alt: "",
   formats: ["avif", "webp"],
-  widths: [640, 960, 1280, 1600, 1915],
-  sizes: "max(100vw, 1000px)",
+  widths: [640, 960, 1280, 1920, 2560, 3200, 4100],
+  sizes: "(max-width: 720px) 1100px, (max-width: 1199px) max(100vw, 1000px, calc(210vh - 126px)), max(100vw, 1000px)",
   loading: "eager",
   decoding: "async",
 };
@@ -136,7 +138,7 @@ const picture: ComponentProps<typeof Picture> = {
     flex: none;
     width: var(--sw);
     margin-left: calc((100% - var(--sw)) * var(--anchor));
-    aspect-ratio: 1915 / 821;
+    aspect-ratio: 4100 / 1758;
     mask-image: linear-gradient(to bottom, transparent 30%, #000 44%);
   }
   /* The camera pushes in towards the road; scaling around a point inside the picture never opens a gap. */
