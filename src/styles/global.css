@@ -323,7 +323,13 @@ figure {
   border: 0;
   border-radius: var(--radius-pill);
   cursor: pointer;
-  background: var(--green);
+  /* Liquid moss metal (chosen in the impeccable live canvas, L110): the sage ink with a soft specular
+     light top-left, a band of light across the middle and a metal rim. White text 5.7:1 on the base. */
+  background-color: var(--sage-ink);
+  background-image: radial-gradient(120% 90% at 30% -20%, rgb(255 255 255 / 0.38) 0%, rgb(255 255 255 / 0) 55%),
+    linear-gradient(180deg, rgb(255 255 255 / 0.1) 0%, rgb(255 255 255 / 0) 48%, rgb(31 42 34 / 0.22) 52%, rgb(31 42 34 / 0.05) 100%);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.45), inset 0 -1px 0 rgb(31 42 34 / 0.35), 0 0 0 1px rgb(31 42 34 / 0.18);
+  text-shadow: 0 1px 0 rgb(31 42 34 / 0.35);
   color: #fff;
   transition:
     transform var(--t-press) var(--ease-out),
@@ -348,6 +354,8 @@ figure {
 /* The second action: ink text underlined like a link, on the paper, no block of tone. */
 .btn--quiet {
   background: transparent;
+  box-shadow: none;
+  text-shadow: none;
   color: var(--ink);
   padding-inline: 4px;
   text-decoration: underline;
@@ -365,7 +373,7 @@ figure {
 }
 @media (hover: hover) and (pointer: fine) {
   .btn:hover {
-    background: var(--green-deep);
+    background-color: color-mix(in srgb, var(--sage-ink) 78%, var(--ink));
   }
   .btn--quiet:hover {
     background: transparent;
