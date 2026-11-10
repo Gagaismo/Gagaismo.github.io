@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-11-10T10:12:43.955Z",
+  "generatedAt": "2026-11-10T16:20:00.000Z",
   "title": "Design System: Lautaro Guebel",
   "extensions": {
     "colorMeta": {
@@ -152,19 +152,19 @@
     "typographyMeta": {
       "display": {
         "displayName": "Display",
-        "purpose": "The hero promise on two lines and the Antes / Después specimen words; capped by --fit per language."
+        "purpose": "The hero promise on two lines and the Antes / Después specimen words; up to 6.5rem (S11), capped by --fit per language from the real text column."
       },
       "headline": {
         "displayName": "Headline",
-        "purpose": "One per section (.head), the case page's single h1, the contact rows."
+        "purpose": "One per section (.head), the case page's single h1, the contact email and place lines."
       },
       "title": {
         "displayName": "Title",
-        "purpose": "Case chapter headings (.subhead), method step lines, offer ledger titles, footer LG."
+        "purpose": "Case chapter headings (.subhead), method step lines, offer ledger titles, footer LG, the header wordmark from 1101px."
       },
       "sheet-title": {
         "displayName": "Sheet title",
-        "purpose": "Serif titles of plates, plots, list groups and footer columns (--fs-lead)."
+        "purpose": "Serif titles of plates, plots, list groups, register dates and footer columns; the disclosure label in italic (--fs-lead)."
       },
       "lead": {
         "displayName": "Lead",
@@ -172,15 +172,15 @@
       },
       "body": {
         "displayName": "Body",
-        "purpose": "Running text, and buttons at weight 700."
+        "purpose": "Running text, and buttons at weight 600."
       },
       "label": {
         "displayName": "Label",
-        "purpose": "Nav links, language switch, detail and status text (--fs-small)."
+        "purpose": "Nav links and the ES · EN switch (serif), the header button, detail and status text (--fs-small)."
       },
       "caption": {
         "displayName": "Caption",
-        "purpose": "Italic serif caption under every plate and sheet, in ink-2."
+        "purpose": "Italic serif caption under every plate and sheet, in ink-2; also the contact line labels, the ledger's struck old way, the method tally count and the case facts' terms."
       },
       "data": {
         "displayName": "Data",
@@ -268,15 +268,15 @@
     ],
     "breakpoints": [
       {
+        "name": "wordmark-monogram",
+        "value": "389px"
+      },
+      {
         "name": "plots-one-column",
         "value": "420px"
       },
       {
-        "name": "facts-stack",
-        "value": "480px"
-      },
-      {
-        "name": "days-down",
+        "name": "days-down-facts-stack",
         "value": "560px"
       },
       {
@@ -288,12 +288,20 @@
         "value": "720px"
       },
       {
+        "name": "header-tight",
+        "value": "860px"
+      },
+      {
         "name": "single-column",
         "value": "900px"
       },
       {
         "name": "method-carousel",
         "value": "1100px"
+      },
+      {
+        "name": "graph-tall-plan",
+        "value": "1150px"
       },
       {
         "name": "hero-tablet",
@@ -306,25 +314,25 @@
       "name": "Primary Button",
       "kind": "button",
       "refersTo": "button-primary",
-      "description": "The action: forest green, square, white sans 700; the only saturated colour on the page.",
-      "html": "<a class=\"ds-btn\" href=\"#\">Escribime por email</a>",
-      "css": ".ds-btn { display: inline-flex; align-items: center; justify-content: center; min-height: 52px; padding: 14px 26px; font: 700 var(--fs-body)/1.2 var(--sans); text-decoration: none; border: 0; border-radius: 0; cursor: pointer; background: var(--green); color: #fff; transition: transform var(--t-press) var(--ease-out), background-color var(--t-hover) ease; } .ds-btn:hover { background: var(--green-deep); } .ds-btn:active { transform: scale(0.97); } .ds-btn:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }"
+      "description": "The action: forest green, square, white sans 600, 44px, the label followed by a drawn 1.5px mark (envelope or arrow) that steps 2px forward on hover; the only saturated colour on the page.",
+      "html": "<a class=\"ds-btn\" href=\"#\">Escribime por email<svg class=\"ds-btn-mark\" viewBox=\"0 0 18 13\" width=\"18\" height=\"13\" aria-hidden=\"true\"><rect x=\"0.75\" y=\"0.75\" width=\"16.5\" height=\"11.5\"/><path d=\"M1.5 1.5 L9 7.25 L16.5 1.5\"/></svg></a>",
+      "css": ".ds-btn-mark { flex: none; width: 1.125em; height: auto; fill: none; stroke: currentColor; stroke-width: 1.5; transition: transform var(--t-hover) var(--ease-out); } .ds-btn-mark * { vector-effect: non-scaling-stroke; } .ds-btn:hover .ds-btn-mark { transform: translateX(2px); } .ds-btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 44px; padding: 10px 20px; font: 600 var(--fs-body)/1.2 var(--sans); text-decoration: none; border: 0; border-radius: 0; cursor: pointer; background: var(--green); color: #fff; transition: transform var(--t-press) var(--ease-out), background-color var(--t-hover) ease; } .ds-btn:hover { background: var(--green-deep); } .ds-btn:active { transform: scale(0.97); } .ds-btn:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }"
     },
     {
       "name": "Quiet Button",
       "kind": "button",
       "refersTo": "button-quiet",
-      "description": "Secondary action beside the primary (Copiar): tone fill, ink text.",
+      "description": "Secondary action beside the primary (Copiar): ink text underlined like a link on the paper, no block of tone.",
       "html": "<button type=\"button\" class=\"ds-btn-quiet\">Copiar texto</button>",
-      "css": ".ds-btn-quiet { display: inline-flex; align-items: center; justify-content: center; min-height: 52px; padding: 14px 26px; font: 700 var(--fs-body)/1.2 var(--sans); border: 0; border-radius: 0; cursor: pointer; background: var(--tone); color: var(--ink); transition: transform var(--t-press) var(--ease-out), background-color var(--t-hover) ease; } .ds-btn-quiet:hover { background: var(--tone-strong); } .ds-btn-quiet:active { transform: scale(0.97); } .ds-btn-quiet:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }"
+      "css": ".ds-btn-quiet { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 10px 4px; font: 600 var(--fs-body)/1.2 var(--sans); border: 0; border-radius: 0; cursor: pointer; background: transparent; color: var(--ink); text-decoration: underline; text-decoration-thickness: 0.07em; text-underline-offset: 0.22em; transition: transform var(--t-press) var(--ease-out), text-decoration-thickness var(--t-hover) ease; } .ds-btn-quiet:hover { text-decoration-thickness: 0.14em; } .ds-btn-quiet:active { transform: scale(0.97); } .ds-btn-quiet:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }"
     },
     {
       "name": "Header",
       "kind": "nav",
       "refersTo": "button-header",
-      "description": "Plain sticky bar on the paper: serif wordmark, four links, ES | EN, the action.",
-      "html": "<header class=\"ds-top\"><a class=\"ds-word\" href=\"#\">Lautaro Guebel</a><nav><a href=\"#\">Casos</a><a href=\"#\">Método</a><a href=\"#\">Qué hago</a><a href=\"#\">Contacto</a></nav><span class=\"ds-langs\"><a aria-current=\"page\" href=\"#\">ES</a><a href=\"#\">EN</a></span><a class=\"ds-top-cta\" href=\"#\">Escribime</a></header>",
-      "css": ".ds-top { display: flex; align-items: center; gap: var(--gutter); min-height: 72px; padding-inline: var(--margin); background: var(--paper); color: var(--ink); } .ds-word { font: 700 var(--fs-lead)/1 var(--serif); text-decoration: none; color: inherit; } .ds-top nav { margin-left: auto; display: flex; gap: clamp(1rem, 2vw, 2rem); } .ds-top nav a { padding: 12px 0; font-size: var(--fs-small); text-decoration: none; color: inherit; text-underline-offset: 0.3em; } .ds-top nav a:hover { text-decoration: underline; } .ds-langs { display: flex; } .ds-langs a { display: grid; place-items: center; min-width: 44px; min-height: 40px; font: 600 var(--fs-small) var(--sans); color: var(--ink-2); text-decoration: none; text-underline-offset: 0.35em; text-decoration-thickness: 1.5px; transition: color var(--t-hover) ease; } .ds-langs a[aria-current] { color: var(--ink); text-decoration-line: underline; } .ds-langs a:not([aria-current]):hover { color: var(--ink); } .ds-top-cta { display: inline-flex; align-items: center; min-height: 40px; padding: 8px 26px; font: 700 var(--fs-body)/1.2 var(--sans); background: var(--green); color: #fff; text-decoration: none; white-space: nowrap; transition: background-color var(--t-hover) ease; } .ds-top-cta:hover { background: var(--green-deep); } .ds-top a:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }"
+      "description": "Plain sticky bar on the paper, 60px (56px on phones): the full name in serif 400 on one line (LG monogram at 389px and below), four serif links, ES · EN with a drawn dot, the 36px action.",
+      "html": "<header class=\"ds-top\"><a class=\"ds-word\" href=\"#\">Lautaro Guebel</a><nav><a href=\"#\">Casos</a><a href=\"#\">Método</a><a href=\"#\">Qué hago</a><a href=\"#\">Contacto</a></nav><span class=\"ds-langs\"><a aria-current=\"page\" href=\"#\">ES</a><a href=\"#\">EN</a></span><a class=\"ds-top-cta\" href=\"#\">Contactame</a></header>",
+      "css": ".ds-top { display: flex; align-items: center; gap: var(--gutter); min-height: 60px; padding-inline: var(--inset); background: var(--paper); color: var(--ink); } .ds-word { flex: none; white-space: nowrap; font: 400 var(--fs-sub)/1 var(--serif); letter-spacing: -0.01em; text-decoration: none; color: inherit; } .ds-top nav { margin-left: auto; display: flex; gap: clamp(1rem, 2vw, 2rem); } .ds-top nav a { padding: 12px 0; font: 400 var(--fs-small)/1.3 var(--serif); text-decoration: none; color: inherit; text-underline-offset: 0.22em; text-decoration-thickness: 0.07em; } .ds-top nav a:hover { text-decoration: underline; } .ds-langs { position: relative; display: flex; } .ds-langs::after { content: \"\"; position: absolute; left: 50%; top: 50%; width: 3px; height: 3px; margin: -1.5px 0 0 -1.5px; border-radius: 50%; background: var(--ink-2); } .ds-langs a { display: grid; place-items: center; min-width: 44px; min-height: 40px; font: 400 var(--fs-small)/1 var(--serif); color: var(--ink-2); text-decoration: none; text-underline-offset: 0.22em; text-decoration-thickness: 0.07em; transition: color var(--t-hover) ease; } .ds-langs a[aria-current] { color: var(--ink); text-decoration-line: underline; } .ds-langs a:not([aria-current]):hover { color: var(--ink); } .ds-top-cta { display: inline-flex; align-items: center; min-height: 36px; padding: 6px 16px; font: 600 var(--fs-small)/1.2 var(--sans); background: var(--green); color: #fff; text-decoration: none; white-space: nowrap; transition: background-color var(--t-hover) ease; } .ds-top-cta:hover { background: var(--green-deep); } .ds-top a:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }"
     },
     {
       "name": "Text Link",
@@ -340,15 +348,15 @@
       "refersTo": "plate",
       "description": "A figure on the brighter paper as a tone step, no frame; serif title on top, italic serif caption under it.",
       "html": "<figure class=\"ds-sheet\"><div class=\"ds-plate\"><h3 class=\"ds-sheet-title\">Relevamiento</h3><p>Cada tarea y cómo se hacía.</p></div><figcaption class=\"ds-caption\">Lo que se hacía a mano, antes de construir nada.</figcaption></figure>",
-      "css": ".ds-sheet { margin: 0; color: var(--ink); } .ds-plate { background: var(--plate); padding: clamp(1rem, 2.6vw, 2.25rem); display: grid; gap: 14px; border-radius: 0; } .ds-sheet-title { margin: 0; font: 400 var(--fs-lead)/1.25 var(--serif); } .ds-plate p { margin: 0; font: 400 var(--fs-body)/1.65 var(--sans); } .ds-caption { margin-top: 10px; font: italic 400 var(--fs-small)/1.45 var(--serif); color: var(--ink-2); }"
+      "css": ".ds-sheet { margin: 0; color: var(--ink); } .ds-plate { background: var(--plate); padding: var(--plate-pad); display: grid; gap: 14px; border-radius: 0; } .ds-sheet-title { margin: 0; font: 400 var(--fs-lead)/1.25 var(--serif); } .ds-plate p { margin: 0; font: 400 var(--fs-body)/1.65 var(--sans); } .ds-caption { margin-top: 10px; font: italic 400 var(--fs-small)/1.45 var(--serif); color: var(--ink-2); }"
     },
     {
       "name": "Composer option",
       "kind": "chip",
       "refersTo": "composer-option",
-      "description": "A radio row of the message composer: tone at rest, ink when chosen.",
+      "description": "A topic row of the message composer on plate paper; the radio drawn as a survey station (14px ink ring; chosen: ink dot in a sage band) and the chosen row on the sage wash.",
       "html": "<fieldset class=\"ds-pick\"><label class=\"ds-opt\"><input type=\"radio\" name=\"ds-topic\" checked> Cobros y recordatorios</label><label class=\"ds-opt\"><input type=\"radio\" name=\"ds-topic\"> Altas después de cada venta</label></fieldset>",
-      "css": ".ds-pick { border: 0; margin: 0; padding: 0; } .ds-opt { display: flex; align-items: center; gap: 14px; min-height: 52px; padding: 10px 16px; margin-bottom: 8px; background: var(--tone); color: var(--ink); font: 400 var(--fs-body)/1.65 var(--sans); cursor: pointer; transition: background-color var(--t-hover) ease, color var(--t-hover) ease, transform var(--t-press) var(--ease-out); } .ds-opt input { width: 20px; height: 20px; margin: 0; accent-color: var(--green); } .ds-opt:hover:not(:has(input:checked)) { background: var(--tone-strong); } .ds-opt:has(input:checked) { background: var(--ink); color: #fff; } .ds-opt:has(input:focus-visible) { outline: 3px solid var(--ink); outline-offset: 2px; } .ds-opt:active { transform: scale(0.985); }"
+      "css": ".ds-pick { border: 0; margin: 0; padding: 0; } .ds-opt { display: flex; align-items: center; gap: 14px; min-height: 44px; padding: 10px 16px; margin-bottom: 8px; background: var(--plate); color: var(--ink); font: 400 var(--fs-body)/1.65 var(--sans); cursor: pointer; transition: background-color var(--t-hover) ease, color var(--t-hover) ease, transform var(--t-press) var(--ease-out); } .ds-opt input { appearance: none; flex: none; width: 14px; height: 14px; margin: 0; border: 1.5px solid var(--ink); border-radius: 50%; background: var(--paper); cursor: pointer; } .ds-opt input:checked { background: var(--ink); box-shadow: inset 0 0 0 2.5px var(--sage); } .ds-opt input:focus-visible { outline: none; } .ds-opt:hover:not(:has(input:checked)) { background: var(--tone); } .ds-opt:has(input:checked) { background: var(--sage); } .ds-opt:has(input:focus-visible) { outline: 3px solid var(--ink); outline-offset: 2px; } .ds-opt:active { transform: scale(0.985); }"
     },
     {
       "name": "Estate plots",
@@ -362,9 +370,9 @@
       "name": "Ledger entry",
       "kind": "custom",
       "refersTo": "ledger",
-      "description": "The offer: the old way struck through in brick, the serif title, the sentence; alternate lines on paper.",
+      "description": "The offer on a single plate, entries apart by space alone: the old way struck through in brick in small serif italic above the serif title (left half), the sentence level with the title (right half).",
       "html": "<ul class=\"ds-ledger\"><li class=\"ds-entry\"><p class=\"ds-was\"><s>Anotar turnos en un cuaderno</s></p><h3 class=\"ds-entry-title\">Reservas solas</h3><p class=\"ds-entry-text\">El cliente elige el horario y vos solo lo ves.</p></li><li class=\"ds-entry\"><p class=\"ds-was\"><s>Revisar el depósito a ojo</s></p><h3 class=\"ds-entry-title\">Avisos de stock</h3><p class=\"ds-entry-text\">Te avisa antes de que falte.</p></li></ul>",
-      "css": ".ds-ledger { margin: 0; padding: 12px; list-style: none; background: var(--plate); color: var(--ink); } .ds-entry { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gutter); align-items: baseline; padding: clamp(1rem, 2vw, 1.5rem) clamp(0.75rem, 1.6vw, 1.25rem); } .ds-entry:nth-child(even) { background: var(--paper); } .ds-was { grid-column: 1 / span 4; grid-row: 1; margin: 0; color: var(--ink-2); } .ds-was s { text-decoration-color: var(--brick); text-decoration-thickness: 0.1em; } .ds-entry-title { grid-column: 5 / span 4; grid-row: 1; margin: 0; font: 400 var(--fs-sub)/1.15 var(--serif); letter-spacing: -0.01em; } .ds-entry-text { grid-column: 9 / -1; grid-row: 1; margin: 0; font: 400 var(--fs-body)/1.65 var(--sans); }"
+      "css": ".ds-ledger { display: grid; row-gap: clamp(1.5rem, 3vw, 2.25rem); margin: 0; padding: clamp(1.25rem, 2.6vw, 2rem) var(--plate-pad); list-style: none; background: var(--plate); color: var(--ink); } .ds-entry { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gutter); align-items: baseline; } .ds-was { grid-column: 1 / span 6; grid-row: 1; margin: 0; font: italic 400 var(--fs-small)/1.4 var(--serif); color: var(--ink-2); } .ds-was s { text-decoration-color: var(--brick); text-decoration-thickness: 0.1em; } .ds-entry-title { grid-column: 1 / span 6; grid-row: 2; margin: 0; font: 400 var(--fs-sub)/1.15 var(--serif); letter-spacing: -0.01em; } .ds-entry-text { grid-column: 7 / -1; grid-row: 2; max-width: 52ch; margin: 0; font: 400 var(--fs-body)/1.65 var(--sans); }"
     },
     {
       "name": "Event log line",
@@ -372,15 +380,15 @@
       "refersTo": "feed",
       "description": "A register line beside the plan: tabular timestamp, a drawn sage check, the event.",
       "html": "<ul class=\"ds-log\"><li class=\"ds-log-line\"><span class=\"ds-log-time\">10:42:07</span><svg class=\"ds-log-check\" viewBox=\"0 0 24 24\" width=\"20\" height=\"20\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"11\"/><path d=\"M7 12.5l3.2 3.2L17 9\"/></svg><span class=\"ds-log-event\">Contrato enviado</span></li></ul>",
-      "css": ".ds-log { margin: 0; padding: 18px; list-style: none; background: var(--plate); color: var(--ink); } .ds-log-line { height: 52px; display: grid; grid-template-columns: 6.5rem auto minmax(0, 1fr); align-items: center; column-gap: 12px; } .ds-log-time { font: 400 var(--fs-small)/1.3 var(--mono); font-variant-numeric: tabular-nums; color: var(--ink-2); text-align: right; } .ds-log-check { fill: var(--sage); stroke: var(--sage-ink); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; } .ds-log-check path { fill: none; stroke: var(--ink); stroke-width: 2; } .ds-log-event { font: 600 var(--fs-body)/1.3 var(--sans); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }"
+      "css": ".ds-log { margin: 0; padding: 18px; list-style: none; background: var(--plate); color: var(--ink); } .ds-log-line { height: 44px; display: grid; grid-template-columns: 6.5rem auto minmax(0, 1fr); align-items: center; column-gap: 12px; } .ds-log-time { font: 400 var(--fs-small)/1.3 var(--mono); font-variant-numeric: tabular-nums; color: var(--ink-2); text-align: right; } .ds-log-check { fill: var(--sage); stroke: var(--sage-ink); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; } .ds-log-check path { fill: none; stroke: var(--ink); stroke-width: 2; } .ds-log-event { font: 600 var(--fs-body)/1.3 var(--sans); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }"
     },
     {
       "name": "Disclosure summary",
       "kind": "custom",
       "refersTo": "disclosure-summary",
-      "description": "The real graph's summary on phones, with a drawn plus that becomes a minus.",
-      "html": "<details class=\"ds-wf\"><summary class=\"ds-wf-open\">Así es por dentro<svg class=\"ds-wf-mark\" viewBox=\"0 0 16 16\" width=\"16\" height=\"16\" aria-hidden=\"true\"><path d=\"M2 8 H14\"/><path class=\"ds-wf-v\" d=\"M8 2 V14\"/></svg></summary><p>El grafo real del flujo.</p></details>",
-      "css": ".ds-wf { color: var(--ink); } .ds-wf-open { display: flex; align-items: center; gap: 12px; min-height: 52px; padding: 12px 16px; background: var(--plate); font: 600 var(--fs-body)/1.3 var(--sans); cursor: pointer; list-style: none; transition: background-color var(--t-hover) ease; } .ds-wf-open::-webkit-details-marker { display: none; } .ds-wf-open:hover { background: var(--tone); } .ds-wf-open:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; } .ds-wf-mark { flex: none; width: 1em; height: 1em; margin-left: auto; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: square; } .ds-wf-v { transform-origin: 50% 50%; transform-box: fill-box; transition: transform var(--t-hover) var(--ease-out); } .ds-wf[open] .ds-wf-v { transform: scaleY(0); }"
+      "description": "The real graph's summary on phones: italic serif label, a drawn plus inside a 14px ring that becomes a minus.",
+      "html": "<details class=\"ds-wf\"><summary class=\"ds-wf-open\">Así es por dentro<svg class=\"ds-wf-mark\" viewBox=\"0 0 14 14\" width=\"14\" height=\"14\" aria-hidden=\"true\"><circle cx=\"7\" cy=\"7\" r=\"6.25\"/><path d=\"M4 7 H10\"/><path class=\"ds-wf-v\" d=\"M7 4 V10\"/></svg></summary><p>El grafo real del flujo.</p></details>",
+      "css": ".ds-wf { color: var(--ink); } .ds-wf-open { display: flex; align-items: center; gap: 12px; min-height: 44px; padding: 12px 16px; background: var(--plate); font: italic 400 var(--fs-lead)/1.3 var(--serif); cursor: pointer; list-style: none; transition: background-color var(--t-hover) ease; } .ds-wf-open::-webkit-details-marker { display: none; } .ds-wf-open:hover { background: var(--tone); } .ds-wf-open:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; } .ds-wf-mark { flex: none; width: 14px; height: 14px; margin-left: auto; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: square; } .ds-wf-v { transform-origin: 50% 50%; transform-box: fill-box; transition: transform var(--t-hover) var(--ease-out); } .ds-wf[open] .ds-wf-v { transform: scaleY(0); }"
     }
   ],
   "narrative": {
@@ -427,7 +435,7 @@
       },
       {
         "name": "The Margin Lane Rule",
-        "body": "The outer margin belongs to the cable. Nothing else is placed in it.",
+        "body": "The outer inset belongs to the cable. Nothing else is placed in it.",
         "section": "layout"
       },
       {
@@ -464,10 +472,10 @@
       "**Don't** use gradients as fills; masks are only for blending the engravings into the paper and for the carousel's soft edge."
     ],
     "exceptions": [
-      "**Two hairlines:** the 1px `ink-3` separator above the real workflow graph (canvas comment if01muum) and the footer's 1px closing hairline (L67). No other rule lines.",
+      "**Two hairlines:** the 1px `ink-3` separator above the real workflow graph (canvas comment if01muum), now bounded to the plan under it (`min(68rem, 100% - 2 × --plate-pad)`, 420px where the tall plan stands in), and the footer's 1px closing hairline (L67). No other rule lines.",
       "**The \"venta\" highlight:** the straw fill behind one word in the flow heading (L56).",
       "**The footer:** its black text, #504e42 / #474640 inks, #e9e2cf / #ebe4d2 lines and the 6px-radius icon box come from the user's reference and stay local to it.",
-      "**System serif as the display face** and the display size up to 10rem: pinned by the user (artboard-02 typography, unchanged hero)."
+      "**System serif as the display face:** pinned by the user (artboard-02 typography). The earlier pin of the display size \"up to 10rem\" is superseded by the designer pass (S11, L93): the display now tops out at 6.5rem."
     ]
   }
 }

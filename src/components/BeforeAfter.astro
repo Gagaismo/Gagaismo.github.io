@@ -21,10 +21,7 @@ const screens = [afterScreen];
   <div class="wrap grid compare__head">
     <h2 id="change-title" class="head" data-reveal>{copy.title}</h2>
     <div class="compare__intro">
-      <p class="lead">
-        {copy.intro}{" "}
-        {caseLink && <a class="link compare__case" href={caseLink.href}>{caseLink.label}</a>}
-      </p>
+      <p class="lead">{copy.intro}</p>
     </div>
   </div>
   <div class="compare__pair">
@@ -61,6 +58,8 @@ const screens = [afterScreen];
       <ul class="side__list">
         {copy.after.items.map((item) => <li>{item}</li>)}
       </ul>
+      <!-- The case link closes the new way, so it never sits above a heading as a kicker (T18). -->
+      {caseLink && <a class="link compare__case" href={caseLink.href}>{caseLink.label}</a>}
     </div>
   </div>
 </section>
@@ -84,8 +83,10 @@ const screens = [afterScreen];
     max-width: 44ch;
   }
   .compare__case {
+    justify-self: start;
     font-weight: 600;
     white-space: nowrap;
+    padding-block: 6px;
   }
   .compare__pair {
     display: grid;
