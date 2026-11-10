@@ -12,6 +12,7 @@
     "test:build": "astro build && vitest run --project build"
   },
   "dependencies": {
+    "@fontsource/albert-sans": "^5.3.0",
     "astro": "^7.4.8"
   },
   "devDependencies": {

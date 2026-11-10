@@ -92,8 +92,8 @@ const picture: ComponentProps<typeof Picture> = {
     <span class="line"><span class="line__in" style="--i:0">{copy.line1}</span></span>
     <span class="line line--right"><span class="line__in" style="--i:1">{copy.line2}</span></span>
   </h1>
-  <p class="lead hero__lead hero__load" style="--d:380ms">{copy.lead}</p>
-  <div class="hero__act hero__load" style="--d:470ms">
+  <p class="lead hero__lead hero__load glass" style="--d:380ms">{copy.lead}</p>
+  <div class="hero__act hero__load glass" style="--d:470ms">
     <a class="btn" href={`mailto:${email}`}>{copy.cta}<BtnMark kind="mail" /></a>
     <a class="link" href="#method">{copy.secondary}</a>
   </div>
@@ -112,9 +112,8 @@ const picture: ComponentProps<typeof Picture> = {
     column-gap: calc(var(--gutter) * 3);
     padding-bottom: var(--pb);
     position: relative;
-    /* The text veils reach 5rem past the action, which sits at the right margin: clip them at the page's
-       edge so they never widen the document (they scrolled it sideways by 48-64 px). Sideways only, so
-       the art and the veils still fade into the section below. */
+    /* Nothing in the hero may widen the document; sideways only, so the art still fades into the
+       section below. */
     overflow-x: clip;
   }
 
@@ -283,48 +282,11 @@ const picture: ComponentProps<typeof Picture> = {
     }
   }
 
-  /* Text over the art: the page's paper lightens the picture behind the lead and the action's link, and
-     only there (each box is as wide as its text). The veil is full over the text itself (the darkest
-     strokes show at 38% at most: 5.5:1 or more against ink) and fades out over --vx / --vy of eased
-     steps on every side, so it never shows an edge. */
+  /* Text over the art sits on glass (.glass in global.css): the picture shows through blurred, and the
+     fill keeps ink at 7.7:1 or more even over its darkest stroke. Each panel is as wide as its text. */
   .hero__lead,
   .hero__act {
-    --vx: 5rem;
-    --vy: 4.5rem;
-    position: relative;
-  }
-  .hero__lead::before,
-  .hero__act::before {
-    content: "";
-    position: absolute;
-    inset: calc(-1 * var(--vy)) calc(-1 * var(--vx));
-    z-index: -1;
-    background: var(--bg);
-    opacity: 0.62;
-    pointer-events: none;
-    mask-image:
-      linear-gradient(
-        to right,
-        transparent,
-        rgb(0 0 0 / 0.12) calc(var(--vx) * 0.3),
-        rgb(0 0 0 / 0.42) calc(var(--vx) * 0.6),
-        #000 var(--vx),
-        #000 calc(100% - var(--vx)),
-        rgb(0 0 0 / 0.42) calc(100% - var(--vx) * 0.6),
-        rgb(0 0 0 / 0.12) calc(100% - var(--vx) * 0.3),
-        transparent
-      ),
-      linear-gradient(
-        transparent,
-        rgb(0 0 0 / 0.12) calc(var(--vy) * 0.28),
-        rgb(0 0 0 / 0.42) calc(var(--vy) * 0.56),
-        #000 var(--vy),
-        #000 calc(100% - var(--vy)),
-        rgb(0 0 0 / 0.42) calc(100% - var(--vy) * 0.56),
-        rgb(0 0 0 / 0.12) calc(100% - var(--vy) * 0.28),
-        transparent
-      );
-    mask-composite: intersect;
+    padding: clamp(0.875rem, 1.6vw, 1.125rem) clamp(1rem, 2vw, 1.375rem);
   }
   .hero__statement {
     grid-area: 1 / 1 / 2 / -1;
@@ -349,7 +311,8 @@ const picture: ComponentProps<typeof Picture> = {
   .hero__lead {
     grid-area: 3 / 1;
     align-self: end;
-    max-width: 40ch;
+    justify-self: start;
+    max-width: 46ch;
     margin-top: clamp(2rem, 4vw, 3rem);
   }
   .hero__act {
@@ -357,7 +320,7 @@ const picture: ComponentProps<typeof Picture> = {
     align-self: end;
     display: grid;
     justify-items: end;
-    gap: 12px;
+    gap: 8px;
   }
   .hero__act .link {
     padding: 6px 0;
@@ -405,7 +368,7 @@ const picture: ComponentProps<typeof Picture> = {
 
   /* Tablet: the action goes under the lead, on the left. The plate is sized from the hero's height (2.1
      times it, so the land from the mountains down fills the lower half of the screen) and anchored on
-     the road and the mill; the veils reach less far, so most of the plate shows unwashed. */
+     the road and the mill. */
   @media (max-width: 1199px) {
     .hero {
       grid-template-rows: auto 1fr auto auto;
@@ -413,11 +376,6 @@ const picture: ComponentProps<typeof Picture> = {
     .hero__art {
       --sw: max(100%, 1000px, 210cqh);
       --anchor: 0.8;
-    }
-    .hero__lead,
-    .hero__act {
-      --vx: 3.5rem;
-      --vy: 3.5rem;
     }
     .hero__lead {
       grid-area: 3 / 1 / 4 / -1;
@@ -448,6 +406,9 @@ const picture: ComponentProps<typeof Picture> = {
     .hero__lead {
       margin-top: clamp(3rem, 14vh, 7rem);
       font-size: var(--fs-body);
+    }
+    .hero__lead {
+      justify-self: stretch;
     }
     .hero__act {
       justify-self: stretch;

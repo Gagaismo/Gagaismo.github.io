@@ -4,6 +4,8 @@ import { languages, t, type Lang } from "../i18n/ui";
 import { home } from "../i18n/home";
 import Footer from "../components/Footer.astro";
 import BtnMark from "../components/BtnMark.astro";
+// The sans's regular weight, the first text painted; the same file global.css's @font-face points at.
+import sansRegular from "@fontsource/albert-sans/files/albert-sans-latin-400-normal.woff2?url";
 
 interface Props {
   lang: Lang;
@@ -40,6 +42,7 @@ const fit = `calc((100vw - 2 * var(--inset) - 12px) / ${(Math.max(copy.hero.line
     <title>{title}</title>
     <meta name="description" content={description} />
     <meta name="theme-color" content="#f4f1ea" />
+    <link rel="preload" href={sansRegular} as="font" type="font/woff2" crossorigin />
     <link rel="canonical" href={new URL(href(lang), Astro.site)} />
     {
       (Object.keys(languages) as Lang[]).map((l) => (
@@ -126,7 +129,7 @@ const fit = `calc((100vw - 2 * var(--inset) - 12px) / ${(Math.max(copy.hero.line
     align-items: center;
     gap: 12px;
   }
-  /* ES · EN: two words in the serif with a drawn ink-2 dot between them; the current one in ink with
+  /* ES · EN: two words in the sans with a drawn ink-2 dot between them; the current one in ink with
      the link's underline, the other in the muted ink (6.8:1), darkening on hover. 44 x 40 targets. */
   .langs {
     position: relative;
@@ -148,7 +151,7 @@ const fit = `calc((100vw - 2 * var(--inset) - 12px) / ${(Math.max(copy.hero.line
     place-items: center;
     min-width: 44px;
     min-height: 40px;
-    font: 400 var(--fs-small) / 1 var(--serif);
+    font: 400 var(--fs-small) / 1 var(--sans);
     color: var(--ink-2);
     text-decoration: none;
     text-underline-offset: 0.22em;
@@ -188,7 +191,7 @@ const fit = `calc((100vw - 2 * var(--inset) - 12px) / ${(Math.max(copy.hero.line
   nav a {
     display: inline-block;
     padding: 12px 0;
-    font: 400 var(--fs-small) / 1.3 var(--serif);
+    font: 400 var(--fs-small) / 1.3 var(--sans);
     text-decoration: none;
     text-underline-offset: 0.22em;
     text-decoration-thickness: 0.07em;

@@ -136,28 +136,17 @@ describe("hero art CSS", () => {
     expect(masked.length).toBeGreaterThan(0);
   });
 
-  // L74/L75: the veils read as light patches. They now fade over a wide margin (no edge to see) and let
-  // the darkest strokes under the text show at 38% at most (5.5:1 or more against ink, measured on the art).
-  it("lightens the art behind the lead and the actions with a soft, wide veil so text stays AA", () => {
+  // L74/L75 gave the lead and the actions a feathered paper veil. S12 (T20) replaces it with the glass
+  // panels of tests/build/glass.test.ts, whose fill keeps ink AA over the darkest stroke of the art.
+  it("sets the lead and the actions on glass instead of a veil", () => {
     const all = rules(shippedCss("es"));
     for (const name of ["hero__lead", "hero__act"]) {
-      const veil = all
-        .filter((r) => r.selectors.some((s) => new RegExp(`^\\.${name}:{1,2}before$`).test(s)) && !r.at.length)
-        .map((r) => r.body)
-        .join(";");
-      expect(veil, name).toMatch(/background(-color)?:\s*var\(--bg\)/);
-      const opacity = numbers(veil, /opacity:\s*([\d.]+)/g)[0] ?? 0;
-      expect(opacity, name).toBeGreaterThanOrEqual(0.62);
-      // Every feather is at least 3.5rem wide: the veil has no edge that reads as a patch. The mask is
-      // full from --vx / --vy in (F5: the reach shrinks on tablets), so read them at every width.
-      expect(veil, name).toMatch(/#000\s+var\(--vx\)/);
-      expect(veil, name).toMatch(/#000\s+var\(--vy\)/);
-      const reach = all
-        .filter((r) => r.selectors.includes(`.${name}`))
-        .flatMap((r) => numbers(r.body, /--v[xy]:\s*([\d.]+)rem/g));
-      expect(reach.length, name).toBeGreaterThan(1);
-      expect(Math.min(...reach), name).toBeGreaterThanOrEqual(3.5);
+      const veil = all.filter((r) => r.selectors.some((s) => new RegExp(`^\\.${name}:{1,2}before$`).test(s)));
+      expect(veil, name).toEqual([]);
     }
+    const section = hero(page("es"));
+    expect(section).toMatch(/class="[^"]*\bhero__lead\b[^"]*\bglass\b/);
+    expect(section).toMatch(/class="[^"]*\bhero__act\b[^"]*\bglass\b/);
   });
 
   it("moves the camera, sways the cane in both corners from its base and drifts the smoke", () => {

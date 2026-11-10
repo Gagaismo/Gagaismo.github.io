@@ -133,16 +133,17 @@ describe("4-5. the header", () => {
     expect(mark![1]).toMatch(/<span class="wordmark__mono"[^>]*aria-hidden="true"[^>]*>LG<\/span>/);
   });
 
-  it("sets ES · EN in serif, the current one underlined like a link, with a drawn dot between", () => {
-    expect(body(".langs a")).toMatch(/var\(--serif\)/);
+  // S12 (T20): the header's UI text moves to the sans; the wordmark keeps the serif.
+  it("sets ES · EN in the sans, the current one underlined like a link, with a drawn dot between", () => {
+    expect(body(".langs a")).toMatch(/var\(--sans\)/);
     expect(body(".langs a")).toMatch(/min-width:\s*44px/);
     expect(body('.langs a[aria-current="page"]') + body(".langs a[aria-current=page]")).toMatch(/text-decoration-thickness:\s*0?\.07em/);
     expect(body(".langs:after") + body(".langs::after")).toMatch(/border-radius:\s*50%/);
   });
 
-  it("sets the desktop links in serif at the small size", () => {
+  it("sets the desktop links in the sans at the small size", () => {
     const nav = body("nav a");
-    expect(nav).toMatch(/var\(--serif\)/);
+    expect(nav).toMatch(/var\(--sans\)/);
     expect(nav).toMatch(/var\(--fs-small\)/);
   });
 });
@@ -311,8 +312,8 @@ describe("T17 review: the wordmark", () => {
   it("shows the full name only from a width where name, ES · EN and the longer button fit with room to spare", () => {
     const mono = px(".wordmark__mono", "display:\\s*inline");
     expect(mono).toBeDefined();
-    // Advance widths measured with Georgia at 16 px ("Lautaro Guebel": 107 px) and a bold system sans at
-    // 14 px ("Contactame": 80 px, the longer label), plus the bar's fixed parts at 390 px and below: two
+    // Advance widths measured with Georgia at 16 px ("Lautaro Guebel": 107 px) and Albert Sans 600 at
+    // 14 px ("Contactame": 79.5 px from the font's own advances, the longer label), plus the bar's fixed parts at 390 px and below: two
     // 28 px insets, 12 px and 8 px gaps, two 44 px language targets, the button's 12 px sides.
     const needed = 56 + 107 + 12 + 88 + 8 + 80 + 24;
     expect(mono! + 1 - needed).toBeGreaterThanOrEqual(12);

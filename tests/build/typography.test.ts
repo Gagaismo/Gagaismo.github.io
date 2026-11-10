@@ -3,8 +3,9 @@ import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
 
-// L49: the typography of artboard 02 on the whole site. System fonts only: a serif for headings, the
-// system sans for text, a mono for labels. Nothing is downloaded, so nothing is preloaded.
+// L49: the typography of artboard 02 on the whole site: a serif for headings, a sans for text, a mono for
+// real data. S12 (T20) moves the sans to the self-hosted Albert Sans (tests/build/glass.test.ts pins its
+// files and preload); the serif and the mono stay system faces.
 
 const dist = fileURLToPath(new URL("../../dist/", import.meta.url));
 const page = (lang: string) => readFileSync(join(dist, lang, "index.html"), "utf8");
@@ -30,19 +31,20 @@ const rule = (css: string, selector: string) =>
     .join(";");
 
 describe.each(["es", "en"])("typography (%s)", (lang) => {
-  it("declares the artboard 02 stacks: serif, sans and mono", () => {
+  it("declares the stacks: system serif, Albert Sans over the system sans, system mono", () => {
     const root = rule(shippedCss(lang), ":root");
     expect(root).toMatch(/--serif:\s*Georgia,/);
-    expect(root).toMatch(/--sans:\s*system-ui,/);
+    expect(root).toMatch(/--sans:\s*"?Albert Sans"?,[^;]*system-ui,/);
     expect(root).toMatch(/--mono:\s*ui-monospace,/);
   });
 
-  it("ships no Barlow, no @font-face and no font preload", () => {
+  it("ships no Barlow and downloads only the sans: no serif or mono web font", () => {
     const html = page(lang);
     const css = shippedCss(lang);
     expect(`${html}\n${css}`).not.toMatch(/barlow/i);
-    expect(css).not.toMatch(/@font-face/);
-    expect(html).not.toMatch(/<link\b[^>]*\bas=["']?font\b/);
+    const families = [...css.matchAll(/@font-face\s*\{[^}]*font-family:\s*([^;}]+)/g)].map((m) => m[1]!.replace(/["']/g, "").trim());
+    expect(new Set(families)).toEqual(new Set(["Albert Sans", "Albert Sans Fallback"]));
+    expect([...html.matchAll(/<link\b[^>]*\bas=["']?font\b[^>]*>/g)].length).toBe(1);
   });
 
   // L75 (atlas): no tracked mono labels are left; the mono sets real data only, the feed's timestamps.
@@ -59,7 +61,8 @@ describe.each(["es", "en"])("typography (%s)", (lang) => {
 });
 
 describe("font files", () => {
-  it("ships no web font files", () => {
-    expect(files(dist).filter((file) => /\.(woff2?|ttf|otf)$/.test(file))).toEqual([]);
+  it("ships only the sans's woff2 files", () => {
+    const fonts = files(dist).filter((file) => /\.(woff2?|ttf|otf)$/.test(file));
+    expect(fonts.every((file) => /albert-sans-latin-\d+-normal\.[\w-]+\.woff2$/.test(file))).toBe(true);
   });
 });

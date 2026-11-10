@@ -39,7 +39,7 @@ const first = copy.drafts[0]!;
       </fieldset>
       <div class="draft">
         <p class="draft__label" id="draft-label">{copy.draftLabel}</p>
-        <p class="draft__text" id="draft" aria-labelledby="draft-label" aria-live="polite">{first.text}</p>
+        <p class="draft__text plate" id="draft" aria-labelledby="draft-label" aria-live="polite">{first.text}</p>
         <div class="draft__actions">
           <a class="btn" id="send" href={mailto(copy.subject, first.text)}>{copy.send}<BtnMark kind="mail" /></a>
           <button type="button" class="btn btn--quiet" id="copy" data-ok={copy.copied} data-fail={copy.copyFailed}>
@@ -51,14 +51,16 @@ const first = copy.drafts[0]!;
     </div>
   </div>
 
-  <ul class="rows wrap">
-    <li class="row">
-      <a class="display" href={`mailto:${email}`}>{email}</a><small>{copy.emailNote}</small>
-    </li>
-    <li class="row">
-      <span class="display">{copy.place}</span><small>{copy.placeNote}</small>
-    </li>
-  </ul>
+  <div class="wrap">
+    <ul class="rows plate">
+      <li class="row">
+        <a class="display" href={`mailto:${email}`}>{email}</a><small>{copy.emailNote}</small>
+      </li>
+      <li class="row">
+        <span class="display">{copy.place}</span><small>{copy.placeNote}</small>
+      </li>
+    </ul>
+  </div>
 </section>
 
 <style>
@@ -96,14 +98,17 @@ const first = copy.drafts[0]!;
     margin-bottom: 14px;
     padding: 0;
   }
-  /* Each topic a line on the brighter paper; the chosen one takes the case's sage wash. */
+  /* Each topic a rounded line of mica, like the segments of a control; the chosen one takes the case's
+     sage wash. */
   .opt {
     display: flex;
     align-items: center;
     gap: 14px;
     min-height: 44px;
     padding: 10px 16px;
-    background: var(--plate);
+    background: var(--mica);
+    border-radius: var(--radius-control);
+    box-shadow: var(--glass-rim);
     margin-bottom: 8px;
     cursor: pointer;
     transition:
@@ -166,7 +171,6 @@ const first = copy.drafts[0]!;
     font-weight: 600;
   }
   .draft__text {
-    background: var(--surface);
     padding: 22px 24px;
     line-height: 1.55;
     min-height: 9.5em;
@@ -182,13 +186,13 @@ const first = copy.drafts[0]!;
     min-height: 1.5em;
   }
 
-  /* The close: two lines on the page's grid, each label a serif caption in the first columns and the
-     address or the place beside it, at the section heading's size. No band behind them. */
+  /* The close: two lines on one sheet of mica, like a calling card, each label a serif caption in the
+     first columns and the address or the place beside it, at the section heading's size. */
   .rows {
     display: grid;
     row-gap: clamp(1rem, 2vw, 1.5rem);
-    margin-top: clamp(3rem, 6vw, 5rem);
-    padding-bottom: clamp(1.5rem, 3vw, 2.5rem);
+    margin-block: clamp(3rem, 6vw, 5rem) clamp(1.5rem, 3vw, 2.5rem);
+    padding: clamp(1.25rem, 2.6vw, 2rem) clamp(1rem, 2.4vw, 2rem);
   }
   .row {
     display: grid;

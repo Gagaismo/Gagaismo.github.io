@@ -152,15 +152,24 @@ const screens = [afterScreen];
     background: var(--sage-ink);
   }
 
-  /* The generated screen in the drawn phone, on the plate paper. On wide screens the phone takes the
-     slot's height, so both columns keep the same picture size and the lists line up. */
+  /* The generated screen in the drawn phone, on a sheet of mica over the sage wash. On wide screens the
+     phone takes the slot's height, so both columns keep the same picture size and the lists line up. */
   .side--after :global(.slot) {
     display: grid;
     grid-template-rows: minmax(0, 1fr) auto;
     justify-items: center;
     gap: 4px;
     padding: clamp(1rem, 2.4vw, 1.75rem);
-    background: var(--plate);
+    background: var(--mica);
+    border-radius: var(--radius-panel);
+    box-shadow: var(--glass-rim);
+    backdrop-filter: var(--glass-blur);
+  }
+  /* Safari before 18 (see .plate in global.css). */
+  @supports (-webkit-backdrop-filter: none) {
+    .side--after :global(.slot) {
+      -webkit-backdrop-filter: var(--glass-blur);
+    }
   }
   .phones {
     display: flex;

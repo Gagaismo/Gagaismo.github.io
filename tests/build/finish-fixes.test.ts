@@ -161,10 +161,10 @@ describe("F5: the hero plate on tablets and phones", () => {
     expect(Number(sw![1])).toBeGreaterThanOrEqual(200);
   });
 
-  it("veils only the text: the action's box is as wide as its content on tablets", () => {
+  // S12 (T20): the veil became a glass panel; it still covers only the text, as wide as its content.
+  it("glazes only the text: the action's panel is as wide as its content on tablets", () => {
     expect(body(".hero__act", tablet)).toMatch(/justify-self:\s*start/);
-    const lead = body(".hero__lead::before") || body(".hero__lead:before");
-    expect(lead).toMatch(/inset:\s*calc\(-1\s*\*\s*var\(--vy\)\)\s*calc\(-1\s*\*\s*var\(--vx\)\)/);
+    expect(body(".hero__lead::before") + body(".hero__lead:before")).toBe("");
   });
 
   it("lets the plate show below the action on phones, clear of the text", () => {
