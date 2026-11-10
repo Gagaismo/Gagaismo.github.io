@@ -80,7 +80,7 @@ const plate = "#fbf6e6";
       }
       <!-- How it ended, as a register: survey stations on one ink line, each with when it happened (the
            demo's real date, then "the same day") and what. -->
-      <div class="facts">
+      <div class="facts facts--register">
         <h3 class="facts__title">{copy.outcomeTitle}</h3>
         <ol class="register">
           {
@@ -208,7 +208,8 @@ const plate = "#fbf6e6";
     display: grid;
     gap: 12px;
   }
-  .facts li {
+  /* The dash column belongs to the lists only: the register below draws its own stations. */
+  .facts ul li {
     display: grid;
     grid-template-columns: 12px minmax(0, 1fr);
     column-gap: 14px;
@@ -224,7 +225,11 @@ const plate = "#fbf6e6";
   }
 
   /* The register: an ink line down the side with a station per entry (an ink ring on the plate paper,
-     like the contract's days on the case page), the when in the serif, the what under it. */
+     like the contract's days on the case page), the when in the serif, the what under it; beside it
+     where the column is wide enough, every when in one column so the whats start on one line. */
+  .facts--register {
+    container-type: inline-size;
+  }
   .register {
     display: grid;
     gap: 18px;
@@ -242,6 +247,7 @@ const plate = "#fbf6e6";
   .register li {
     position: relative;
     display: grid;
+    grid-template-columns: minmax(0, 1fr);
     gap: 2px;
     padding-left: 30px;
     max-width: 44ch;
@@ -261,6 +267,19 @@ const plate = "#fbf6e6";
   .register__when {
     font: 400 var(--fs-lead) / 1.25 var(--serif);
     font-variant-numeric: tabular-nums;
+  }
+  @container (min-width: 22rem) {
+    .register {
+      grid-template-columns: max-content minmax(0, 1fr);
+      max-width: 56ch;
+    }
+    .register li {
+      grid-column: 1 / -1;
+      grid-template-columns: subgrid;
+      gap: 0 16px;
+      align-items: baseline;
+      max-width: none;
+    }
   }
 
   @media (max-width: 900px) {

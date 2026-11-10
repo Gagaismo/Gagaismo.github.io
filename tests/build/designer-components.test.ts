@@ -120,9 +120,9 @@ describe("3. buttons", () => {
 });
 
 describe("4-5. the header", () => {
-  it("keeps the full name on one line and switches to the monogram only at 380 px or less", () => {
+  it("keeps the full name on one line and switches to the monogram only at 389 px or less", () => {
     expect(body(".wordmark")).toMatch(/white-space:\s*nowrap/);
-    expect(body(".wordmark__mono", /max-width:\s*380px|width\s*<=\s*380px/)).toMatch(/display:\s*inline/);
+    expect(body(".wordmark__mono", /max-width:\s*389px|width\s*<=\s*389px/)).toMatch(/display:\s*inline/);
     expect(body(".wordmark__mono")).toMatch(/display:\s*none/);
   });
 
@@ -245,5 +245,91 @@ describe("12. the disclosure", () => {
     expect(mark).not.toBeNull();
     expect(mark![0]).toMatch(/width="14"/);
     expect(mark![1]).toMatch(/<circle\b/);
+  });
+});
+
+// The parent's visual review of T17: the register overprinted by the lists' dash column, the carousel's
+// tally far under a short step, the real graph's names at 9 px on tablets, a name that could end in "…",
+// and the cable's envelope close to the hero's link on the narrowest phones.
+const px = (selector: string, value: string) => {
+  const at = rules.find((r) => r.selector.split(",").map((s) => s.trim()).includes(selector) && new RegExp(`(^|;)\\s*${value}`).test(r.body))?.at;
+  const m = at?.match(/max-width:\s*(\d+)px|width\s*<=\s*(\d+)px/);
+  return m ? Number(m[1] ?? m[2]) : undefined;
+};
+
+describe("T17 review: the padel register", () => {
+  it("keeps the lists' dash column off the register's entries", () => {
+    expect(body(".facts li")).not.toMatch(/grid-template-columns/);
+    expect(body(".facts ul li")).toMatch(/grid-template-columns:\s*12px\s+minmax\(0,\s*1fr\)/);
+    // One column (when over what) by default, so the date never falls into a 12 px track.
+    expect(body(".register li")).toMatch(/grid-template-columns:\s*minmax\(0,\s*1fr\)/);
+  });
+
+  it("sets the when beside the what where its column is wide enough, aligned across entries", () => {
+    expect(body(".facts--register")).toMatch(/container-type:\s*inline-size/);
+    expect(body(".register", /@container/)).toMatch(/grid-template-columns:\s*max-content\s+minmax\(0,\s*1fr\)/);
+    expect(body(".register li", /@container/)).toMatch(/grid-template-columns:\s*subgrid/);
+  });
+});
+
+describe("T17 review: the method tally", () => {
+  it.each(langs)("/%s/: sits above the row, right under the intro, so it never waits under the tallest step", (lang) => {
+    const html = read(lang);
+    const foot = html.indexOf('class="method__foot');
+    const steps = html.indexOf('class="steps');
+    expect(foot).toBeGreaterThan(html.indexOf('id="method-title"'));
+    expect(foot).toBeLessThan(steps);
+  });
+});
+
+describe("T17 review: the real graph's names", () => {
+  it("switches to the tall plan wherever the wide one would set its names under 13 px", () => {
+    const html = read("es");
+    const svg = html.match(/<svg class="wf__svg wf__svg--wide"[^>]*viewBox="0 0 (\d+) \d+"[^>]*--wf-font:(\d+)px/);
+    expect(svg).not.toBeNull();
+    const [view, font] = [Number(svg![1]), Number(svg![2])];
+    const below = px(".wf__svg--wide", "display:\\s*none");
+    expect(below).toBeDefined();
+    expect(px(".wf__svg--tall", "display:\\s*block")).toBe(below);
+    // One pixel above the switch: the plate's inner width from global.css's --margin and --plate-pad
+    // (and a 15 px scrollbar the vw units count), and the names scaled to it.
+    const v = below! + 1;
+    const clamp = (lo: number, x: number, hi: number) => Math.min(hi, Math.max(lo, x));
+    const inner = v - 15 - 2 * clamp(28, 12 + 0.04 * v, 80) - 2 * clamp(14, 0.018 * v, 24);
+    expect((font * Math.min(inner, 68 * 16)) / view).toBeGreaterThanOrEqual(13);
+  });
+});
+
+describe("T17 review: the wordmark", () => {
+  it("never cuts the name: no ellipsis, no clipping, and it does not shrink", () => {
+    const mark = body(".wordmark");
+    expect(mark).not.toMatch(/text-overflow/);
+    expect(mark).not.toMatch(/overflow:\s*hidden/);
+    expect(mark).toMatch(/flex:\s*none/);
+  });
+
+  it("shows the full name only from a width where name, ES · EN and the longer button fit with room to spare", () => {
+    const mono = px(".wordmark__mono", "display:\\s*inline");
+    expect(mono).toBeDefined();
+    // Advance widths measured with Georgia at 16 px ("Lautaro Guebel": 107 px) and a bold system sans at
+    // 14 px ("Contactame": 80 px, the longer label), plus the bar's fixed parts at 390 px and below: two
+    // 28 px insets, 12 px and 8 px gaps, two 44 px language targets, the button's 12 px sides.
+    const needed = 56 + 107 + 12 + 88 + 8 + 80 + 24;
+    expect(mono! + 1 - needed).toBeGreaterThanOrEqual(12);
+  });
+});
+
+describe("T17 review: the cable's envelope beside the hero's link", () => {
+  it("keeps 16 px or more between the envelope and the link on phones", () => {
+    const pad = body(".hero__act .link", /max-width:\s*720px|width\s*<=\s*720px/).match(
+      /padding-left:\s*max\(0(?:px)?,\s*(\d+)px\s*-\s*var\(--inset\)\s*\/\s*2\)/,
+    );
+    expect(pad).not.toBeNull();
+    // The envelope is centred in the inset, 14 px wide with a 1.5 px outline: its right edge sits at
+    // inset / 2 + 7.75 px; the link starts at the inset plus its padding.
+    for (const inset of [28, 30, 36, 43]) {
+      const gap = inset + Math.max(0, Number(pad![1]) - inset / 2) - (inset / 2 + 7.75);
+      expect(gap, `inset ${inset}`).toBeGreaterThanOrEqual(16);
+    }
   });
 });

@@ -165,11 +165,10 @@ const fit = `calc((100vw - 2 * var(--inset) - 12px) / ${(Math.max(copy.hero.line
     font-size: var(--fs-small);
     white-space: nowrap;
   }
-  /* The name on one line, in the serif at the subhead size; a step down on phones. */
+  /* The name on one line, in the serif at the subhead size; a step down on phones. Never cut: it keeps
+     its width, and where it would not fit the monogram stands in (below). */
   .wordmark {
-    min-width: 0;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    flex: none;
     white-space: nowrap;
     font: 400 var(--fs-sub) / 1 var(--serif);
     letter-spacing: -0.01em;
@@ -212,6 +211,14 @@ const fit = `calc((100vw - 2 * var(--inset) - 12px) / ${(Math.max(copy.hero.line
       display: none;
     }
   }
+  /* Just above the phones the name, the four links, ES · EN and the button need about 640 px in Spanish:
+     the bar's gaps tighten so they fit beside a desktop scrollbar from 721 px. */
+  @media (max-width: 860px) {
+    .top,
+    nav ul {
+      gap: 12px;
+    }
+  }
   @media (max-width: 720px) {
     .top {
       min-height: 56px;
@@ -222,7 +229,7 @@ const fit = `calc((100vw - 2 * var(--inset) - 12px) / ${(Math.max(copy.hero.line
     .top__end {
       margin-left: auto;
     }
-    /* Name, ES · EN and the button on one line down to 381 px: the gaps and the button's sides tighter. */
+    /* Name, ES · EN and the button on one line down to 390 px: the gaps and the button's sides tighter. */
     .top {
       gap: 12px;
     }
@@ -234,8 +241,10 @@ const fit = `calc((100vw - 2 * var(--inset) - 12px) / ${(Math.max(copy.hero.line
     }
   }
   /* Too narrow for the full name beside the switch and the button: the serif monogram, as in the
-     footer. The name stays in the link for assistive tech. */
-  @media (max-width: 380px) {
+     footer. The name stays in the link for assistive tech. The bar needs about 375 px for the name (107
+     px in Georgia), ES · EN and the longer button ("Contactame"); from 390 px it fits with 15 px to
+     spare for a wider fallback serif. */
+  @media (max-width: 389px) {
     .wordmark__full {
       position: absolute;
       width: 1px;

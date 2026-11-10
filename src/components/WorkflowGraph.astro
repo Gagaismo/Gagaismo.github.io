@@ -268,9 +268,10 @@ const brick = "#9c4127";
   .wf__svg--tall {
     display: none;
     max-width: 420px;
+    margin-inline: auto;
   }
   /* Node names in the serif at its regular weight, like the plan's labels: 17 units on the wide plan
-     (14.6 px at its 68rem cap, the small size), 14 on the tall one. */
+     (14.6 px at its 68rem cap, the small size), 14 on the tall one (16 px at its 420 px cap). */
   .wf__svg text {
     font: 400 var(--wf-font) var(--serif);
   }
@@ -300,12 +301,24 @@ const brick = "#9c4127";
   .wf__no {
     fill: var(--ink-2);
   }
-  @media (max-width: 720px) {
+  /* The wide plan's 17 units fall under 13 px once the plate is narrower than about 970 px: from 1150 px
+     down the tall plan stands in, centred on a plate and under a divider as wide as it. Phones keep it
+     behind the disclosure. */
+  @media (max-width: 1150px) {
     .wf__svg--wide {
       display: none;
     }
     .wf__svg--tall {
       display: block;
+    }
+  }
+  @media (min-width: 721px) and (max-width: 1150px) {
+    .wf::before {
+      width: 420px;
+    }
+    .wf__plate {
+      width: calc(420px + 2 * var(--plate-pad));
+      margin-inline: auto;
     }
   }
 </style>

@@ -453,8 +453,12 @@ const picture: ComponentProps<typeof Picture> = {
       justify-self: stretch;
       justify-items: stretch;
     }
+    /* The cable's envelope rides the margin at 70% of the screen, level with this link on the first
+       screen: its right edge sits at half the inset plus 7.75 px, so the link keeps 16 px of paper from
+       it (10 px of padding at the 28 px inset, none from 48 px up). */
     .hero__act .link {
       justify-self: start;
+      padding-left: max(0px, 24px - var(--inset) / 2);
     }
   }
 </style>

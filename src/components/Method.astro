@@ -24,6 +24,29 @@ const count = (template: string) =>
       <p>{copy.intro}</p>
     </div>
 
+    <!-- Above the scrolling row, right under the intro (the row is as tall as its tallest step, so under
+         it they would wait far below a short one): a scale bar of five segments, inked up to the step on
+         screen, and the count in the caption's serif, both driven by the row's own scroll (CSS only); then
+         the hint. -->
+    <div class="method__foot">
+      <div class="tally" aria-hidden="true">
+        <span class="tally__bar">{copy.steps.map(() => <i />)}</span>
+        {
+          (["one", "two"] as const).map((k) => (
+            <span class={`tally__count tally__count--${k}`}>
+              {count(copy.tally[k]).map((p) => ("counter" in p ? <span class={`tally__${p.counter}`} /> : p.text))}
+            </span>
+          ))
+        }
+      </div>
+      <p class="swipe small" aria-hidden="true">
+        {copy.swipe}
+        <svg class="swipe__arrow" viewBox="0 0 20 12" width="20" height="12" aria-hidden="true" focusable="false">
+          <path d="M1 6 H18 M13 1 L18 6 L13 11" />
+        </svg>
+      </p>
+    </div>
+
     <!-- Five steps in a row on wide screens; below 1100 px a sideways scroll that snaps to each step, with
          the next one peeking in and fading into the paper. No script: the browser scrolls it with touch,
          wheel or the arrow keys. -->
@@ -135,26 +158,6 @@ const count = (template: string) =>
           </figure>
         </li>
       </ol>
-    </div>
-    <!-- Under the scrolling row: a scale bar of five segments, inked up to the step on screen, and the
-         count in the caption's serif, both driven by the row's own scroll (CSS only); then the hint. -->
-    <div class="method__foot">
-      <div class="tally" aria-hidden="true">
-        <span class="tally__bar">{copy.steps.map(() => <i />)}</span>
-        {
-          (["one", "two"] as const).map((k) => (
-            <span class={`tally__count tally__count--${k}`}>
-              {count(copy.tally[k]).map((p) => ("counter" in p ? <span class={`tally__${p.counter}`} /> : p.text))}
-            </span>
-          ))
-        }
-      </div>
-      <p class="swipe small" aria-hidden="true">
-        {copy.swipe}
-        <svg class="swipe__arrow" viewBox="0 0 20 12" width="20" height="12" aria-hidden="true" focusable="false">
-          <path d="M1 6 H18 M13 1 L18 6 L13 11" />
-        </svg>
-      </p>
     </div>
   </div>
 </section>
@@ -303,7 +306,7 @@ const count = (template: string) =>
     align-items: center;
     justify-content: space-between;
     gap: 8px var(--gutter);
-    margin-top: 14px;
+    margin-bottom: 16px;
   }
 
   /* The step on screen, as a whole number the row's scroll sets (see the narrow rules below). */
@@ -410,10 +413,10 @@ const count = (template: string) =>
       overscroll-behavior-x: contain;
       scroll-snap-type: x mandatory;
       scroll-timeline: --steps x;
-      /* No native scrollbar: the scale bar under the row says where you are. */
+      /* No native scrollbar: the scale bar above the row says where you are. */
       scrollbar-width: none;
       /* The next card is hidden: the short soft edge falls in the gap before it, so not even a sliver
-         of its letters shows; the "Deslizá" hint below says more steps follow. */
+         of its letters shows; the "Deslizá" hint above says more steps follow. */
       mask-image: linear-gradient(to right, #000 calc(100% - var(--peek) - 6px), transparent calc(100% - var(--peek) - 1px));
     }
     .steps::-webkit-scrollbar {
