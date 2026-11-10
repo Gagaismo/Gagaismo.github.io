@@ -122,7 +122,7 @@ const l = copy.map.links;
               {copy.health.checks.map((check) => <li>{check}</li>)}
             </ul>
           </div>
-          <figcaption class="caption">{health!.caption}</figcaption>
+          {health!.caption && <figcaption class="caption">{health!.caption}</figcaption>}
         </figure>
       </li>
 

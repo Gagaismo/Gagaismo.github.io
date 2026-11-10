@@ -54,7 +54,7 @@ const screens = [afterScreen];
             ))
           }
         </div>
-        <p class="caption phones__caption">{copy.screens.caption}</p>
+        {copy.screens.caption && <p class="caption phones__caption">{copy.screens.caption}</p>}
       </ImageSlot>
       <ul class="side__list">
         {copy.after.items.map((item) => <li>{item}</li>)}

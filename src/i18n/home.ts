@@ -29,7 +29,7 @@ export interface HomeCopy {
     before: { title: string; items: string[]; imageAlt: string };
     after: { title: string; items: string[] };
     /** Real, anonymized screens of the student diagnostic: one alt per screen, one caption. */
-    screens: { alts: string[]; caption: string };
+    screens: { alts: string[]; caption?: string };
   };
   flow: {
     title: string;
@@ -70,7 +70,7 @@ export interface HomeCopy {
     /** Opens with "second case": the case number lives in the first sentence, not in a label. */
     lead: string;
     /** The club's system drawn as a plan: one plot per part, each a name and one sentence. */
-    plan: { title: string; caption: string; plots: Item[] };
+    plan: { title: string; caption?: string; plots: Item[] };
     problemTitle: string;
     problems: string[];
     builtTitle: string;
@@ -155,7 +155,6 @@ const es: HomeCopy = {
       alts: [
         "Pantalla de celular \"Alta de alumno\": venta registrada, mail de bienvenida enviado, acceso a la plataforma activado, contrato enviado para firmar y aviso por WhatsApp, cada uno tildado con su hora, y al final \"Alumno listo para empezar\".",
       ],
-      caption: "Así queda cada alta, sin que nadie toque nada. Pantalla ilustrativa.",
     },
   },
   flow: {
@@ -222,7 +221,6 @@ const es: HomeCopy = {
         when: "Luego,",
         line: "lo construyo y lo probamos.",
         text: "Cada parte llega con pruebas que corren solas, y el servidor se revisa con un chequeo de salud.",
-        caption: "Algunas verificaciones, en palabras simples.",
       },
       {
         when: "Y",
@@ -269,7 +267,6 @@ const es: HomeCopy = {
     lead: "Segundo caso, más chico: un club con escuela de adultos, programa infantil, fútbol y parrilla, que dependía de registros informales.",
     plan: {
       title: "Plano del sistema",
-      caption: "Las partes del club, en un solo sistema.",
       plots: [
         { title: "Roles", text: "Un solo sistema y seis roles: cada persona ve su parte." },
         { title: "Stock", text: "Avisa cuando algo está por agotarse." },
@@ -413,7 +410,6 @@ const en: HomeCopy = {
       alts: [
         "Phone screen \"Alta de alumno\" (new student): sale recorded, welcome email sent, platform access activated, contract sent for signature and WhatsApp notice, each ticked with its time, ending in \"Alumno listo para empezar\" (student ready to start).",
       ],
-      caption: "Every new student, set up with nobody touching a thing. Illustrative screen.",
     },
   },
   flow: {
@@ -480,7 +476,6 @@ const en: HomeCopy = {
         when: "Next,",
         line: "I build it and we test it.",
         text: "Every part ships with tests that run on their own, and the server gets a health check.",
-        caption: "A few of the checks, in plain words.",
       },
       {
         when: "And",
@@ -527,7 +522,6 @@ const en: HomeCopy = {
     lead: "A smaller second case: a club with an adult school, a kids' programme, football and a barbecue area, running on informal records.",
     plan: {
       title: "Plan of the system",
-      caption: "The parts of the club, in one system.",
       plots: [
         { title: "Roles", text: "One system and six roles: everyone sees their own part." },
         { title: "Stock", text: "Warns you when something is about to run out." },

@@ -72,9 +72,9 @@ describe("T23: the phone in the after column keeps a legible size", () => {
     expect(body(".side--after .slot")).toMatch(/aspect-ratio:\s*auto/);
   });
 
-  it("keeps the frame's 308:628 ratio and the illustrative caption", () => {
+  // L116: the user removed the home caption in the live canvas; the frame's ratio still holds.
+  it("keeps the frame's 308:628 ratio", () => {
     expect(body(".phone")).toMatch(/aspect-ratio:\s*308\s*\/\s*628/);
-    for (const lang of pages) expect(read(lang)).toMatch(/class="caption phones__caption[^"]*"[^>]*>[^<]{20,}</);
   });
 });
 
