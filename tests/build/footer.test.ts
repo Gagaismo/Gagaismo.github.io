@@ -63,11 +63,11 @@ const numbers = (s: string, re: RegExp) => [...s.matchAll(re)].map((m) => Number
 const columns = {
   es: [
     ["Secciones", [["Casos", "#automation"], ["Cómo trabajo", "#method"], ["Qué hago", "#offer"], ["Contacto", "#contact"]]],
-    ["Contacto", [["Escribime por email", "mailto:lautarocontactof@gmail.com"], ["Volver arriba", "#top"]]],
+    ["Contacto", [["Escribime por email", "mailto:contacto@lautaroguebel.tech"], ["Volver arriba", "#top"]]],
   ],
   en: [
     ["Sections", [["Work", "#automation"], ["How I work", "#method"], ["What I do", "#offer"], ["Contact", "#contact"]]],
-    ["Contact", [["Email me", "mailto:lautarocontactof@gmail.com"], ["Back to top", "#top"]]],
+    ["Contact", [["Email me", "mailto:contacto@lautaroguebel.tech"], ["Back to top", "#top"]]],
   ],
 } as const;
 
@@ -86,7 +86,7 @@ describe.each(langs)("footer /%s/", (lang) => {
     expect(foot).toMatch(/<a\b[^>]*\bhref="#top"[^>]*>\s*<span\b[^>]*\baria-hidden="true"[^>]*>LG<\/span>/);
     const icons = foot.match(/<a\b[^>]*\bdata-foot-icon(?=[\s>])[^>]*>/g) ?? [];
     expect(icons).toHaveLength(1);
-    expect(icons[0]).toMatch(/\bhref="mailto:lautarocontactof@gmail\.com"/);
+    expect(icons[0]).toMatch(/\bhref="mailto:contacto@lautaroguebel.tech"/);
     expect(icons[0]).toMatch(/\baria-label="[^"]{6,}"/);
     expect(foot.toLowerCase()).not.toContain("github");
   });

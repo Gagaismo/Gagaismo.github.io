@@ -2,7 +2,7 @@
 import { defineConfig } from "astro/config";
 
 export default defineConfig({
-  site: "https://gagaismo.github.io",
+  site: "https://lautaroguebel.tech",
   output: "static",
   redirects: { "/": "/es/" },
   i18n: {

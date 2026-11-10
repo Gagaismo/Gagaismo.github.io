@@ -28,7 +28,7 @@ describe.each(langs)("home /%s/", (lang) => {
   // L64: the user asked to remove everything related to their GitHub profile.
   it("links the real email, no placeholder and no GitHub profile", () => {
     const html = page(lang);
-    expect(html).toContain("mailto:lautarocontactof@gmail.com");
+    expect(html).toContain("mailto:contacto@lautaroguebel.tech");
     expect(html).not.toMatch(/github\.com\/Gagaismo/i);
     expect(html).not.toMatch(/>\s*GitHub\s*</);
     expect(html).not.toContain("#email-pendiente");
@@ -161,7 +161,7 @@ describe.each(langs)("home /%s/", (lang) => {
     expect(hero).not.toBe("");
     expect(hero).not.toMatch(/\bdata-phone(?=[\s>])/);
     expect(hero).not.toMatch(/\bdata-feed(?=[\s>])/);
-    expect(hero).toContain("mailto:lautarocontactof@gmail.com");
+    expect(hero).toContain("mailto:contacto@lautaroguebel.tech");
   });
 
   it("draws one phone on the page, in the after column", () => {

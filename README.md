@@ -12,4 +12,4 @@ Bilingual (ES/EN) personal portfolio of Lautaro Guebel, built with Astro as a st
 
 ## Deploy
 
-Pushing to `main` runs `.github/workflows/deploy.yml`, which verifies, builds and publishes `dist/` to GitHub Pages at https://gagaismo.github.io.
+Pushing to `main` runs `.github/workflows/deploy.yml`, which verifies, builds and publishes `dist/` to GitHub Pages at https://lautaroguebel.tech.

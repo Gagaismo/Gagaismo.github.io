@@ -7,7 +7,7 @@ import { describe, expect, it } from "vitest";
 
 const dist = fileURLToPath(new URL("../../dist/", import.meta.url));
 const content = fileURLToPath(new URL("../../src/content/case-studies/", import.meta.url));
-const site = "https://gagaismo.github.io";
+const site = "https://lautaroguebel.tech";
 const read = (path: string) => readFileSync(join(dist, path, "index.html"), "utf8");
 
 const cases = [
@@ -57,7 +57,7 @@ describe.each(pages)("case page $path", ({ lang, path, other }) => {
     const html = read(path);
     const main = html.slice(html.indexOf("<main"), html.indexOf("</main>"));
     const close = main.slice(main.lastIndexOf("<section"));
-    expect(close).toMatch(/href="mailto:lautarocontactof@gmail\.com[^"]*"/);
+    expect(close).toMatch(/href="mailto:contacto@lautaroguebel.tech[^"]*"/);
     expect(close).toContain(`href="/${lang}/"`);
   });
 

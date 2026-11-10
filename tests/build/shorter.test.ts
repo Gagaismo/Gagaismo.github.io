@@ -74,7 +74,7 @@ describe.each(langs)("shorter page /%s/", (lang) => {
     const contact = element(page(lang), /<section\b[^>]*\bid="contact"/);
     expect(contact.replace(/&#39;/g, "'")).toContain(lang === "es" ? "¿Qué se te complica hoy?" : "What's giving you trouble today?");
     expect(contact.match(/<input\b[^>]*\bname="topic"/g)?.length ?? 0).toBeGreaterThanOrEqual(3);
-    expect(contact).toMatch(/<a\b[^>]*\bid="send"[^>]*\bhref="mailto:lautarocontactof@gmail\.com\?subject=/);
+    expect(contact).toMatch(/<a\b[^>]*\bid="send"[^>]*\bhref="mailto:contacto@lautaroguebel.tech\?subject=/);
   });
 
   it("keeps the real workflow graph behind a disclosure with a visible summary", () => {

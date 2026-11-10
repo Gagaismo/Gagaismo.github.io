@@ -1,6 +1,6 @@
 import type { Lang } from "./ui";
 
-export const email = "lautarocontactof@gmail.com";
+export const email = "contacto@lautaroguebel.tech";
 
 interface Item {
   title: string;

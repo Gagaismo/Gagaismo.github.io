@@ -24,10 +24,10 @@ The visitor reads on a phone or a laptop, often from a link someone shared. The 
 
 ## Capabilities and Constraints
 
-- Static Astro site, ES at `/es/` and EN at `/en/`, deployed to GitHub Pages (`gagaismo.github.io`); a custom domain comes later.
+- Static Astro site, ES at `/es/` and EN at `/en/`, deployed to GitHub Pages at the custom domain `lautaroguebel.tech`.
 - No technology, framework, database or tool names anywhere on the page (tested).
 - No GitHub profile or link anywhere (tested). No phone number for now. No portrait photo.
-- Contact email: `lautarocontactof@gmail.com` (later `contacto@<domain>`).
+- Contact email: `contacto@lautaroguebel.tech` (Cloudflare Email Routing forwards it to the owner's inbox).
 - Motion stays CSS/SVG-first; inline JS sits just under Vite's 4 KB inline threshold. Reduced motion must be respected.
 
 ## Brand Commitments
