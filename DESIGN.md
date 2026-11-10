@@ -184,9 +184,6 @@ A watercolour palette on rag paper: two papers, one ink in three strengths, two 
 - **Pencil** (#8a9183): non-text lines only. The dashed track under the flow stations and the one user-requested separator above the real graph. Never text.
 - **Tone** (#eae5d8) and **Tone Strong** (#ddd6c4): the quiet button, composer options and their hover, the odd contact rows, the default image slot.
 
-### Declared but unused
-- `--lapacho` (#b4507a) is declared in `global.css` as a rare accent from the plates, but no surface uses it in the build. It is not part of the working palette until a surface earns it.
-
 ### Named Rules
 **The One Saturated Colour Rule.** Forest green is the only saturated colour, and it only ever means "act". Washes carry case identity; brick carries failure; nothing else gets colour.
 

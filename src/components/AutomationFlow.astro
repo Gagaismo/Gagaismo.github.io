@@ -108,7 +108,7 @@ const brick = "#9c4127";
       </g>
     </svg>
 
-    <svg class="flow__svg flow__svg--tall" viewBox={`0 0 360 ${fail + 166}`} aria-hidden="true" focusable="false">
+    <svg class="flow__svg flow__svg--tall" viewBox={`0 0 360 ${fail + 190}`} aria-hidden="true" focusable="false">
       <defs>
         <pattern id="flow-hatch-tall" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
           <path d="M0 0V7" stroke={brick} stroke-width="1.5"></path>
@@ -140,12 +140,12 @@ const brick = "#9c4127";
           <path d={`M${N.track - 15} ${N.first - 9} l15 11 l15 -11`} fill="none" stroke={ink} stroke-width="1.5"></path>
         </g>
       </g>
-      <g data-scale transform={`translate(${N.x} ${fail + 124})`}>
+      <g data-scale transform={`translate(${N.x} ${fail + 146})`}>
         {[0, 1, 2, 3].map((n) => <rect x={(n * N.step) / 4} y="0" width={N.step / 4} height="6" fill={n % 2 ? plate : ink} stroke={ink} stroke-width="1" />)}
         <path d={`M0 -5V11M${N.step} -5V11`} stroke={ink} stroke-width="1" />
         <text x={N.step / 2} y="34" text-anchor="middle" class="flow__note">{copy.scale}</text>
       </g>
-      <g data-compass transform={`translate(318 ${fail + 128})`}>
+      <g data-compass transform={`translate(318 ${fail + 150})`}>
         <circle r="18" fill="none" stroke={ink} stroke-width="1" />
         <path d="M-24 0L0 -3.5L24 0L0 3.5Z" fill={plate} stroke={ink} stroke-width="1" />
         <path d="M0 -26L5 0L0 26L-5 0Z" fill={plate} stroke={ink} stroke-width="1" />

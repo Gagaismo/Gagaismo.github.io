@@ -165,7 +165,7 @@ const es: HomeCopy = {
     intro: "Cada paso dispara el siguiente. Nadie tiene que acordarse de nada.",
     steps: ["Venta registrada", "Mail de bienvenida", "Acceso a la plataforma", "Contrato para firmar", "Aviso por WhatsApp"],
     failure: "Si algo falla: reintenta y avisa al operador",
-    scale: "un paso",
+    scale: "escala: un paso",
     feed: {
       label: "Así se ve un día del sistema · datos de ejemplo",
       description:
@@ -424,7 +424,7 @@ const en: HomeCopy = {
     intro: "Each step triggers the next. Nobody has to remember anything.",
     steps: ["Sale recorded", "Welcome email", "Platform access", "Contract to sign", "WhatsApp alert"],
     failure: "If something fails: retry and alert the operator",
-    scale: "one step",
+    scale: "scale: one step",
     feed: {
       label: "A day in the system · sample data",
       description:

@@ -131,6 +131,19 @@ describe.each(langs)("home /%s/", (lang) => {
     expect(section).toMatch(/<p\b[^>]*\bclass="sr-only"[^>]*\bdata-feed-desc(?=[\s>])/);
   });
 
+  // L87: on phones the compass rose nearly touched the failure note.
+  it("keeps the compass rose clear of the failure note in the phone plan", () => {
+    const section = sectionOf(page(lang), "flow-title");
+    const at = section.indexOf("flow__svg--tall");
+    const tall = section.slice(at, section.indexOf("</svg>", at));
+    const failY = Number(tall.match(/<rect\b[^>]*\by="([\d.]+)"[^>]*\bheight="84"/)?.[1]);
+    const compassY = Number(tall.match(/\bdata-compass\b[^>]*\btransform="translate\([\d.]+ ([\d.]+)\)"/)?.[1]);
+    const viewH = Number(tall.match(/viewBox="0 0 [\d.]+ ([\d.]+)"/)?.[1]);
+    // The "N" above the rose reaches 42 units above its centre; the needle 26 below.
+    expect(compassY - 42).toBeGreaterThanOrEqual(failY + 84 + 16);
+    expect(viewH).toBeGreaterThanOrEqual(compassY + 26 + 8);
+  });
+
   it("shows one or two phone screens in the after column, each in a phone frame with alt text", () => {
     const html = page(lang);
     const after = html.slice(html.indexOf("side--after"), html.indexOf("</section>", html.indexOf("side--after")));

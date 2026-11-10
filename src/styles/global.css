@@ -18,8 +18,7 @@
   --sage-ink: #4f6b4a;
   --straw: #ebdcae;
   --ochre: #8a5e17;
-  /* Rare accents. */
-  --lapacho: #b4507a;
+  /* Rare accent. */
   --brick: #9c4127;
 
   --tone: #eae5d8;
@@ -30,7 +29,6 @@
   --focus: var(--ink);
 
   /* Ink line weights for borders drawn in CSS; diagrams set theirs in their own viewBox units. */
-  --line-fine: 0.75px;
   --line: 1.25px;
   --line-bold: 2px;
 
