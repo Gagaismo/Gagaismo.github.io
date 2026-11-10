@@ -304,13 +304,14 @@ const plate = "#fbf6e6";
     .plots {
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
-    .plot--0 {
+    /* Still plots of different sizes: two share a row, the last two run across, never four equal boxes. */
+    .plot--0,
+    .plot--3,
+    .plot--4 {
       grid-column: span 2;
     }
     .plot--1,
-    .plot--2,
-    .plot--3,
-    .plot--4 {
+    .plot--2 {
       grid-column: span 1;
     }
     .plot {

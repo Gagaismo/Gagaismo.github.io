@@ -74,10 +74,10 @@
   --mica-straw: rgb(235 220 174 / 0.86);
   --glass-blur: blur(18px) saturate(1.3);
   --glass-rim: inset 0 0 0 1px rgb(255 255 255 / 0.6), inset 0 1px 0 rgb(255 255 255 / 0.9);
-  /* Glass over the engravings: a thicker fill. Over the darkest stroke of the hero's art, rgb(12 22 2),
-     ink keeps 7.7:1 on it unblurred (10:1 once blurred); the one soft shadow lifts it off the picture. */
+  /* Glass over the engravings and in the header: a thicker fill. Over the darkest stroke of the hero's
+     art, rgb(12 22 2), ink keeps 7.7:1 on it unblurred (10:1 once blurred). It casts no shadow: the
+     blur, the fill and the rim set it apart (T23). */
   --glass: rgb(251 246 230 / 0.74);
-  --glass-lift: 0 18px 36px -22px rgb(31 42 34 / 0.38);
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
   --t-press: 140ms;
@@ -272,11 +272,12 @@ figure {
 .plate .slot {
   border-radius: var(--radius-inner);
 }
-/* Glass that floats over an engraving: the thicker fill, the same rim, and the page's one soft shadow. */
+/* Glass over an engraving: the thicker fill and the same rim. It rests on the picture, so no shadow: the
+   blur and the fill set it apart (T23). */
 .glass {
   background: var(--glass);
   border-radius: var(--radius-panel);
-  box-shadow: var(--glass-rim), var(--glass-lift);
+  box-shadow: var(--glass-rim);
   backdrop-filter: var(--glass-blur);
 }
 /* Safari before 18 blurs only with the prefix. In its own @supports, because the minifier folds a

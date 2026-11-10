@@ -119,7 +119,7 @@ const fit = `calc((100vw - 2 * var(--inset) - 12px) / ${(Math.max(copy.hero.line
   }
 
   /* The bar is transparent and sticky: the page shows between the pills, and only the pills take clicks.
-     Reading down it slides up past its own height and the pills' shadow (src/scripts/header.ts). */
+     Reading down it slides up past its own height and 16 px more (src/scripts/header.js). */
   .site {
     position: sticky;
     top: 0;
@@ -138,16 +138,28 @@ const fit = `calc((100vw - 2 * var(--inset) - 12px) / ${(Math.max(copy.hero.line
     gap: 8px;
     min-height: 60px;
   }
-  /* Two pills of glass, 44 px tall: the thicker fill used over the engravings, its rim of light and a
-     short lift. Ink keeps 7.7:1 on the fill over the darkest stroke on the page, before any blur. */
+  /* Two pills of glass, 44 px tall: the thicker fill used over the engravings and its rim of light, no
+     shadow (T23). Ink keeps 7.7:1 on the fill over the darkest stroke on the page, before any blur. */
   .wordmark,
   .top__nav {
     min-height: 44px;
     border-radius: var(--radius-pill);
     background: var(--glass);
-    box-shadow: var(--glass-rim), 0 10px 24px -16px rgb(31 42 34 / 0.35);
     backdrop-filter: var(--glass-blur);
     pointer-events: auto;
+  }
+  .top__nav {
+    box-shadow: var(--glass-rim);
+  }
+  /* The wordmark is a link, so its rim is a layer of its own: a shadow on the link itself, even inset
+     light, reads as a button effect to the taste inspector (T23). */
+  .wordmark::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    box-shadow: var(--glass-rim);
+    pointer-events: none;
   }
   /* Safari before 18, in its own @supports (see .glass in global.css). */
   @supports (-webkit-backdrop-filter: none) {
@@ -159,6 +171,7 @@ const fit = `calc((100vw - 2 * var(--inset) - 12px) / ${(Math.max(copy.hero.line
   /* The name on one line, in the serif at the subhead size; a step down below the desktop. Never cut: it
      keeps its width, and where it would not fit the monogram stands in (below). */
   .wordmark {
+    position: relative;
     flex: none;
     display: inline-flex;
     align-items: center;
@@ -253,7 +266,8 @@ const fit = `calc((100vw - 2 * var(--inset) - 12px) / ${(Math.max(copy.hero.line
     text-decoration-line: underline;
     text-decoration-thickness: 0.07em;
   }
-  /* The action: the green pill at the far end, the same height as the glass. */
+  /* The action: the green pill at the far end, the same height as the glass. Flat like every button: its
+     fill is opaque, so it needs no lift (T23). */
   .top__cta {
     flex: none;
     margin-left: auto;
@@ -261,7 +275,6 @@ const fit = `calc((100vw - 2 * var(--inset) - 12px) / ${(Math.max(copy.hero.line
     padding: 0 18px;
     font-size: var(--fs-small);
     white-space: nowrap;
-    box-shadow: 0 10px 24px -16px rgb(31 42 34 / 0.35);
     pointer-events: auto;
   }
   @media (hover: hover) and (pointer: fine) {

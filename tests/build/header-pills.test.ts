@@ -74,7 +74,9 @@ describe("the header's three pills", () => {
       expect(pill, selector).toMatch(/border-radius:\s*var\(--radius-pill\)/);
       expect(pill, selector).toMatch(/background:\s*var\(--glass\)/);
       expect(pill, selector).toMatch(/backdrop-filter:\s*var\(--glass-blur\)/);
-      expect(pill, selector).toMatch(/var\(--glass-rim\)/);
+      // The wordmark's rim is drawn by its ::before (T23, tests/build/modern-finish.test.ts).
+      const rim = selector === ".wordmark" ? body(".wordmark::before") + body(".wordmark:before") : pill;
+      expect(rim, selector).toMatch(/var\(--glass-rim\)/);
       expect(pill, selector).toMatch(/pointer-events:\s*auto/);
     }
     expect(body(".btn")).toMatch(/border-radius:\s*var\(--radius-pill\)/);

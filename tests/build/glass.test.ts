@@ -145,11 +145,11 @@ describe("glass and mica", () => {
     expect(body(".hero__lead::before") + body(".hero__lead:before")).toBe("");
   });
 
-  it("casts at most one soft shadow, and only from the floating glass", () => {
-    const lift = prop(body(":root"), "--glass-lift")!;
-    expect(lift).toMatch(/rgb|#/);
-    expect(prop(body(".glass"), "box-shadow")).toMatch(/var\(--glass-lift\)/);
-    expect(prop(body(".plate"), "box-shadow")).not.toMatch(/--glass-lift/);
+  // T23: the taste inspector failed the lift under the hero's glass and the header's pills; glass and
+  // mica are set apart by their blur, fill and rim alone (tests/build/modern-finish.test.ts).
+  it("casts no shadow from the plates or the glass", () => {
+    expect(prop(body(".glass"), "box-shadow")).toBe("var(--glass-rim)");
+    expect(prop(body(".plate"), "box-shadow")).toBe("var(--glass-rim)");
   });
 });
 

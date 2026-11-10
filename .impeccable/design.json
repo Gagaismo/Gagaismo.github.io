@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-11-10T16:20:00.000Z",
+  "generatedAt": "2026-11-10T21:30:00.000Z",
   "title": "Design System: Lautaro Guebel",
   "extensions": {
     "colorMeta": {
@@ -156,11 +156,11 @@
       },
       "headline": {
         "displayName": "Headline",
-        "purpose": "One per section (.head), the case page's single h1, the contact email and place lines."
+        "purpose": "One per section (.head, revealed word by word), the case page's single h1, the contact email and place lines."
       },
       "title": {
         "displayName": "Title",
-        "purpose": "Case chapter headings (.subhead), method step lines, offer ledger titles, footer LG, the header wordmark from 1101px."
+        "purpose": "Case chapter headings (.subhead), method card lines, offer ledger titles, footer LG, the header wordmark from 1101px."
       },
       "sheet-title": {
         "displayName": "Sheet title",
@@ -168,19 +168,19 @@
       },
       "lead": {
         "displayName": "Lead",
-        "purpose": "Lead paragraphs in the sans (--fs-lead)."
+        "purpose": "Lead paragraphs in Albert Sans (--fs-lead); the hero lead sits on a glass panel."
       },
       "body": {
         "displayName": "Body",
-        "purpose": "Running text, and buttons at weight 600."
+        "purpose": "Running text in Albert Sans, and buttons at weight 600."
       },
       "label": {
         "displayName": "Label",
-        "purpose": "Nav links and the ES · EN switch (serif), the header button, detail and status text (--fs-small)."
+        "purpose": "The header's links and ES · EN (Albert Sans, all in ink), the header action at 600, detail and status text (--fs-small)."
       },
       "caption": {
         "displayName": "Caption",
-        "purpose": "Italic serif caption under every plate and sheet, in ink-2; also the contact line labels, the ledger's struck old way, the method tally count and the case facts' terms."
+        "purpose": "Italic serif caption under every plate and sheet, in ink-2 (the phone's 'Pantalla ilustrativa' included); also the contact line labels, the ledger's struck old way and the case facts' terms."
       },
       "data": {
         "displayName": "Data",
@@ -191,7 +191,7 @@
       {
         "name": "floating-phone",
         "value": "drop-shadow(0 18px 28px rgb(0 0 0 / 0.28))",
-        "purpose": "filter on the drawn phone that holds the illustrative screen; the only shadow in the system."
+        "purpose": "filter on the drawn phone that holds the illustrative screen; the only shadow in the system (glass and mica cast none, T23)."
       }
     ],
     "motion": [
@@ -223,12 +223,12 @@
       {
         "name": "t-reveal",
         "value": "640ms",
-        "purpose": "data-reveal entrance (16px rise + fade) and cable station fill."
+        "purpose": "data-reveal entrance (16px rise + fade), word reveal per word, cable station fill."
       },
       {
         "name": "stagger",
         "value": "70ms",
-        "purpose": "Delay step between staggered reveals (--i)."
+        "purpose": "Delay step between staggered reveals (--i) and between the words of a heading (--w)."
       },
       {
         "name": "view-transition",
@@ -261,9 +261,39 @@
         "purpose": "Ambient loops of the engraved plates."
       },
       {
+        "name": "word-reveal",
+        "value": "640ms, 70ms per word",
+        "purpose": "Section headings split by Words.astro into .w spans; each word rises 0.35em out of blur(6px) and fades in."
+      },
+      {
+        "name": "header-hide",
+        "value": "360ms",
+        "purpose": "The pill header slides up past the hero while reading down; back on scroll up, focusin or an anchor jump (+160ms). Never under reduced motion."
+      },
+      {
+        "name": "scrollspy-chip",
+        "value": "420ms",
+        "purpose": "The lighter chip slides under the link of the section read (IntersectionObserver band at 40%)."
+      },
+      {
+        "name": "hero-scroll",
+        "value": "exit-crossing: frame translate 0 7% + scale 1.06, far band 5%, cane scale 1.08",
+        "purpose": "Scroll-driven parallax and zoom on the hero engraving (longhand translate/scale over the loops); glass panels never move."
+      },
+      {
+        "name": "footer-scroll",
+        "value": "entry: scene from scale 1.08, far band from -5%, near from 1.12",
+        "purpose": "The footer engraving settles as it scrolls into view."
+      },
+      {
+        "name": "stack-sink",
+        "value": "exit-crossing, a fifth per card, scale to 0.90-0.975",
+        "purpose": "Covered method cards sink back while the next slides over; sticky top 88px + 20px per card (stack.js)."
+      },
+      {
         "name": "reduced-motion",
         "value": "prefers-reduced-motion: reduce",
-        "purpose": "All animations and transitions off, smooth scroll and view transitions off, SMIL layers removed; flow static and complete, log still, cable fully drawn."
+        "purpose": "All animations and transitions off, smooth scroll and view transitions off, SMIL layers removed, no scroll-linked depth, headings whole, method a plain list, header never hides; flow static and complete, log still, cable fully drawn. Without animation-timeline support only the loops and plain sticky stacking remain."
       }
     ],
     "breakpoints": [
@@ -280,12 +310,12 @@
         "value": "560px"
       },
       {
-        "name": "carousel-one",
-        "value": "600px"
-      },
-      {
         "name": "phone",
         "value": "720px"
+      },
+      {
+        "name": "header-monogram-band",
+        "value": "721px-820px"
       },
       {
         "name": "header-tight",
@@ -296,7 +326,7 @@
         "value": "900px"
       },
       {
-        "name": "method-carousel",
+        "name": "header-small-wordmark",
         "value": "1100px"
       },
       {
@@ -307,6 +337,60 @@
         "name": "hero-tablet",
         "value": "1199px"
       }
+    ],
+    "radii": [
+      {
+        "name": "radius-panel",
+        "value": "14px",
+        "purpose": "Plates, sheets, glass panels, the phone sheet, method cards, the contact card, the event log."
+      },
+      {
+        "name": "radius-control",
+        "value": "10px",
+        "purpose": "Composer topic rows, the disclosure summary, estate plots."
+      },
+      {
+        "name": "radius-inner",
+        "value": "6px",
+        "purpose": "A picture on a plate's mat, parallel to the plate's corner."
+      },
+      {
+        "name": "radius-pill",
+        "value": "999px",
+        "purpose": "Every .btn, the header's three pills, its links, the scrollspy chip, the ES · EN targets."
+      }
+    ],
+    "surfaces": [
+      {
+        "name": "mica",
+        "value": "rgb(251 246 230 / 0.8)",
+        "purpose": "Plate paper made translucent: every .plate, the phone sheet, composer rows and draft, contact card, disclosure. Opaque under prefers-reduced-transparency, 0.92 where nothing blurs."
+      },
+      {
+        "name": "mica-sage",
+        "value": "rgb(220 227 208 / 0.86)",
+        "purpose": "Mica on the sage wash (plate--sage)."
+      },
+      {
+        "name": "mica-straw",
+        "value": "rgb(235 220 174 / 0.86)",
+        "purpose": "Mica on the straw wash (plate--straw)."
+      },
+      {
+        "name": "glass",
+        "value": "rgb(251 246 230 / 0.74)",
+        "purpose": "The thicker fill over the engravings: the hero's lead and action panels, the header's wordmark and nav pills. Ink 7.7:1 over the darkest stroke unblurred; 0.9 where nothing blurs."
+      },
+      {
+        "name": "glass-blur",
+        "value": "blur(18px) saturate(1.3)",
+        "purpose": "backdrop-filter of mica and glass; -webkit- prefix in its own @supports; none under prefers-reduced-transparency."
+      },
+      {
+        "name": "glass-rim",
+        "value": "inset 0 0 0 1px rgb(255 255 255 / 0.6), inset 0 1px 0 rgb(255 255 255 / 0.9)",
+        "purpose": "The 1px rim of light and brighter top edge of every mica and glass sheet; inset light, not a frame."
+      }
     ]
   },
   "components": [
@@ -314,25 +398,25 @@
       "name": "Primary Button",
       "kind": "button",
       "refersTo": "button-primary",
-      "description": "The action: forest green, square, white sans 600, 44px, the label followed by a drawn 1.5px mark (envelope or arrow) that steps 2px forward on hover; the only saturated colour on the page.",
+      "description": "The action: a forest green pill, flat, white sans 600, 44px, the label followed by a drawn 1.5px mark (envelope or arrow) that steps 2px forward on hover; the only saturated colour on the page.",
       "html": "<a class=\"ds-btn\" href=\"#\">Escribime por email<svg class=\"ds-btn-mark\" viewBox=\"0 0 18 13\" width=\"18\" height=\"13\" aria-hidden=\"true\"><rect x=\"0.75\" y=\"0.75\" width=\"16.5\" height=\"11.5\"/><path d=\"M1.5 1.5 L9 7.25 L16.5 1.5\"/></svg></a>",
-      "css": ".ds-btn-mark { flex: none; width: 1.125em; height: auto; fill: none; stroke: currentColor; stroke-width: 1.5; transition: transform var(--t-hover) var(--ease-out); } .ds-btn-mark * { vector-effect: non-scaling-stroke; } .ds-btn:hover .ds-btn-mark { transform: translateX(2px); } .ds-btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 44px; padding: 10px 20px; font: 600 var(--fs-body)/1.2 var(--sans); text-decoration: none; border: 0; border-radius: 0; cursor: pointer; background: var(--green); color: #fff; transition: transform var(--t-press) var(--ease-out), background-color var(--t-hover) ease; } .ds-btn:hover { background: var(--green-deep); } .ds-btn:active { transform: scale(0.97); } .ds-btn:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }"
+      "css": ".ds-btn-mark { flex: none; width: 1.125em; height: auto; fill: none; stroke: currentColor; stroke-width: 1.5; transition: transform var(--t-hover) var(--ease-out); } .ds-btn-mark * { vector-effect: non-scaling-stroke; } .ds-btn:hover .ds-btn-mark { transform: translateX(2px); } .ds-btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 44px; padding: 10px 22px; font: 600 var(--fs-body)/1.2 var(--sans); text-decoration: none; border: 0; border-radius: 999px; cursor: pointer; background: var(--green); color: #fff; transition: transform var(--t-press) var(--ease-out), background-color var(--t-hover) ease; } .ds-btn:hover { background: var(--green-deep); } .ds-btn:active { transform: scale(0.97); } .ds-btn:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }"
     },
     {
       "name": "Quiet Button",
       "kind": "button",
       "refersTo": "button-quiet",
-      "description": "Secondary action beside the primary (Copiar): ink text underlined like a link on the paper, no block of tone.",
+      "description": "Secondary action beside the primary (Copiar): ink text underlined like a link on the paper, no block of tone; pill focus ring.",
       "html": "<button type=\"button\" class=\"ds-btn-quiet\">Copiar texto</button>",
-      "css": ".ds-btn-quiet { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 10px 4px; font: 600 var(--fs-body)/1.2 var(--sans); border: 0; border-radius: 0; cursor: pointer; background: transparent; color: var(--ink); text-decoration: underline; text-decoration-thickness: 0.07em; text-underline-offset: 0.22em; transition: transform var(--t-press) var(--ease-out), text-decoration-thickness var(--t-hover) ease; } .ds-btn-quiet:hover { text-decoration-thickness: 0.14em; } .ds-btn-quiet:active { transform: scale(0.97); } .ds-btn-quiet:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }"
+      "css": ".ds-btn-quiet { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 10px 4px; font: 600 var(--fs-body)/1.2 var(--sans); border: 0; border-radius: 999px; cursor: pointer; background: transparent; color: var(--ink); text-decoration: underline; text-decoration-thickness: 0.07em; text-underline-offset: 0.22em; transition: transform var(--t-press) var(--ease-out), text-decoration-thickness var(--t-hover) ease; } .ds-btn-quiet:hover { text-decoration-thickness: 0.14em; } .ds-btn-quiet:active { transform: scale(0.97); } .ds-btn-quiet:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }"
     },
     {
       "name": "Header",
       "kind": "nav",
       "refersTo": "button-header",
-      "description": "Plain sticky bar on the paper, 60px (56px on phones): the full name in serif 400 on one line (LG monogram at 389px and below), four serif links, ES · EN with a drawn dot, the 36px action.",
-      "html": "<header class=\"ds-top\"><a class=\"ds-word\" href=\"#\">Lautaro Guebel</a><nav><a href=\"#\">Casos</a><a href=\"#\">Método</a><a href=\"#\">Qué hago</a><a href=\"#\">Contacto</a></nav><span class=\"ds-langs\"><a aria-current=\"page\" href=\"#\">ES</a><a href=\"#\">EN</a></span><a class=\"ds-top-cta\" href=\"#\">Contactame</a></header>",
-      "css": ".ds-top { display: flex; align-items: center; gap: var(--gutter); min-height: 60px; padding-inline: var(--inset); background: var(--paper); color: var(--ink); } .ds-word { flex: none; white-space: nowrap; font: 400 var(--fs-sub)/1 var(--serif); letter-spacing: -0.01em; text-decoration: none; color: inherit; } .ds-top nav { margin-left: auto; display: flex; gap: clamp(1rem, 2vw, 2rem); } .ds-top nav a { padding: 12px 0; font: 400 var(--fs-small)/1.3 var(--serif); text-decoration: none; color: inherit; text-underline-offset: 0.22em; text-decoration-thickness: 0.07em; } .ds-top nav a:hover { text-decoration: underline; } .ds-langs { position: relative; display: flex; } .ds-langs::after { content: \"\"; position: absolute; left: 50%; top: 50%; width: 3px; height: 3px; margin: -1.5px 0 0 -1.5px; border-radius: 50%; background: var(--ink-2); } .ds-langs a { display: grid; place-items: center; min-width: 44px; min-height: 40px; font: 400 var(--fs-small)/1 var(--serif); color: var(--ink-2); text-decoration: none; text-underline-offset: 0.22em; text-decoration-thickness: 0.07em; transition: color var(--t-hover) ease; } .ds-langs a[aria-current] { color: var(--ink); text-decoration-line: underline; } .ds-langs a:not([aria-current]):hover { color: var(--ink); } .ds-top-cta { display: inline-flex; align-items: center; min-height: 36px; padding: 6px 16px; font: 600 var(--fs-small)/1.2 var(--sans); background: var(--green); color: #fff; text-decoration: none; white-space: nowrap; transition: background-color var(--t-hover) ease; } .ds-top-cta:hover { background: var(--green-deep); } .ds-top a:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }"
+      "description": "Floating glass pills over a transparent sticky bar: the serif wordmark pill, a nav pill with four sans links, a sliding scrollspy chip and ES · EN, and the green 44px action pill. Hides past the hero while reading down.",
+      "html": "<header class=\"ds-top\"><a class=\"ds-word ds-glass\" href=\"#\">Lautaro Guebel</a><div class=\"ds-navpill ds-glass\"><nav><a href=\"#\">Casos</a><a href=\"#\" aria-current=\"true\">Cómo trabajo</a><a href=\"#\">Qué hago</a><a href=\"#\">Contacto</a></nav><span class=\"ds-langs\"><a aria-current=\"page\" href=\"#\">ES</a><a href=\"#\">EN</a></span></div><a class=\"ds-top-cta\" href=\"#\">Contactame</a></header>",
+      "css": ".ds-top { display: flex; align-items: center; gap: 8px; min-height: 60px; padding-inline: var(--inset); background: var(--sage); color: var(--ink); } .ds-glass { min-height: 44px; border-radius: 999px; background: rgb(251 246 230 / 0.74); box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.6), inset 0 1px 0 rgb(255 255 255 / 0.9); backdrop-filter: blur(18px) saturate(1.3); } .ds-word { flex: none; display: inline-flex; align-items: center; padding: 0 16px; white-space: nowrap; font: 400 var(--fs-sub)/1 var(--serif); letter-spacing: -0.01em; text-decoration: none; color: inherit; } .ds-navpill { display: flex; align-items: center; gap: 4px; padding-inline: 4px; } .ds-navpill nav { display: flex; } .ds-navpill nav a { display: flex; align-items: center; min-height: 44px; padding: 0 12px; border-radius: 999px; font: 400 var(--fs-small)/1.3 var(--sans); text-decoration: none; color: inherit; transition: background-color var(--t-hover) ease; } .ds-navpill nav a[aria-current] { background: rgb(255 255 255 / 0.72); box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.9); } .ds-navpill nav a:not([aria-current]):hover { background: rgb(255 255 255 / 0.4); } .ds-langs { position: relative; display: flex; } .ds-langs::after { content: \"\"; position: absolute; left: 50%; top: 50%; width: 3px; height: 3px; margin: -1.5px 0 0 -1.5px; border-radius: 50%; background: var(--ink-2); } .ds-langs a { display: grid; place-items: center; min-width: 44px; min-height: 44px; border-radius: 999px; font: 400 var(--fs-small)/1 var(--sans); color: var(--ink); text-decoration: none; text-underline-offset: 0.22em; text-decoration-thickness: 0.07em; } .ds-langs a[aria-current] { text-decoration-line: underline; } .ds-top-cta { flex: none; margin-left: auto; display: inline-flex; align-items: center; min-height: 44px; padding: 0 18px; border-radius: 999px; font: 600 var(--fs-small)/1.2 var(--sans); background: var(--green); color: #fff; text-decoration: none; white-space: nowrap; transition: background-color var(--t-hover) ease; } .ds-top-cta:hover { background: var(--green-deep); } .ds-top a:focus-visible { outline: 3px solid var(--ink); outline-offset: -3px; }"
     },
     {
       "name": "Text Link",
@@ -346,61 +430,69 @@
       "name": "Plate with caption",
       "kind": "card",
       "refersTo": "plate",
-      "description": "A figure on the brighter paper as a tone step, no frame; serif title on top, italic serif caption under it.",
+      "description": "A figure on a sheet of mica: translucent plate paper, blur, a 1px rim of light, 14px corners; serif title on top, italic serif caption under it.",
       "html": "<figure class=\"ds-sheet\"><div class=\"ds-plate\"><h3 class=\"ds-sheet-title\">Relevamiento</h3><p>Cada tarea y cómo se hacía.</p></div><figcaption class=\"ds-caption\">Lo que se hacía a mano, antes de construir nada.</figcaption></figure>",
-      "css": ".ds-sheet { margin: 0; color: var(--ink); } .ds-plate { background: var(--plate); padding: var(--plate-pad); display: grid; gap: 14px; border-radius: 0; } .ds-sheet-title { margin: 0; font: 400 var(--fs-lead)/1.25 var(--serif); } .ds-plate p { margin: 0; font: 400 var(--fs-body)/1.65 var(--sans); } .ds-caption { margin-top: 10px; font: italic 400 var(--fs-small)/1.45 var(--serif); color: var(--ink-2); }"
+      "css": ".ds-sheet { margin: 0; color: var(--ink); } .ds-plate { background: rgb(251 246 230 / 0.8); backdrop-filter: blur(18px) saturate(1.3); box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.6), inset 0 1px 0 rgb(255 255 255 / 0.9); border-radius: 14px; padding: var(--plate-pad); display: grid; gap: 14px; } .ds-sheet-title { margin: 0; font: 400 var(--fs-lead)/1.25 var(--serif); } .ds-plate p { margin: 0; font: 400 var(--fs-body)/1.65 var(--sans); } .ds-caption { margin-top: 10px; font: italic 400 var(--fs-small)/1.45 var(--serif); color: var(--ink-2); }"
     },
     {
       "name": "Composer option",
       "kind": "chip",
       "refersTo": "composer-option",
-      "description": "A topic row of the message composer on plate paper; the radio drawn as a survey station (14px ink ring; chosen: ink dot in a sage band) and the chosen row on the sage wash.",
+      "description": "A topic row of the message composer: a row of mica on the 10px control radius with the rim of light, like a segment of a control; the radio drawn as a survey station (14px ink ring; chosen: ink dot in a sage band) and the chosen row on the sage wash.",
       "html": "<fieldset class=\"ds-pick\"><label class=\"ds-opt\"><input type=\"radio\" name=\"ds-topic\" checked> Cobros y recordatorios</label><label class=\"ds-opt\"><input type=\"radio\" name=\"ds-topic\"> Altas después de cada venta</label></fieldset>",
-      "css": ".ds-pick { border: 0; margin: 0; padding: 0; } .ds-opt { display: flex; align-items: center; gap: 14px; min-height: 44px; padding: 10px 16px; margin-bottom: 8px; background: var(--plate); color: var(--ink); font: 400 var(--fs-body)/1.65 var(--sans); cursor: pointer; transition: background-color var(--t-hover) ease, color var(--t-hover) ease, transform var(--t-press) var(--ease-out); } .ds-opt input { appearance: none; flex: none; width: 14px; height: 14px; margin: 0; border: 1.5px solid var(--ink); border-radius: 50%; background: var(--paper); cursor: pointer; } .ds-opt input:checked { background: var(--ink); box-shadow: inset 0 0 0 2.5px var(--sage); } .ds-opt input:focus-visible { outline: none; } .ds-opt:hover:not(:has(input:checked)) { background: var(--tone); } .ds-opt:has(input:checked) { background: var(--sage); } .ds-opt:has(input:focus-visible) { outline: 3px solid var(--ink); outline-offset: 2px; } .ds-opt:active { transform: scale(0.985); }"
+      "css": ".ds-pick { border: 0; margin: 0; padding: 0; } .ds-opt { display: flex; align-items: center; gap: 14px; min-height: 44px; padding: 10px 16px; margin-bottom: 8px; background: rgb(251 246 230 / 0.8); border-radius: 10px; box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.6), inset 0 1px 0 rgb(255 255 255 / 0.9); color: var(--ink); font: 400 var(--fs-body)/1.65 var(--sans); cursor: pointer; transition: background-color var(--t-hover) ease, color var(--t-hover) ease, transform var(--t-press) var(--ease-out); } .ds-opt input { appearance: none; flex: none; width: 14px; height: 14px; margin: 0; border: 1.5px solid var(--ink); border-radius: 50%; background: var(--paper); cursor: pointer; } .ds-opt input:checked { background: var(--ink); box-shadow: inset 0 0 0 2.5px var(--sage); } .ds-opt input:focus-visible { outline: none; } .ds-opt:hover:not(:has(input:checked)) { background: var(--tone); } .ds-opt:has(input:checked) { background: var(--sage); } .ds-opt:has(input:focus-visible) { outline: 3px solid var(--ink); outline-offset: 2px; } .ds-opt:active { transform: scale(0.985); }"
     },
     {
       "name": "Estate plots",
       "kind": "custom",
       "refersTo": "estate-plot",
-      "description": "A system drawn as a cadastral sheet: plots of different spans on a six-column grid, the 6px gaps are the paths.",
+      "description": "A system drawn as a cadastral sheet: plots of different spans on a six-column grid, each on the 10px control radius; the 6px gaps are the paths.",
       "html": "<ul class=\"ds-plots\"><li class=\"ds-plot ds-plot--wide ds-plot--tone\"><p class=\"ds-plot-name\">Roles</p><p class=\"ds-plot-text\">Cada persona ve lo suyo.</p></li><li class=\"ds-plot\"><p class=\"ds-plot-name\">Stock</p><p class=\"ds-plot-text\">Avisa cuando falta.</p></li><li class=\"ds-plot ds-plot--four ds-plot--paper\"><p class=\"ds-plot-name\">Limpieza</p><p class=\"ds-plot-text\">Por turno, con responsable.</p></li></ul>",
-      "css": ".ds-plots { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 6px; margin: 0; padding: 18px; list-style: none; background: var(--plate); } .ds-plot { grid-column: span 2; display: grid; align-content: start; gap: 4px; padding: 14px 16px 16px; background: var(--straw); color: var(--ink); } .ds-plot--wide { grid-column: span 6; } .ds-plot--four { grid-column: span 4; } .ds-plot--tone { background: var(--tone); } .ds-plot--paper { background: var(--paper); } .ds-plot p { margin: 0; } .ds-plot-name { font: 400 var(--fs-lead)/1.2 var(--serif); } .ds-plot-text { font: 400 var(--fs-small)/1.45 var(--sans); }"
+      "css": ".ds-plots { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 6px; margin: 0; padding: 18px; list-style: none; background: var(--plate); border-radius: 14px; } .ds-plot { grid-column: span 2; display: grid; align-content: start; gap: 4px; padding: 14px 16px 16px; border-radius: 10px; background: var(--straw); color: var(--ink); } .ds-plot--wide { grid-column: span 6; } .ds-plot--four { grid-column: span 4; } .ds-plot--tone { background: var(--tone); } .ds-plot--paper { background: var(--paper); } .ds-plot p { margin: 0; } .ds-plot-name { font: 400 var(--fs-lead)/1.2 var(--serif); } .ds-plot-text { font: 400 var(--fs-small)/1.45 var(--sans); }"
     },
     {
       "name": "Ledger entry",
       "kind": "custom",
       "refersTo": "ledger",
-      "description": "The offer on a single plate, entries apart by space alone: the old way struck through in brick in small serif italic above the serif title (left half), the sentence level with the title (right half).",
+      "description": "The offer on a single plate (14px corners), entries apart by space alone: the old way struck through in brick in small serif italic above the serif title (left half), the sentence level with the title (right half).",
       "html": "<ul class=\"ds-ledger\"><li class=\"ds-entry\"><p class=\"ds-was\"><s>Anotar turnos en un cuaderno</s></p><h3 class=\"ds-entry-title\">Reservas solas</h3><p class=\"ds-entry-text\">El cliente elige el horario y vos solo lo ves.</p></li><li class=\"ds-entry\"><p class=\"ds-was\"><s>Revisar el depósito a ojo</s></p><h3 class=\"ds-entry-title\">Avisos de stock</h3><p class=\"ds-entry-text\">Te avisa antes de que falte.</p></li></ul>",
-      "css": ".ds-ledger { display: grid; row-gap: clamp(1.5rem, 3vw, 2.25rem); margin: 0; padding: clamp(1.25rem, 2.6vw, 2rem) var(--plate-pad); list-style: none; background: var(--plate); color: var(--ink); } .ds-entry { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gutter); align-items: baseline; } .ds-was { grid-column: 1 / span 6; grid-row: 1; margin: 0; font: italic 400 var(--fs-small)/1.4 var(--serif); color: var(--ink-2); } .ds-was s { text-decoration-color: var(--brick); text-decoration-thickness: 0.1em; } .ds-entry-title { grid-column: 1 / span 6; grid-row: 2; margin: 0; font: 400 var(--fs-sub)/1.15 var(--serif); letter-spacing: -0.01em; } .ds-entry-text { grid-column: 7 / -1; grid-row: 2; max-width: 52ch; margin: 0; font: 400 var(--fs-body)/1.65 var(--sans); }"
+      "css": ".ds-ledger { display: grid; row-gap: clamp(1.5rem, 3vw, 2.25rem); margin: 0; padding: clamp(1.25rem, 2.6vw, 2rem) var(--plate-pad); list-style: none; background: var(--plate); border-radius: 14px; color: var(--ink); } .ds-entry { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gutter); align-items: baseline; } .ds-was { grid-column: 1 / span 6; grid-row: 1; margin: 0; font: italic 400 var(--fs-small)/1.4 var(--serif); color: var(--ink-2); } .ds-was s { text-decoration-color: var(--brick); text-decoration-thickness: 0.1em; } .ds-entry-title { grid-column: 1 / span 6; grid-row: 2; margin: 0; font: 400 var(--fs-sub)/1.15 var(--serif); letter-spacing: -0.01em; } .ds-entry-text { grid-column: 7 / -1; grid-row: 2; max-width: 52ch; margin: 0; font: 400 var(--fs-body)/1.65 var(--sans); }"
     },
     {
       "name": "Event log line",
       "kind": "custom",
       "refersTo": "feed",
-      "description": "A register line beside the plan: tabular timestamp, a drawn sage check, the event.",
+      "description": "A register line beside the plan, on a plate with 14px corners: tabular timestamp, a drawn sage check, the event.",
       "html": "<ul class=\"ds-log\"><li class=\"ds-log-line\"><span class=\"ds-log-time\">10:42:07</span><svg class=\"ds-log-check\" viewBox=\"0 0 24 24\" width=\"20\" height=\"20\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"11\"/><path d=\"M7 12.5l3.2 3.2L17 9\"/></svg><span class=\"ds-log-event\">Contrato enviado</span></li></ul>",
-      "css": ".ds-log { margin: 0; padding: 18px; list-style: none; background: var(--plate); color: var(--ink); } .ds-log-line { height: 44px; display: grid; grid-template-columns: 6.5rem auto minmax(0, 1fr); align-items: center; column-gap: 12px; } .ds-log-time { font: 400 var(--fs-small)/1.3 var(--mono); font-variant-numeric: tabular-nums; color: var(--ink-2); text-align: right; } .ds-log-check { fill: var(--sage); stroke: var(--sage-ink); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; } .ds-log-check path { fill: none; stroke: var(--ink); stroke-width: 2; } .ds-log-event { font: 600 var(--fs-body)/1.3 var(--sans); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }"
+      "css": ".ds-log { margin: 0; padding: 18px; list-style: none; background: var(--plate); border-radius: 14px; color: var(--ink); } .ds-log-line { height: 44px; display: grid; grid-template-columns: 6.5rem auto minmax(0, 1fr); align-items: center; column-gap: 12px; } .ds-log-time { font: 400 var(--fs-small)/1.3 var(--mono); font-variant-numeric: tabular-nums; color: var(--ink-2); text-align: right; } .ds-log-check { fill: var(--sage); stroke: var(--sage-ink); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; } .ds-log-check path { fill: none; stroke: var(--ink); stroke-width: 2; } .ds-log-event { font: 600 var(--fs-body)/1.3 var(--sans); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }"
     },
     {
       "name": "Disclosure summary",
       "kind": "custom",
       "refersTo": "disclosure-summary",
-      "description": "The real graph's summary on phones: italic serif label, a drawn plus inside a 14px ring that becomes a minus.",
+      "description": "The real graph's summary on phones: a row of mica on the 10px control radius, italic serif label, a drawn plus inside a 14px ring that becomes a minus.",
       "html": "<details class=\"ds-wf\"><summary class=\"ds-wf-open\">Así es por dentro<svg class=\"ds-wf-mark\" viewBox=\"0 0 14 14\" width=\"14\" height=\"14\" aria-hidden=\"true\"><circle cx=\"7\" cy=\"7\" r=\"6.25\"/><path d=\"M4 7 H10\"/><path class=\"ds-wf-v\" d=\"M7 4 V10\"/></svg></summary><p>El grafo real del flujo.</p></details>",
-      "css": ".ds-wf { color: var(--ink); } .ds-wf-open { display: flex; align-items: center; gap: 12px; min-height: 44px; padding: 12px 16px; background: var(--plate); font: italic 400 var(--fs-lead)/1.3 var(--serif); cursor: pointer; list-style: none; transition: background-color var(--t-hover) ease; } .ds-wf-open::-webkit-details-marker { display: none; } .ds-wf-open:hover { background: var(--tone); } .ds-wf-open:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; } .ds-wf-mark { flex: none; width: 14px; height: 14px; margin-left: auto; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: square; } .ds-wf-v { transform-origin: 50% 50%; transform-box: fill-box; transition: transform var(--t-hover) var(--ease-out); } .ds-wf[open] .ds-wf-v { transform: scaleY(0); }"
+      "css": ".ds-wf { color: var(--ink); } .ds-wf-open { display: flex; align-items: center; gap: 12px; min-height: 44px; padding: 12px 16px; border-radius: 10px; background: rgb(251 246 230 / 0.8); box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.6), inset 0 1px 0 rgb(255 255 255 / 0.9); font: italic 400 var(--fs-lead)/1.3 var(--serif); cursor: pointer; list-style: none; transition: background-color var(--t-hover) ease; } .ds-wf-open::-webkit-details-marker { display: none; } .ds-wf-open:hover { background: var(--tone); } .ds-wf-open:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; } .ds-wf-mark { flex: none; width: 14px; height: 14px; margin-left: auto; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: square; } .ds-wf-v { transform-origin: 50% 50%; transform-box: fill-box; transition: transform var(--t-hover) var(--ease-out); } .ds-wf[open] .ds-wf-v { transform: scaleY(0); }"
+    },
+    {
+      "name": "Method stacking card",
+      "kind": "card",
+      "refersTo": "method-card",
+      "description": "A step of 'Cómo trabajo': an opaque plate with 14px corners, what happens on the left and the sheet it leaves on the right; the five stick under the header 20px apart and the covered ones sink back as the next slides over.",
+      "html": "<ol class=\"ds-stack\"><li class=\"ds-card\"><div><p class=\"ds-card-line\">Escucho y relevo</p><p>Cómo se hace hoy cada tarea.</p></div><figure class=\"ds-card-art\"><div class=\"ds-card-sheet\">Relevamiento</div><figcaption class=\"ds-caption\">Lo que se hacía a mano.</figcaption></figure></li></ol>",
+      "css": ".ds-stack { display: grid; gap: clamp(1rem, 2vw, 1.5rem); margin: 0; padding: 0; list-style: none; } .ds-card { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 18px calc(var(--gutter) * 2); padding: clamp(1.25rem, 2.6vw, 2.25rem); background: var(--plate); border-radius: 14px; box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.6), inset 0 1px 0 rgb(255 255 255 / 0.9); color: var(--ink); } .ds-card p { margin: 0; font: 400 var(--fs-body)/1.6 var(--sans); } .ds-card .ds-card-line { margin-bottom: 12px; font: 400 var(--fs-sub)/1.15 var(--serif); letter-spacing: -0.01em; } .ds-card-art { margin: 0; } .ds-card-sheet { padding: var(--plate-pad); border-radius: 6px; background: var(--sage); font: 400 var(--fs-lead)/1.25 var(--serif); } .ds-caption { margin-top: 10px; font: italic 400 var(--fs-small)/1.45 var(--serif); color: var(--ink-2); }"
     }
   ],
   "narrative": {
-    "northStar": "The Hand-Coloured Atlas of Tucumán",
-    "overview": "The site reads as a bound atlas. Two engraved landscape plates open and close it: the cane fields and sugar mill under the hero's promise, the lake and chapel under the footer. Between them, the engineering work is drawn as surveyor's plans in the same green-black ink: a flow of five stations on a pencilled track with a compass rose and a scale bar, an estate of plots for the club's system, a ledger for what a business can do on its own. A small business is mapped and put in order the way a cane estate is surveyed. The world was pinned by the user (\"Me gusta muchos los colores (beige) y estetica tranquila que tiene el hero y footer. Quiero poder plasmar eso en el resto de la pagina\"), so the build extends the plates' palette and calm to every section.\n\nDensity is low and the tempo is slow. Each section has its own composition, and a section is separated from the next by space and by a step in paper tone, never by a rule. Colour is watercolour wash on rag paper: a cream ground, a brighter plate paper for figures, a sage wash for the automation case, a straw wash for the padel case, and brick only where something fails or is struck out. The one saturated colour on the page is the forest-green action, kept from earlier versions on purpose so the action is never mistaken for decoration.\n\nThe world explicitly refuses the SaaS landing: saturated colour bands, blueprint grids and rows of same-size cards (direction contract, THESIS).",
+    "northStar": "The Hand-Coloured Atlas of Tucumán, under mica",
+    "overview": "The site reads as a bound atlas. Two engraved landscape plates open and close it: the cane fields and sugar mill under the hero's promise, the lake and chapel under the footer. Between them, the engineering work is drawn as surveyor's plans in the same green-black ink: a flow of five stations on a pencilled track with a compass rose and a scale bar, an estate of plots for the club's system, a ledger for what a business can do on its own. A small business is mapped and put in order the way a cane estate is surveyed. The world was pinned by the user (\"Me gusta muchos los colores (beige) y estetica tranquila que tiene el hero y footer. Quiero poder plasmar eso en el resto de la pagina\"), so the build extends the plates' palette and calm to every section.\n\nThe calm + modern pass (S12, L100-L101) lays that atlas under sheets of mica: figures on translucent, softly rounded sheets with a rim of light, text over the engravings on thicker glass, pill actions, a header of floating glass pills, scroll-linked depth on the engravings, word-by-word headings and stacking method cards. The palette, the serif headings and the drawn plans are unchanged: the modern layer is material and motion, not colour.\n\nDensity is low and the tempo is slow. Each section has its own composition, and a section is separated from the next by space and by a step in paper tone, never by a rule. Colour is watercolour wash on rag paper: a cream ground, a brighter plate paper for figures, a sage wash for the automation case, a straw wash for the padel case, and brick only where something fails or is struck out. The one saturated colour on the page is the forest-green action, kept from earlier versions on purpose so the action is never mistaken for decoration.\n\nThe world explicitly refuses the SaaS landing: saturated colour bands, blueprint grids and rows of same-size cards (direction contract, THESIS).",
     "keyCharacteristics": [
-      "Cream paper ground with plates as tone steps, never as ruled frames.",
+      "Cream paper ground; figures on sheets of mica (translucent plate paper, blur, a rim of light, 14px corners), never on ruled frames.",
       "Green-black ink for text and for every drawn line; washes carry case identity (sage = automation, straw = padel).",
-      "Serif headings and italic serif captions, as in an atlas; system sans for reading text.",
+      "Serif headings and italic serif captions, as in an atlas; Albert Sans, self-hosted, for reading text and every control.",
       "Diagrams in 1–1.5px ink linework with hatching, a compass rose and a scale bar where a plan is shown.",
-      "Square corners everywhere; circles only for drawn marks and stations.",
-      "One protagonist animation (the automation plan drawing itself); everything else is quiet. Static and complete without JS or with reduced motion."
+      "Soft corners on surfaces (14 / 10 / 6px), pills for actions and the header; circles for drawn marks and stations.",
+      "One protagonist animation (the automation plan drawing itself), with scroll-linked depth on the engravings, word-by-word headings and stacking method cards. Static and complete without JS, without scroll timelines or with reduced motion."
     ],
     "rules": [
       {
@@ -419,8 +511,18 @@
         "section": "colors"
       },
       {
+        "name": "The Mica Is Paper Rule",
+        "body": "Every translucent fill is an existing paper or wash with alpha, never a new colour or a white veil.",
+        "section": "colors"
+      },
+      {
         "name": "The Six Sizes Rule",
         "body": "Text uses the six size tokens and nothing else. A new size is a design change, not a tweak.",
+        "section": "typography"
+      },
+      {
+        "name": "The Two Voices Rule",
+        "body": "Serif for the wordmark, headings, titles and captions; Albert Sans for reading and for every control. Never a third face outside real data.",
         "section": "typography"
       },
       {
@@ -440,42 +542,45 @@
       },
       {
         "name": "The Tone Step Rule",
-        "body": "Surfaces are separated by a step in paper tone or a wash, never by a line or a shadow.",
+        "body": "Surfaces are separated by a step in paper tone, a wash or a sheet of mica, never by a line.",
         "section": "layout"
       },
       {
         "name": "The Only Floating Thing Rule",
-        "body": "Only the phone casts a shadow. Everything else is paper on paper.",
+        "body": "Only the drawn phone casts a shadow. Plates, glass, the header's pills and buttons rest flat.",
         "section": "elevation"
       }
     ],
     "dos": [
-      "**Do** set every figure on plate paper or a wash as a tone step, with its italic serif caption under it.",
+      "**Do** set every figure on a sheet of mica (or a wash's mica), with its italic serif caption under it.",
       "**Do** keep forest green (#0c7866) for actions only, and give each case its wash: sage for automation, straw for padel.",
       "**Do** draw diagrams as survey plans: ink lines 1–1.5 units, pencilled tracks, brick hatching and dashes for failure, a compass rose and a scale bar where a plan is shown.",
-      "**Do** use only the six size tokens for text; serif for headings, titles and captions, sans for reading.",
+      "**Do** use only the six size tokens for text; serif for headings, titles and captions, Albert Sans for reading and controls.",
+      "**Do** use the four radius tokens: panel for surfaces, control for rows and plots, inner for a picture on a mat, pill for actions and the header.",
+      "**Do** put text over an engraving on glass, and keep glass over pictures and in the header only.",
       "**Do** separate sections with space and a change of ground (`--gap-section`, paper → plate → wash).",
       "**Do** mark list lines with filled shapes (dash, dot, square) instead of boxes or bullets.",
-      "**Do** make every animation start from a visible, complete default and switch it off under reduced motion; keep one protagonist (the plan).",
-      "**Do** keep text AA on every ground: ink or ink-2 on paper, plate, sage and straw; brick and green-deep only where their measured contrast holds (6.1:1 and 6.0:1).",
-      "**Do** embed the generation prompt in every new shipping raster and tone photos to the paper."
+      "**Do** make every animation start from a visible, complete default, tie scroll motion to `translate` / `scale` inside `@supports (animation-timeline: view())`, and switch it all off under reduced motion; keep one protagonist (the plan).",
+      "**Do** keep text AA on every ground: ink or ink-2 on paper, plate, sage, straw and mica; ink only on glass; brick and green-deep only where their measured contrast holds (6.1:1 and 6.0:1).",
+      "**Do** embed the generation prompt in every new shipping raster, give each slot a 2x candidate and tone photos to the paper."
     ],
     "donts": [
       "**Don't** use saturated colour bands, blueprint grids or rows of same-size cards (the SaaS landing the world refuses).",
       "**Don't** put a label, kicker or eyebrow above a heading, number sections, or use tracked uppercase labels.",
-      "**Don't** put a shadow on anything at rest; the drawn phone is the only floating object.",
-      "**Don't** divide content with hairlines or outline boxes in 1px lines; ink linework belongs to drawings and marks.",
-      "**Don't** round corners on surfaces, buttons or photos.",
+      "**Don't** put a shadow on anything at rest, glass included; the drawn phone is the only floating object.",
+      "**Don't** divide content with hairlines or outline boxes in 1px lines; the 1px rim of light on mica is inset light, not a frame, and ink linework belongs to drawings and marks.",
+      "**Don't** invent a radius or a translucent colour: every corner is a token, every fill an existing paper or wash with alpha.",
       "**Don't** use monospace outside real data, or `ink-3` for any text.",
       "**Don't** use text glyphs (\"+\", \"→\") as icons; draw them as SVG in the 1.5px ink line.",
       "**Don't** name technologies, tools or frameworks, or show a GitHub link, anywhere in text, alt, aria-label or title.",
-      "**Don't** use gradients as fills; masks are only for blending the engravings into the paper and for the carousel's soft edge."
+      "**Don't** use gradients as fills; masks are only for blending the engravings into the paper."
     ],
     "exceptions": [
       "**Two hairlines:** the 1px `ink-3` separator above the real workflow graph (canvas comment if01muum), now bounded to the plan under it (`min(68rem, 100% - 2 × --plate-pad)`, 420px where the tall plan stands in), and the footer's 1px closing hairline (L67). No other rule lines.",
       "**The \"venta\" highlight:** the straw fill behind one word in the flow heading (L56).",
       "**The footer:** its black text, #504e42 / #474640 inks, #e9e2cf / #ebe4d2 lines and the 6px-radius icon box come from the user's reference and stay local to it.",
-      "**System serif as the display face:** pinned by the user (artboard-02 typography). The earlier pin of the display size \"up to 10rem\" is superseded by the designer pass (S11, L93): the display now tops out at 6.5rem."
+      "**System serif as the display face:** pinned by the user (artboard-02 typography). The earlier pin of the display size \"up to 10rem\" is superseded by the designer pass (S11, L93): the display now tops out at 6.5rem.",
+      "**Glass and pills (S12):** the frosted surfaces and the floating pill header were asked for by the user (\"Vidrio + esquinas suaves\", \"Header en píldoras con scrollspy\") against the taste skill's \"no glass, no floating pill navigation\" house rule; they stay as decided."
     ]
   }
 }

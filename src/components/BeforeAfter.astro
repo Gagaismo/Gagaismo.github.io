@@ -49,7 +49,7 @@ const screens = [afterScreen];
           {
             screens.map((src, i) => (
               <PhoneFrame data-reveal style={`--i:${i + 1}`}>
-                <Image src={src} alt={copy.screens.alts[i]!} widths={[240, 480, 720]} sizes="(max-width: 720px) 42vw, 210px" />
+                <Image src={src} alt={copy.screens.alts[i]!} widths={[240, 480, 720]} sizes="(max-width: 720px) 51vw, 200px" />
               </PhoneFrame>
             ))
           }
@@ -102,12 +102,14 @@ const screens = [afterScreen];
   }
   /* Before: the page's own paper, the old way in the muted ink. After: the case's sage wash, a step in
      tone, so the change reads at once. */
+  /* The inner edges take the margin, not the inset: past --page-max the inset grows and squeezed both
+     columns to a third of their width (T23). */
   .side--before {
-    padding-right: calc(var(--gutter) / 2 + var(--inset));
+    padding-right: calc(var(--gutter) / 2 + var(--margin));
   }
   .side--after {
     background: var(--sage);
-    padding-left: calc(var(--gutter) / 2 + var(--inset));
+    padding-left: calc(var(--gutter) / 2 + var(--margin));
   }
   .specimen {
     font-size: var(--fs-display);
@@ -153,12 +155,15 @@ const screens = [afterScreen];
     background: var(--sage-ink);
   }
 
-  /* The generated screen in the drawn phone, on a sheet of mica over the sage wash. On wide screens the
-     phone takes the slot's height, so both columns keep the same picture size and the lists line up. */
+  /* The generated screen in the drawn phone, on a sheet of mica over the sage wash. The phone's size
+     comes from its width and the sheet grows to hold it and the caption: taken from the 4:3 slot's
+     height, it shrank to 55 px wide with two columns (T23). */
   .side--after :global(.slot) {
+    aspect-ratio: auto;
     display: grid;
-    grid-template-rows: minmax(0, 1fr) auto;
+    grid-template-rows: auto auto;
     justify-items: center;
+    align-content: center;
     gap: 4px;
     padding: clamp(1rem, 2.4vw, 1.75rem);
     background: var(--mica);
@@ -175,11 +180,13 @@ const screens = [afterScreen];
   .phones {
     display: flex;
     gap: clamp(0.75rem, 2.5vw, 2rem);
-    height: 100%;
-    min-height: 0;
   }
+  /* The frame's children are absolute, so it needs an explicit width; 180 px at 721 fits the narrowest
+     sheet (235 px inside). */
   .phones :global(.phone) {
-    height: 100%;
+    flex: none;
+    width: clamp(180px, 15vw, 220px);
+    height: auto;
   }
   /* The screen image carries its own status bar, so it fills the cut-out edge to edge. */
   .phones :global(.phone__screen img) {
@@ -205,16 +212,7 @@ const screens = [afterScreen];
     .side--after {
       padding-inline: var(--inset);
     }
-    .side--after :global(.slot) {
-      aspect-ratio: auto;
-    }
-    .phones {
-      height: auto;
-    }
-    /* The frame's children are absolute, so it needs an explicit width on phones. */
     .phones :global(.phone) {
-      flex: none;
-      height: auto;
       width: min(210px, 56vw);
     }
   }
