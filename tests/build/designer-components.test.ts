@@ -135,6 +135,13 @@ describe("6. the contact rows", () => {
 });
 
 describe("7. the offer ledger", () => {
+  // L118: on the ink band the intro reads in sage. T24 found 45be296 had folded it into the selection
+  // rule, so the paragraph sat on a sage-ink block.
+  it("sets the offer's intro in sage on the ink band, with no block behind it", () => {
+    expect(body(".offer__head p")).toMatch(/color:\s*var\(--sage\)/);
+    expect(body(".offer__head p")).not.toMatch(/background/);
+  });
+
   it("is one plate with its lines separated by space, no zebra", () => {
     expect(body(".entry:nth-child(even)")).toBe("");
     expect(body(".ledger")).toMatch(/row-gap:/);

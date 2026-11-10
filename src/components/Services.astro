@@ -43,8 +43,8 @@ const { copy } = Astro.props;
 </section>
 
 <style>
-  /* The whole section is the ink band (L118): heading, intro, picture, ledger and closing line share the
-     one dark field, so the ledger reads as part of the section instead of a panel dropped on paper. */
+  /* The whole section is the ink band (L118): heading, intro, action, picture and ledger share the one
+     dark field, so the ledger reads as part of the section instead of a panel dropped on paper. */
   .offer {
     background: var(--ink);
     color: var(--plate);
@@ -52,7 +52,9 @@ const { copy } = Astro.props;
   .offer .head {
     color: var(--plate);
   }
-  .offer__head p,
+  .offer__head p {
+    color: var(--sage);
+  }
   .offer ::selection {
     background: var(--sage-ink);
     color: var(--plate);
@@ -154,7 +156,7 @@ const { copy } = Astro.props;
     grid-column: 7 / -1;
     grid-row: 2;
     max-width: 52ch;
-  }
+  }
 
   @media (max-width: 900px) {
     .offer__head h2,
