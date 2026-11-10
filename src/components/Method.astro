@@ -138,7 +138,7 @@ const l = copy.map.links;
               {copy.review.states.map((state) => <li>{state}</li>)}
             </ul>
           </div>
-          <figcaption class="caption">{review!.caption}</figcaption>
+          {review!.caption && <figcaption class="caption">{review!.caption}</figcaption>}
         </figure>
       </li>
     </ol>

@@ -228,7 +228,6 @@ const es: HomeCopy = {
         when: "Y",
         line: "lo ajustamos sobre la marcha.",
         text: "El sistema crece con el negocio, y cada cambio se revisa antes de entrar.",
-        caption: "Cómo entra cada cambio al sistema.",
       },
     ],
     survey: {
@@ -487,7 +486,6 @@ const en: HomeCopy = {
         when: "And",
         line: "we keep tuning it.",
         text: "The system grows with the business, and every change is reviewed before it goes in.",
-        caption: "How each change gets into the system.",
       },
     ],
     survey: {
