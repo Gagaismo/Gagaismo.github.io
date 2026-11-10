@@ -91,7 +91,7 @@ const l = copy.map.links;
               }
             </dl>
           </div>
-          <figcaption class="caption">{map!.caption}</figcaption>
+          {map!.caption && <figcaption class="caption">{map!.caption}</figcaption>}
         </figure>
       </li>
 
@@ -106,7 +106,7 @@ const l = copy.map.links;
             <p>{copy.decision.context}</p>
             <p class="adr__status">{copy.decision.status}</p>
           </article>
-          <figcaption class="caption">{decision!.caption}</figcaption>
+          {decision!.caption && <figcaption class="caption">{decision!.caption}</figcaption>}
         </figure>
       </li>
 

@@ -212,13 +212,11 @@ const es: HomeCopy = {
         when: "Después,",
         line: "ordenamos el problema.",
         text: "Dibujo el proceso de punta a punta y armamos un glosario común.",
-        caption: "Mapa y glosario simplificados.",
       },
       {
         when: "Juntos,",
         line: "decidimos por escrito.",
         text: "Cada decisión importante queda escrita con su motivo.",
-        caption: "Una decisión real, resumida.",
       },
       {
         when: "Luego,",
@@ -289,6 +287,7 @@ const es: HomeCopy = {
     outcomes: [
       { when: "17/09/2026", date: "2026-09-17", text: "Demo aprobada." },
       { when: "El mismo día", text: "Dos cambios pedidos en la demo, incorporados." },
+      { when: "17/10/2026", date: "2026-10-17", text: "Sistema terminado y entregado." },
     ],
     imageAlt: "Cancha de pádel vacía al aire libre, con piso azul, paredes de vidrio y dos pelotas junto al vidrio.",
   },
@@ -472,13 +471,11 @@ const en: HomeCopy = {
         when: "Then,",
         line: "we map the problem.",
         text: "I draw the process end to end and we write a shared glossary.",
-        caption: "Map and glossary simplified.",
       },
       {
         when: "Together,",
         line: "we decide in writing.",
         text: "Every important decision is written down with its reason.",
-        caption: "A real decision, summarised.",
       },
       {
         when: "Next,",
@@ -549,6 +546,7 @@ const en: HomeCopy = {
     outcomes: [
       { when: "17/09/2026", date: "2026-09-17", text: "Demo approved." },
       { when: "The same day", text: "Two changes requested in the demo, added." },
+      { when: "17/10/2026", date: "2026-10-17", text: "System finished and delivered." },
     ],
     imageAlt: "Empty outdoor padel court with a blue floor, glass walls and two balls by the glass.",
   },

@@ -157,7 +157,9 @@ describe("8. the padel outcome", () => {
     const register = html.match(/<ol class="register[^"]*"[^>]*>([\s\S]*?)<\/ol>/);
     expect(register, "an ol.register").not.toBeNull();
     expect(register![1]).toMatch(/<time\b[^>]*datetime="2026-09-17"[^>]*>17\/09\/2026<\/time>/);
-    expect(register![1].match(/<li\b/g)?.length).toBe(2);
+    // L115: the user added the delivery a month after the demo.
+    expect(register![1]).toMatch(/<time\b[^>]*datetime="2026-10-17"[^>]*>17\/10\/2026<\/time>/);
+    expect(register![1].match(/<li\b/g)?.length).toBe(3);
     expect(body(".register li:not(:last-child):after") + body(".register li:not(:last-child)::after")).toMatch(/background:\s*var\(--ink\)/);
   });
 });
