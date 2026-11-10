@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-11-10T21:30:00.000Z",
+  "generatedAt": "2026-11-10T23:30:13.729Z",
   "title": "Design System: Lautaro Guebel",
   "extensions": {
     "colorMeta": {
@@ -66,10 +66,11 @@
         ]
       },
       "sage-ink": {
-        "role": "secondary",
-        "displayName": "Sage Ink",
+        "role": "primary",
+        "displayName": "Sage Ink (moss metal)",
         "canonical": "#4f6b4a",
         "tonalRamp": [
+          "#445d41",
           "#4f6b4a",
           "#dce3d0"
         ]
@@ -123,8 +124,8 @@
         ]
       },
       "green": {
-        "role": "primary",
-        "displayName": "Forest Action Green",
+        "role": "secondary",
+        "displayName": "Forest Green",
         "canonical": "#0c7866",
         "tonalRamp": [
           "#095c4e",
@@ -132,8 +133,8 @@
         ]
       },
       "green-deep": {
-        "role": "primary",
-        "displayName": "Deep Action Green",
+        "role": "secondary",
+        "displayName": "Deep Green",
         "canonical": "#095c4e",
         "tonalRamp": [
           "#095c4e",
@@ -142,7 +143,7 @@
       },
       "on-green": {
         "role": "neutral",
-        "displayName": "White on Green",
+        "displayName": "White on the action",
         "canonical": "#ffffff",
         "tonalRamp": [
           "#ffffff"
@@ -152,7 +153,7 @@
     "typographyMeta": {
       "display": {
         "displayName": "Display",
-        "purpose": "The hero promise on two lines, in the serif; up to 6.5rem (S11), capped by --fit per language from the real text column. The Antes / Después specimen words take this size in Albert Sans 400 (-0.03em, L111)."
+        "purpose": "The hero promise on two lines, in the serif; up to 6.5rem (S11), capped by --fit per language from the real text column. The Antes / Después specimen words and the offer's promise (L119: sans 400, line-height 0.98, -0.035em, max 14ch) take this size in Albert Sans."
       },
       "headline": {
         "displayName": "Headline",
@@ -184,7 +185,7 @@
       },
       "caption": {
         "displayName": "Caption",
-        "purpose": "Italic serif caption under every plate and sheet, in ink-2 (the phone's 'Pantalla ilustrativa' included); also the contact line labels, the ledger's struck old way and the case facts' terms."
+        "purpose": "Small serif italic under the case pages' plates and sheets; the home's figures carry none since the live canvas (L113-L116). Also the contact lines' labels, the ledger's struck old way and the case facts' terms."
       },
       "data": {
         "displayName": "Data",
@@ -383,7 +384,7 @@
       {
         "name": "glass",
         "value": "rgb(251 246 230 / 0.74)",
-        "purpose": "The thicker fill over the engravings: the hero's lead and action panels, the header's wordmark and nav pills. Ink 7.7:1 over the darkest stroke unblurred; 0.9 where nothing blurs."
+        "purpose": "The thicker fill over the hero's engraving: its lead and action panels only (the header is brushed metal since L108). Ink 7.7:1 over the darkest stroke unblurred; 0.9 where nothing blurs."
       },
       {
         "name": "glass-blur",
@@ -394,6 +395,31 @@
         "name": "glass-rim",
         "value": "inset 0 0 0 1px rgb(255 255 255 / 0.6), inset 0 1px 0 rgb(255 255 255 / 0.9)",
         "purpose": "The 1px rim of light and brighter top edge of every mica and glass sheet; inset light, not a frame."
+      },
+      {
+        "name": "brushed-metal",
+        "value": "background-color: rgb(234 229 216 / 0.92); background-image: repeating-linear-gradient(0deg, rgb(255 255 255 / 0.16) 0 1px, transparent 1px 3px), linear-gradient(100deg, rgb(255 255 255 / 0) 20%, rgb(255 255 255 / 0.55) 42%, rgb(255 255 255 / 0) 64%), linear-gradient(180deg, rgb(255 255 255 / 0.45), rgb(221 214 196 / 0.4)); backdrop-filter: blur(10px);",
+        "purpose": "The header's wordmark and nav pills (L108). Opaque --tone and no blur under prefers-reduced-transparency."
+      },
+      {
+        "name": "metal-rim",
+        "value": "inset 0 1px 0 rgb(255 255 255 / 0.9), inset 0 -1px 0 rgb(31 42 34 / 0.14), 0 0 0 1px rgb(31 42 34 / 0.12)",
+        "purpose": "Rim of the brushed-metal pills (--metal-rim; on the wordmark through a ::before layer)."
+      },
+      {
+        "name": "liquid-moss-metal",
+        "value": "background-color: var(--sage-ink); background-image: radial-gradient(120% 90% at 30% -20%, rgb(255 255 255 / 0.38) 0%, rgb(255 255 255 / 0) 55%), linear-gradient(180deg, rgb(255 255 255 / 0.1) 0%, rgb(255 255 255 / 0) 48%, rgb(31 42 34 / 0.22) 52%, rgb(31 42 34 / 0.05) 100%); box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.45), inset 0 -1px 0 rgb(31 42 34 / 0.35), 0 0 0 1px rgb(31 42 34 / 0.18); text-shadow: 0 1px 0 rgb(31 42 34 / 0.35); color: #fff;",
+        "purpose": "Every primary .btn (L110); hover base color-mix(in srgb, var(--sage-ink) 78%, var(--ink)) = #445d41. White label 5.7:1."
+      },
+      {
+        "name": "ink-band-panel",
+        "value": "background: rgb(251 246 230 / 0.05) (ledger) or 0.06 (picture mat); box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.1), 0 0 0 1px rgb(251 246 230 / 0.08)",
+        "purpose": "Faint lighter sheets on the offer's ink band (L117-L118), no blur."
+      },
+      {
+        "name": "method-card-ring",
+        "value": "background: var(--plate); box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.9), 0 0 0 1px rgb(31 42 34 / 0.1)",
+        "purpose": "The opaque method cards on the sage band (L114)."
       }
     ]
   },
@@ -402,9 +428,9 @@
       "name": "Primary Button",
       "kind": "button",
       "refersTo": "button-primary",
-      "description": "The action: a forest green pill, flat, white sans 600, 44px, the label followed by a drawn 1.5px mark (envelope or arrow) that steps 2px forward on hover; the only saturated colour on the page.",
+      "description": "The action: a pill of liquid moss metal (the sage ink with a specular glow top-left, a mid band and a rim; L110), white sans 600 with a 1px engraved shadow, 44px, the label followed by a drawn 1.5px mark (envelope or arrow) that steps 2px forward on hover. Only actions wear it.",
       "html": "<a class=\"ds-btn\" href=\"#\">Escribime por email<svg class=\"ds-btn-mark\" viewBox=\"0 0 18 13\" width=\"18\" height=\"13\" aria-hidden=\"true\"><rect x=\"0.75\" y=\"0.75\" width=\"16.5\" height=\"11.5\"/><path d=\"M1.5 1.5 L9 7.25 L16.5 1.5\"/></svg></a>",
-      "css": ".ds-btn-mark { flex: none; width: 1.125em; height: auto; fill: none; stroke: currentColor; stroke-width: 1.5; transition: transform var(--t-hover) var(--ease-out); } .ds-btn-mark * { vector-effect: non-scaling-stroke; } .ds-btn:hover .ds-btn-mark { transform: translateX(2px); } .ds-btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 44px; padding: 10px 22px; font: 600 var(--fs-body)/1.2 var(--sans); text-decoration: none; border: 0; border-radius: 999px; cursor: pointer; background: var(--green); color: #fff; transition: transform var(--t-press) var(--ease-out), background-color var(--t-hover) ease; } .ds-btn:hover { background: var(--green-deep); } .ds-btn:active { transform: scale(0.97); } .ds-btn:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }"
+      "css": ".ds-btn-mark { flex: none; width: 1.125em; height: auto; fill: none; stroke: currentColor; stroke-width: 1.5; transition: transform var(--t-hover) var(--ease-out); } .ds-btn-mark * { vector-effect: non-scaling-stroke; } .ds-btn:hover .ds-btn-mark { transform: translateX(2px); } .ds-btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 44px; padding: 10px 22px; font: 600 var(--fs-body)/1.2 var(--sans); text-decoration: none; border: 0; border-radius: 999px; cursor: pointer; background-color: var(--sage-ink); background-image: radial-gradient(120% 90% at 30% -20%, rgb(255 255 255 / 0.38) 0%, rgb(255 255 255 / 0) 55%), linear-gradient(180deg, rgb(255 255 255 / 0.1) 0%, rgb(255 255 255 / 0) 48%, rgb(31 42 34 / 0.22) 52%, rgb(31 42 34 / 0.05) 100%); box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.45), inset 0 -1px 0 rgb(31 42 34 / 0.35), 0 0 0 1px rgb(31 42 34 / 0.18); text-shadow: 0 1px 0 rgb(31 42 34 / 0.35); color: #fff; transition: transform var(--t-press) var(--ease-out), background-color var(--t-hover) ease; } .ds-btn:hover { background-color: color-mix(in srgb, var(--sage-ink) 78%, var(--ink)); } .ds-btn:active { transform: scale(0.97); } .ds-btn:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }"
     },
     {
       "name": "Quiet Button",
@@ -418,9 +444,9 @@
       "name": "Header",
       "kind": "nav",
       "refersTo": "button-header",
-      "description": "Floating glass pills over a transparent sticky bar: the serif wordmark pill, a nav pill with four sans links, a sliding scrollspy chip and ES · EN, and the green 44px action pill. Hides past the hero while reading down.",
-      "html": "<header class=\"ds-top\"><a class=\"ds-word ds-glass\" href=\"#\">Lautaro Guebel</a><div class=\"ds-navpill ds-glass\"><nav><a href=\"#\">Casos</a><a href=\"#\" aria-current=\"true\">Cómo trabajo</a><a href=\"#\">Qué hago</a><a href=\"#\">Contacto</a></nav><span class=\"ds-langs\"><a aria-current=\"page\" href=\"#\">ES</a><a href=\"#\">EN</a></span></div><a class=\"ds-top-cta\" href=\"#\">Contactame</a></header>",
-      "css": ".ds-top { display: flex; align-items: center; gap: 8px; min-height: 60px; padding-inline: var(--inset); background: var(--sage); color: var(--ink); } .ds-glass { min-height: 44px; border-radius: 999px; background: rgb(251 246 230 / 0.74); box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.6), inset 0 1px 0 rgb(255 255 255 / 0.9); backdrop-filter: blur(18px) saturate(1.3); } .ds-word { flex: none; display: inline-flex; align-items: center; padding: 0 16px; white-space: nowrap; font: 400 var(--fs-sub)/1 var(--serif); letter-spacing: -0.01em; text-decoration: none; color: inherit; } .ds-navpill { display: flex; align-items: center; gap: 4px; padding-inline: 4px; } .ds-navpill nav { display: flex; } .ds-navpill nav a { display: flex; align-items: center; min-height: 44px; padding: 0 12px; border-radius: 999px; font: 400 var(--fs-small)/1.3 var(--sans); text-decoration: none; color: inherit; transition: background-color var(--t-hover) ease; } .ds-navpill nav a[aria-current] { background: rgb(255 255 255 / 0.72); box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.9); } .ds-navpill nav a:not([aria-current]):hover { background: rgb(255 255 255 / 0.4); } .ds-langs { position: relative; display: flex; } .ds-langs::after { content: \"\"; position: absolute; left: 50%; top: 50%; width: 3px; height: 3px; margin: -1.5px 0 0 -1.5px; border-radius: 50%; background: var(--ink-2); } .ds-langs a { display: grid; place-items: center; min-width: 44px; min-height: 44px; border-radius: 999px; font: 400 var(--fs-small)/1 var(--sans); color: var(--ink); text-decoration: none; text-underline-offset: 0.22em; text-decoration-thickness: 0.07em; } .ds-langs a[aria-current] { text-decoration-line: underline; } .ds-top-cta { flex: none; margin-left: auto; display: inline-flex; align-items: center; min-height: 44px; padding: 0 18px; border-radius: 999px; font: 600 var(--fs-small)/1.2 var(--sans); background: var(--green); color: #fff; text-decoration: none; white-space: nowrap; transition: background-color var(--t-hover) ease; } .ds-top-cta:hover { background: var(--green-deep); } .ds-top a:focus-visible { outline: 3px solid var(--ink); outline-offset: -3px; }"
+      "description": "Floating pills over a transparent sticky bar: the serif wordmark pill and a nav pill (four sans links, a sliding scrollspy chip and ES · EN) in brushed metal (L108), and the 44px moss-metal action pill. Hides past the hero while reading down.",
+      "html": "<header class=\"ds-top\"><a class=\"ds-word ds-metal\" href=\"#\">Lautaro Guebel</a><div class=\"ds-navpill ds-metal\"><nav><a href=\"#\">Casos</a><a href=\"#\" aria-current=\"true\">Cómo trabajo</a><a href=\"#\">Qué hago</a><a href=\"#\">Contacto</a></nav><span class=\"ds-langs\"><a aria-current=\"page\" href=\"#\">ES</a><a href=\"#\">EN</a></span></div><a class=\"ds-top-cta\" href=\"#\">Contactame</a></header>",
+      "css": ".ds-top { display: flex; align-items: center; gap: 8px; min-height: 60px; padding-inline: var(--inset); background: var(--sage); color: var(--ink); } .ds-metal { min-height: 44px; border-radius: 999px; background-color: rgb(234 229 216 / 0.92); background-image: repeating-linear-gradient(0deg, rgb(255 255 255 / 0.16) 0 1px, transparent 1px 3px), linear-gradient(100deg, rgb(255 255 255 / 0) 20%, rgb(255 255 255 / 0.55) 42%, rgb(255 255 255 / 0) 64%), linear-gradient(180deg, rgb(255 255 255 / 0.45), rgb(221 214 196 / 0.4)); backdrop-filter: blur(10px); box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.9), inset 0 -1px 0 rgb(31 42 34 / 0.14), 0 0 0 1px rgb(31 42 34 / 0.12); } .ds-word { flex: none; display: inline-flex; align-items: center; padding: 0 16px; white-space: nowrap; font: 400 var(--fs-sub)/1 var(--serif); letter-spacing: -0.01em; text-decoration: none; color: inherit; } .ds-navpill { display: flex; align-items: center; gap: 4px; padding-inline: 4px; } .ds-navpill nav { display: flex; } .ds-navpill nav a { display: flex; align-items: center; min-height: 44px; padding: 0 12px; border-radius: 999px; font: 400 var(--fs-small)/1.3 var(--sans); text-decoration: none; color: inherit; transition: background-color var(--t-hover) ease; } .ds-navpill nav a[aria-current] { background: rgb(255 255 255 / 0.72); box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.9); } .ds-navpill nav a:not([aria-current]):hover { background: rgb(255 255 255 / 0.4); } .ds-langs { position: relative; display: flex; } .ds-langs::after { content: \"\"; position: absolute; left: 50%; top: 50%; width: 3px; height: 3px; margin: -1.5px 0 0 -1.5px; border-radius: 50%; background: var(--ink-2); } .ds-langs a { display: grid; place-items: center; min-width: 44px; min-height: 44px; border-radius: 999px; font: 400 var(--fs-small)/1 var(--sans); color: var(--ink); text-decoration: none; text-underline-offset: 0.22em; text-decoration-thickness: 0.07em; } .ds-langs a[aria-current] { text-decoration-line: underline; } .ds-top-cta { flex: none; margin-left: auto; display: inline-flex; align-items: center; min-height: 44px; padding: 0 18px; border-radius: 999px; font: 600 var(--fs-small)/1.2 var(--sans); background-color: var(--sage-ink); background-image: radial-gradient(120% 90% at 30% -20%, rgb(255 255 255 / 0.38) 0%, rgb(255 255 255 / 0) 55%), linear-gradient(180deg, rgb(255 255 255 / 0.1) 0%, rgb(255 255 255 / 0) 48%, rgb(31 42 34 / 0.22) 52%, rgb(31 42 34 / 0.05) 100%); box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.45), inset 0 -1px 0 rgb(31 42 34 / 0.35), 0 0 0 1px rgb(31 42 34 / 0.18); text-shadow: 0 1px 0 rgb(31 42 34 / 0.35); color: #fff; text-decoration: none; white-space: nowrap; transition: background-color var(--t-hover) ease; } .ds-top-cta:hover { background-color: color-mix(in srgb, var(--sage-ink) 78%, var(--ink)); } .ds-top a:focus-visible { outline: 3px solid var(--ink); outline-offset: -3px; }"
     },
     {
       "name": "Text Link",
@@ -434,7 +460,7 @@
       "name": "Plate with caption",
       "kind": "card",
       "refersTo": "plate",
-      "description": "A figure on a sheet of mica: translucent plate paper, blur, a 1px rim of light, 14px corners; sans 600 title on top, italic serif caption under it.",
+      "description": "A figure on a sheet of mica: translucent plate paper, blur, a 1px rim of light, 14px corners; sans 600 title on top, italic serif caption under it on the case pages (the home's figures carry none since L113-L116).",
       "html": "<figure class=\"ds-sheet\"><div class=\"ds-plate\"><h3 class=\"ds-sheet-title\">Relevamiento</h3><p>Cada tarea y cómo se hacía.</p></div><figcaption class=\"ds-caption\">Lo que se hacía a mano, antes de construir nada.</figcaption></figure>",
       "css": ".ds-sheet { margin: 0; color: var(--ink); } .ds-plate { background: rgb(251 246 230 / 0.8); backdrop-filter: blur(18px) saturate(1.3); box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.6), inset 0 1px 0 rgb(255 255 255 / 0.9); border-radius: 14px; padding: var(--plate-pad); display: grid; gap: 14px; } .ds-sheet-title { margin: 0; font: 600 var(--fs-lead)/1.25 var(--sans); letter-spacing: -0.01em; } .ds-plate p { margin: 0; font: 400 var(--fs-body)/1.65 var(--sans); } .ds-caption { margin-top: 10px; font: italic 400 var(--fs-small)/1.45 var(--serif); color: var(--ink-2); }"
     },
@@ -458,15 +484,15 @@
       "name": "Ledger entry",
       "kind": "custom",
       "refersTo": "ledger",
-      "description": "The offer on a single plate (14px corners), entries apart by space alone: the old way struck through in brick in small serif italic above the sans 600 title (left half), the sentence level with the title (right half).",
-      "html": "<ul class=\"ds-ledger\"><li class=\"ds-entry\"><p class=\"ds-was\"><s>Anotar turnos en un cuaderno</s></p><h3 class=\"ds-entry-title\">Reservas solas</h3><p class=\"ds-entry-text\">El cliente elige el horario y vos solo lo ves.</p></li><li class=\"ds-entry\"><p class=\"ds-was\"><s>Revisar el depósito a ojo</s></p><h3 class=\"ds-entry-title\">Avisos de stock</h3><p class=\"ds-entry-text\">Te avisa antes de que falte.</p></li></ul>",
-      "css": ".ds-ledger { display: grid; row-gap: clamp(1.5rem, 3vw, 2.25rem); margin: 0; padding: clamp(1.25rem, 2.6vw, 2rem) var(--plate-pad); list-style: none; background: var(--plate); border-radius: 14px; color: var(--ink); } .ds-entry { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gutter); align-items: baseline; } .ds-was { grid-column: 1 / span 6; grid-row: 1; margin: 0; font: italic 400 var(--fs-small)/1.4 var(--serif); color: var(--ink-2); } .ds-was s { text-decoration-color: var(--brick); text-decoration-thickness: 0.1em; } .ds-entry-title { grid-column: 1 / span 6; grid-row: 2; margin: 0; font: 600 var(--fs-sub)/1.15 var(--sans); letter-spacing: -0.015em; } .ds-entry-text { grid-column: 7 / -1; grid-row: 2; max-width: 52ch; margin: 0; font: 400 var(--fs-body)/1.65 var(--sans); }"
+      "description": "The offer's list as an inner panel on the ink band (plate at 0.05, 14px corners, a faint light rim; L117-L118), entries apart by space alone: the old way in small serif italic, plate at 0.72, struck through in straw, above the plate sans 600 title (left half), the sage sentence level with the title (right half).",
+      "html": "<div class=\"ds-offer-ground\"><ul class=\"ds-ledger\"><li class=\"ds-entry\"><p class=\"ds-was\"><s>Anotar turnos en un cuaderno</s></p><h3 class=\"ds-entry-title\">Reservas solas</h3><p class=\"ds-entry-text\">El cliente elige el horario y vos solo lo ves.</p></li><li class=\"ds-entry\"><p class=\"ds-was\"><s>Revisar el depósito a ojo</s></p><h3 class=\"ds-entry-title\">Avisos de stock</h3><p class=\"ds-entry-text\">Te avisa antes de que falte.</p></li></ul></div>",
+      "css": ".ds-offer-ground { background: var(--ink); padding: var(--plate-pad); } .ds-ledger { display: grid; row-gap: clamp(1.75rem, 3.4vw, 2.75rem); margin: 0; padding: clamp(1.75rem, 3.6vw, 3rem) clamp(1.25rem, 3vw, 2.75rem); list-style: none; background: rgb(251 246 230 / 0.05); border-radius: 14px; box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.1), 0 0 0 1px rgb(251 246 230 / 0.08); color: var(--plate); } .ds-entry { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gutter); align-items: baseline; } .ds-was { grid-column: 1 / span 6; grid-row: 1; margin: 0; font: italic 400 var(--fs-small)/1.4 var(--serif); color: rgb(251 246 230 / 0.72); } .ds-was s { text-decoration-color: var(--straw); text-decoration-thickness: 0.1em; } .ds-entry-title { grid-column: 1 / span 6; grid-row: 2; margin: 0; font: 600 var(--fs-sub)/1.15 var(--sans); letter-spacing: -0.015em; } .ds-entry-text { grid-column: 7 / -1; grid-row: 2; max-width: 52ch; margin: 0; font: 400 var(--fs-body)/1.65 var(--sans); color: var(--sage); }"
     },
     {
       "name": "Event log line",
       "kind": "custom",
       "refersTo": "feed",
-      "description": "A register line beside the plan, on a plate with 14px corners: tabular timestamp, a drawn sage check, the event.",
+      "description": "A register line beside the plan, on a plate with 14px corners: tabular timestamp, a drawn sage check, the event. The log's 'sample data' sentence is a sr-only figcaption (L116).",
       "html": "<ul class=\"ds-log\"><li class=\"ds-log-line\"><span class=\"ds-log-time\">10:42:07</span><svg class=\"ds-log-check\" viewBox=\"0 0 24 24\" width=\"20\" height=\"20\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"11\"/><path d=\"M7 12.5l3.2 3.2L17 9\"/></svg><span class=\"ds-log-event\">Contrato enviado</span></li></ul>",
       "css": ".ds-log { margin: 0; padding: 18px; list-style: none; background: var(--plate); border-radius: 14px; color: var(--ink); } .ds-log-line { height: 44px; display: grid; grid-template-columns: 6.5rem auto minmax(0, 1fr); align-items: center; column-gap: 12px; } .ds-log-time { font: 400 var(--fs-small)/1.3 var(--mono); font-variant-numeric: tabular-nums; color: var(--ink-2); text-align: right; } .ds-log-check { fill: var(--sage); stroke: var(--sage-ink); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; } .ds-log-check path { fill: none; stroke: var(--ink); stroke-width: 2; } .ds-log-event { font: 600 var(--fs-body)/1.3 var(--sans); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }"
     },
@@ -482,17 +508,34 @@
       "name": "Method stacking card",
       "kind": "card",
       "refersTo": "method-card",
-      "description": "A step of 'Cómo trabajo': an opaque plate with 14px corners, what happens on the left and the sheet it leaves on the right; the five stick under the header 20px apart and the covered ones sink back as the next slides over.",
-      "html": "<ol class=\"ds-stack\"><li class=\"ds-card\"><div><p class=\"ds-card-line\">Escucho y relevo</p><p>Cómo se hace hoy cada tarea.</p></div><figure class=\"ds-card-art\"><div class=\"ds-card-sheet\">Relevamiento</div><figcaption class=\"ds-caption\">Lo que se hacía a mano.</figcaption></figure></li></ol>",
-      "css": ".ds-stack { display: grid; gap: clamp(1rem, 2vw, 1.5rem); margin: 0; padding: 0; list-style: none; } .ds-card { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 18px calc(var(--gutter) * 2); padding: clamp(1.25rem, 2.6vw, 2.25rem); background: var(--plate); border-radius: 14px; box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.6), inset 0 1px 0 rgb(255 255 255 / 0.9); color: var(--ink); } .ds-card p { margin: 0; font: 400 var(--fs-body)/1.6 var(--sans); } .ds-card .ds-card-line { margin-bottom: 12px; font: 600 var(--fs-sub)/1.15 var(--sans); letter-spacing: -0.015em; } .ds-card-art { margin: 0; } .ds-card-sheet { padding: var(--plate-pad); border-radius: 6px; background: var(--sage); font: 600 var(--fs-lead)/1.25 var(--sans); letter-spacing: -0.01em; } .ds-caption { margin-top: 10px; font: italic 400 var(--fs-small)/1.45 var(--serif); color: var(--ink-2); }"
+      "description": "A step of 'Cómo trabajo' on the sage band (L114): an opaque plate with 14px corners and a fine ink ring, what happens on the left and the sheet it leaves on the right, no caption; the five stick under the header 20px apart and the covered ones sink back as the next slides over.",
+      "html": "<div class=\"ds-method-band\"><ol class=\"ds-stack\"><li class=\"ds-card\"><div><p class=\"ds-card-line\">Escucho y relevo</p><p>Cómo se hace hoy cada tarea.</p></div><figure class=\"ds-card-art\"><div class=\"ds-card-sheet\">Relevamiento</div></figure></li></ol></div>",
+      "css": ".ds-method-band { background: var(--sage); padding: var(--plate-pad); } .ds-stack { display: grid; gap: clamp(1rem, 2vw, 1.5rem); margin: 0; padding: 0; list-style: none; } .ds-card { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 18px calc(var(--gutter) * 2); padding: clamp(1.25rem, 2.6vw, 2.25rem); background: var(--plate); border-radius: 14px; box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.9), 0 0 0 1px rgb(31 42 34 / 0.1); color: var(--ink); } .ds-card p { margin: 0; font: 400 var(--fs-body)/1.6 var(--sans); } .ds-card .ds-card-line { margin-bottom: 12px; font: 600 var(--fs-sub)/1.15 var(--sans); letter-spacing: -0.015em; } .ds-card-art { margin: 0; } .ds-card-sheet { padding: var(--plate-pad); border-radius: 6px; background: var(--sage); font: 600 var(--fs-lead)/1.25 var(--sans); letter-spacing: -0.01em; }"
+    },
+    {
+      "name": "Offer band",
+      "kind": "custom",
+      "refersTo": "offer-band",
+      "description": "Where the owner decides (L117-L120): the section on the ink field, the promise across at the display size in the sans, the sage intro, the moss-metal call to action with the arrow mark, the picture on a faint plate mat, then the ledger. No closing sentence.",
+      "html": "<section class=\"ds-offer\"><h2 class=\"ds-offer-title\">Lo que tu negocio puede hacer solo</h2><p class=\"ds-offer-intro\">No hace falta que sepas de tecnología. Me contás cómo trabajás hoy y lo convierto en un sistema hecho a medida que hace por vos el trabajo repetitivo.</p><a class=\"ds-offer-act\" href=\"#\">Contame tu caso<svg viewBox=\"0 0 18 13\" width=\"18\" height=\"13\" aria-hidden=\"true\"><path d=\"M1 6.5H16M11 1.5l5 5-5 5\"/></svg></a></section>",
+      "css": ".ds-offer { display: grid; gap: 22px; padding: var(--gap-section) var(--inset); background: var(--ink); color: var(--plate); } .ds-offer-title { margin: 0; max-width: 14ch; font: 400 var(--fs-display)/0.98 var(--sans); letter-spacing: -0.035em; color: var(--plate); } .ds-offer-intro { margin: 0; max-width: 52ch; font: 400 var(--fs-lead)/1.5 var(--sans); color: var(--sage); } .ds-offer-act { justify-self: start; display: inline-flex; align-items: center; gap: 10px; min-height: 44px; padding: 10px 22px; border-radius: 999px; font: 600 var(--fs-body)/1.2 var(--sans); text-decoration: none; background-color: var(--sage-ink); background-image: radial-gradient(120% 90% at 30% -20%, rgb(255 255 255 / 0.38) 0%, rgb(255 255 255 / 0) 55%), linear-gradient(180deg, rgb(255 255 255 / 0.1) 0%, rgb(255 255 255 / 0) 48%, rgb(31 42 34 / 0.22) 52%, rgb(31 42 34 / 0.05) 100%); box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.45), inset 0 -1px 0 rgb(31 42 34 / 0.35), 0 0 0 1px rgb(31 42 34 / 0.18); text-shadow: 0 1px 0 rgb(31 42 34 / 0.35); color: #fff; } .ds-offer-act:hover { background-color: color-mix(in srgb, var(--sage-ink) 78%, var(--ink)); } .ds-offer-act svg { width: 1.125em; height: auto; fill: none; stroke: currentColor; stroke-width: 1.5; }"
+    },
+    {
+      "name": "Site icon",
+      "kind": "custom",
+      "refersTo": "site-icon",
+      "description": "The serif LG drawn as paths in plate paper on a 14-unit-radius tile of the moss metal (specular glow, mid band, rim; the edge turns plate under prefers-color-scheme: dark). favicon.svg and the 16/32 ICO use a sturdy drawing; the 180 touch icon (opaque, full bleed) and the 512 icon a finer one. Generated by scripts/make-icons.mjs (T24).",
+      "html": "<img src=\"/favicon.svg\" width=\"64\" height=\"64\" alt=\"\">",
+      "css": ""
     }
   ],
   "narrative": {
     "northStar": "The Hand-Coloured Atlas of Tucumán, under mica",
-    "overview": "The site reads as a bound atlas. Two engraved landscape plates open and close it: the cane fields and sugar mill under the hero's promise, the lake and chapel under the footer. Between them, the engineering work is drawn as surveyor's plans in the same green-black ink: a flow of five stations on a pencilled track with a compass rose and a scale bar, an estate of plots for the club's system, a ledger for what a business can do on its own. A small business is mapped and put in order the way a cane estate is surveyed. The world was pinned by the user (\"Me gusta muchos los colores (beige) y estetica tranquila que tiene el hero y footer. Quiero poder plasmar eso en el resto de la pagina\"), so the build extends the plates' palette and calm to every section.\n\nThe calm + modern pass (S12, L100-L101) lays that atlas under sheets of mica: figures on translucent, softly rounded sheets with a rim of light, text over the engravings on thicker glass, pill actions, a header of floating glass pills, scroll-linked depth on the engravings, word-by-word headings and stacking method cards. The palette and the drawn plans are unchanged: the modern layer is material and motion, not colour. A designer's note (L111) then moved the headings and titles to the sans too, so the page reads lighter: the serif is kept for the hero's promise, the captions and the wordmark.\n\nDensity is low and the tempo is slow. Each section has its own composition, and a section is separated from the next by space and by a step in paper tone, never by a rule. Colour is watercolour wash on rag paper: a cream ground, a brighter plate paper for figures, a sage wash for the automation case, a straw wash for the padel case, and brick only where something fails or is struck out. The one saturated colour on the page is the forest-green action, kept from earlier versions on purpose so the action is never mistaken for decoration.\n\nThe world explicitly refuses the SaaS landing: saturated colour bands, blueprint grids and rows of same-size cards (direction contract, THESIS).",
+    "overview": "The site reads as a bound atlas. Two engraved landscape plates open and close it: the cane fields and sugar mill under the hero's promise, the lake and chapel under the footer. Between them, the engineering work is drawn as surveyor's plans in the same green-black ink: a flow of five stations on a pencilled track with a compass rose and a scale bar, an estate of plots for the club's system, a ledger for what a business can do on its own. A small business is mapped and put in order the way a cane estate is surveyed. The world was pinned by the user (\"Me gusta muchos los colores (beige) y estetica tranquila que tiene el hero y footer. Quiero poder plasmar eso en el resto de la pagina\"), so the build extends the plates' palette and calm to every section.\n\nThe calm + modern pass (S12, L100-L101) lays that atlas under sheets of mica: \"Quiero mezclar el estilo tranquilo con algo moderno\", with a frosted-glass dashboard (\"es como una mica o un estilo ui de iphone\") and a pill navbar as references. Figures sit on translucent, softly rounded sheets with a rim of light; text over the engravings sits on thicker glass; actions are pills; the header floats as three pills; the engravings move with the scroll, headings come in word by word and the method's steps stack as cards. The palette and the drawn plans are unchanged: the modern layer is material and motion, not colour. A designer's note (L111: \"acompañemos la tipografia de la serif con otro tipo de tipografia para que no sea tan pesada y no se vea tan \"vieja\"\") then moved the headings and titles to the sans too: the serif is kept for the hero's promise, the captions and the wordmark.\n\nThe impeccable live canvas (L108-L120) then tuned the page by hand with the user, element by element, and turned the modern layer into metal where it is touched: the header's name and links became brushed-metal pills (\"un poco mas metalizado\"), every action became a pill of liquid moss metal (\"un efecto de liquid metal verde musgo\"), the method was set on a sage band so it stands out (\"debe resaltar mas\"), and the offer became the page's one dark field, the ink band where the owner decides (\"aca se debe decidir y actuar\"), opening on a display-size promise and a call to action. Captions the reader did not need were removed from the home (L123: \"es info extra que no necesita el lector\").\n\nDensity is low and the tempo is slow. Each section has its own composition, and a section is separated from the next by space and by a change of ground (paper, sage, straw, ink), never by a rule. Colour is watercolour wash on rag paper: a cream ground, a brighter plate paper for figures, a sage wash for the automation case and the method, a straw wash for the padel case, and brick only where something fails or is struck out. The action is the moss metal: the sage ink, lit like metal, on every button; forest green, the action of earlier versions, now only marks a few written states and hovers.\n\nThe world explicitly refuses the SaaS landing: saturated colour bands, blueprint grids and rows of same-size cards (direction contract, THESIS).",
     "keyCharacteristics": [
       "Cream paper ground; figures on sheets of mica (translucent plate paper, blur, a rim of light, 14px corners), never on ruled frames.",
-      "Green-black ink for text and for every drawn line; washes carry case identity (sage = automation, straw = padel).",
+      "Metal where the hand goes: brushed-metal header pills and liquid moss-metal action pills, both lit by layered light, never by a drop shadow.",
+      "Green-black ink for text and for every drawn line; washes carry case identity (sage = automation, straw = padel); two full bands mark the page's turns: the method on sage, the offer on ink.",
       "The atlas serif only for the hero's promise, the italic captions and the wordmark; Albert Sans, self-hosted, for every heading, title, reading text and control.",
       "Diagrams in 1–1.5px ink linework with hatching, a compass rose and a scale bar where a plan is shown.",
       "Soft corners on surfaces (14 / 10 / 6px), pills for actions and the header; circles for drawn marks and stations.",
@@ -500,8 +543,8 @@
     ],
     "rules": [
       {
-        "name": "The One Saturated Colour Rule",
-        "body": "Forest green is the only saturated colour, and it only ever means \"act\". Washes carry case identity; brick carries failure; nothing else gets colour.",
+        "name": "The Moss Metal Is the Action Rule",
+        "body": "Only an action wears the moss metal, and every action wears it. Washes carry case identity (and the method's band); ink as a field marks the offer alone; brick carries failure; forest green is limited to the caret, the email row's hover and written \"accepted\" states. Nothing else gets colour.",
         "section": "colors"
       },
       {
@@ -516,7 +559,7 @@
       },
       {
         "name": "The Mica Is Paper Rule",
-        "body": "Every translucent fill is an existing paper or wash with alpha, never a new colour or a white veil.",
+        "body": "Every translucent fill is an existing paper, wash or ink with alpha, never a new colour or a white veil. The white in the metal is light (brush lines, sheen, specular, rim), laid over a palette fill, never a fill of its own.",
         "section": "colors"
       },
       {
@@ -531,7 +574,7 @@
       },
       {
         "name": "The Atlas Caption Rule",
-        "body": "A figure's caption sits under it in small serif italic, never above it, never in tracked capitals.",
+        "body": "A figure's caption sits under it in small serif italic, never above it, never in tracked capitals. A caption is there only when the reader needs it: on the home a figure speaks for itself; a disclosure that must stay (sample data, an illustrative screen) moves to the alt text or to screen-reader text, never disappears.",
         "section": "typography"
       },
       {
@@ -551,40 +594,40 @@
       },
       {
         "name": "The Only Floating Thing Rule",
-        "body": "Only the drawn phone casts a shadow. Plates, glass, the header's pills and buttons rest flat.",
+        "body": "Only the drawn phone casts a shadow. Plates, glass, metal pills and buttons rest flat: no offset, no blur radius under anything (T23 removed the lift S12 had put under the hero's glass and the header's pills; the live canvas's metal kept to rims).",
         "section": "elevation"
       }
     ],
     "dos": [
-      "**Do** set every figure on a sheet of mica (or a wash's mica), with its italic serif caption under it.",
-      "**Do** keep forest green (#0c7866) for actions only, and give each case its wash: sage for automation, straw for padel.",
+      "**Do** set every figure on a sheet of mica (or a wash's mica); on the case pages give it its italic serif caption under it, on the home only when the reader needs it.",
+      "**Do** dress every action, and only actions, in the moss metal (sage ink lit as metal, white label), and give each case its wash: sage for automation (and the method's band), straw for padel.",
       "**Do** draw diagrams as survey plans: ink lines 1–1.5 units, pencilled tracks, brick hatching and dashes for failure, a compass rose and a scale bar where a plan is shown.",
       "**Do** use only the six size tokens for text; the serif for the hero's promise, the italic captions and the wordmark, Albert Sans for every heading, title, reading text and control.",
       "**Do** use the four radius tokens: panel for surfaces, control for rows and plots, inner for a picture on a mat, pill for actions and the header.",
-      "**Do** put text over an engraving on glass, and keep glass over pictures and in the header only.",
-      "**Do** separate sections with space and a change of ground (`--gap-section`, paper → plate → wash).",
+      "**Do** put text over an engraving on glass, and keep glass over the hero's picture only; the header's pills are brushed metal.",
+      "**Do** separate sections with space and a change of ground (`--gap-section`, paper → plate → wash, the ink band for the offer).",
       "**Do** mark list lines with filled shapes (dash, dot, square) instead of boxes or bullets.",
       "**Do** make every animation start from a visible, complete default, tie scroll motion to `translate` / `scale` inside `@supports (animation-timeline: view())`, and switch it all off under reduced motion; keep one protagonist (the plan).",
-      "**Do** keep text AA on every ground: ink or ink-2 on paper, plate, sage, straw and mica; ink only on glass; brick and green-deep only where their measured contrast holds (6.1:1 and 6.0:1).",
+      "**Do** keep text AA on every ground: ink or ink-2 on paper, plate, sage, straw and mica; ink only on glass and metal; plate and sage on the ink band; white on the moss metal (5.7:1); brick and green-deep only where their measured contrast holds (6.1:1 and 6.0:1).",
       "**Do** embed the generation prompt in every new shipping raster, give each slot a 2x candidate and tone photos to the paper."
     ],
     "donts": [
       "**Don't** use saturated colour bands, blueprint grids or rows of same-size cards (the SaaS landing the world refuses).",
       "**Don't** put a label, kicker or eyebrow above a heading, number sections, or use tracked uppercase labels.",
-      "**Don't** put a shadow on anything at rest, glass included; the drawn phone is the only floating object.",
+      "**Don't** put an offset or blurred shadow on anything at rest, glass and metal included; the drawn phone is the only floating object. Rims, 1px rings and the button label's 1px engraved text shadow are light, not lift.",
       "**Don't** divide content with hairlines or outline boxes in 1px lines; the 1px rim of light on mica is inset light, not a frame, and ink linework belongs to drawings and marks.",
       "**Don't** invent a radius or a translucent colour: every corner is a token, every fill an existing paper or wash with alpha.",
       "**Don't** use monospace outside real data, or `ink-3` for any text.",
       "**Don't** use text glyphs (\"+\", \"→\") as icons; draw them as SVG in the 1.5px ink line.",
       "**Don't** name technologies, tools or frameworks, or show a GitHub link, anywhere in text, alt, aria-label or title.",
-      "**Don't** use gradients as fills; masks are only for blending the engravings into the paper."
+      "**Don't** use gradients as fills. The one use is light on metal (the buttons, the header pills, the site icon): white and ink layers over a palette fill, never a colour gradient. Masks are only for blending the engravings into the paper."
     ],
     "exceptions": [
       "**Two hairlines:** the 1px `ink-3` separator above the real workflow graph (canvas comment if01muum), now bounded to the plan under it (`min(68rem, 100% - 2 × --plate-pad)`, 420px where the tall plan stands in), and the footer's 1px closing hairline (L67). No other rule lines.",
       "**The \"venta\" highlight:** the straw fill behind one word in the flow heading (L56).",
-      "**The footer:** its black text, #504e42 / #474640 inks, #e9e2cf / #ebe4d2 lines and the 6px-radius icon box come from the user's reference and stay local to it.",
+      "**The footer:** its black text, #504e42 / #474640 inks, #e9e2cf / #ebe4d2 lines and the 6px-radius icon box come from the user's reference and stay local to it. Its serif link columns were part of that pin (L67) until L111: the user asked for the lighter type across the whole page, so the columns and the closing row are now in the sans; only the \"LG\" stays serif.",
       "**System serif as the display face:** pinned by the user (artboard-02 typography). The earlier pin of the display size \"up to 10rem\" is superseded by the designer pass (S11, L93): the display now tops out at 6.5rem.",
-      "**Glass and pills (S12):** the frosted surfaces and the floating pill header were asked for by the user (\"Vidrio + esquinas suaves\", \"Header en píldoras con scrollspy\") against the taste skill's \"no glass, no floating pill navigation\" house rule; they stay as decided."
+      "**Glass, metal and pills (S12, L108, L110):** the frosted surfaces, the floating pill header and its brushed metal, and the liquid-metal buttons were asked for by the user (\"Vidrio + esquinas suaves\", \"Header en píldoras con scrollspy\", \"debe ser un poco mas metalizado\", \"liquid metal verde musgo\") against the taste skill's \"no glass, no floating pill navigation, no gradients, flat buttons\" house rules; they stay as decided."
     ]
   }
 }
