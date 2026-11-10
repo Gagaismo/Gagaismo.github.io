@@ -313,9 +313,10 @@ describe("T17 review: the wordmark", () => {
     const mono = px(".wordmark__mono", "display:\\s*inline");
     expect(mono).toBeDefined();
     // Advance widths measured with Georgia at 16 px ("Lautaro Guebel": 107 px) and Albert Sans 600 at
-    // 14 px ("Contactame": 79.5 px from the font's own advances, the longer label), plus the bar's fixed parts at 390 px and below: two
-    // 28 px insets, 12 px and 8 px gaps, two 44 px language targets, the button's 12 px sides.
-    const needed = 56 + 107 + 12 + 88 + 8 + 80 + 24;
+    // 14 px ("Contactame": 79.5 px from the font's own advances, the longer label), plus the bar's fixed parts at 390 px and below
+    // (T21, the pills): two 28 px insets, the name pill's 10 px sides, two 6 px gaps, two 40 px language
+    // targets, the button's 10 px sides.
+    const needed = 56 + 107 + 20 + 6 + 80 + 6 + 80 + 20;
     expect(mono! + 1 - needed).toBeGreaterThanOrEqual(12);
   });
 });
