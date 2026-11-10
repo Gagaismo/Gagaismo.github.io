@@ -5,7 +5,7 @@ import landscape from "../assets/images/footer-landscape.png";
 import { email, type HomeCopy } from "../i18n/home";
 
 // The footer of the user's references (L67): cream ground, the LG letters and an email button, two
-// serif link columns, a hairline and the closing row, over a landscape that fills the bottom. The
+// link columns (in the sans since L111; the LG letters keep the serif), a hairline and the closing row, over a landscape that fills the bottom. The
 // picture is a slow living loop in CSS only: the camera pushes in (the whole scene), the far mountains
 // lag behind, the foliage in front pushes further and sways, the lake shimmers through two SVG
 // displacements whose ripples drift (SMIL, no JS) and crossfade, and a small canoe crosses the water
@@ -169,7 +169,6 @@ const picture: ComponentProps<typeof Picture> = {
     background: #fbf6e6;
     color: #000;
     --focus: var(--ink);
-    font-family: var(--serif);
     overflow: clip;
   }
   .foot__inner {
@@ -229,14 +228,15 @@ const picture: ComponentProps<typeof Picture> = {
     column-gap: var(--gutter);
   }
   .foot__title {
-    font: 400 var(--fs-lead) / 1.3 var(--serif);
+    font: 600 var(--fs-lead) / 1.3 var(--sans);
+    letter-spacing: -0.01em;
     margin-bottom: 6px;
   }
   /* 38px rows, as in the reference. */
   .foot__col a {
     display: inline-block;
     padding-block: 7px;
-    font: 400 var(--fs-body) / 1.4 var(--serif);
+    font: 400 var(--fs-body) / 1.4 var(--sans);
     color: #504e42;
     text-decoration: none;
     transition: color var(--t-hover) ease;
@@ -259,7 +259,7 @@ const picture: ComponentProps<typeof Picture> = {
     margin-top: clamp(2.5rem, 5vw, 4rem);
     padding-top: 26px;
     border-top: 1px solid #ebe4d2; /* taste-skill-ignore: hairline the user asked for (L67 reference footer) */
-    font: 400 var(--fs-small) / 1.5 var(--serif);
+    font: 400 var(--fs-small) / 1.5 var(--sans);
     color: #474640;
   }
 

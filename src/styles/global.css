@@ -32,9 +32,10 @@
   --line: 1.25px;
   --line-bold: 2px;
 
-  /* Two voices (S12): the atlas serif, a system face, for the wordmark, headings, titles and captions;
-     Albert Sans, self-hosted below, for reading text and every control; a mono for real data only. The
-     metric-matched fallback keeps the lines where they are while the sans swaps in. */
+  /* Two voices (L111): the atlas serif, a system face, only for the hero's promise, the italic captions
+     and the wordmark; Albert Sans, self-hosted below, for everything else: headings, titles, reading text
+     and every control. A mono for real data only. The metric-matched fallback keeps the lines where they
+     are while the sans swaps in. */
   --serif: Georgia, "Iowan Old Style", "Times New Roman", serif;
   --sans: "Albert Sans", "Albert Sans Fallback", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --mono: ui-monospace, "Cascadia Code", "SF Mono", Consolas, monospace;
@@ -228,19 +229,22 @@ figure {
   letter-spacing: -0.025em;
   line-height: 1;
 }
+/* Section headings in the sans at its regular weight: the size carries the step, the light weight keeps
+   the page from reading heavy; tracked in, as large sans wants. */
 .head {
-  font-family: var(--serif);
+  font-family: var(--sans);
   font-weight: 400;
   font-size: var(--fs-head);
-  letter-spacing: -0.02em;
+  letter-spacing: -0.025em;
   line-height: 1.1;
 }
-/* A chapter's heading on a case page: a step under .head. */
+/* A chapter's heading on a case page: a step under .head, in the bolder weight so the smaller size still
+   reads as a heading. */
 .subhead {
-  font-family: var(--serif);
-  font-weight: 400;
+  font-family: var(--sans);
+  font-weight: 600;
   font-size: var(--fs-sub);
-  letter-spacing: -0.01em;
+  letter-spacing: -0.015em;
   line-height: 1.15;
 }
 .lead {
@@ -254,7 +258,7 @@ figure {
 
 /* A figure on a sheet of mica: the brighter paper, translucent, with a rim of light and soft corners.
    Behind it the page's ground (or a picture) shows through, blurred. Its caption sits under it, small
-   and in serif italic. */
+   and in serif italic: the atlas's voice. */
 .plate {
   background: var(--mica);
   border-radius: var(--radius-panel);

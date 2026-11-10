@@ -154,13 +154,13 @@ const { analysis, built, around, care, outcome } = s;
     line-height: 1.4;
   }
   .gloss dt {
-    font: 400 var(--fs-body) / 1.3 var(--serif);
+    font: 600 var(--fs-body) / 1.3 var(--sans);
   }
   .gloss dd {
     color: var(--ink-2);
   }
 
-  /* A written decision: the decision in serif, its reason, its state in the deep action green
+  /* A written decision: the decision as a title, its reason, its state in the deep action green
      (6.0:1 on the sage wash). */
   .record {
     display: grid;
@@ -169,7 +169,8 @@ const { analysis, built, around, care, outcome } = s;
     line-height: 1.45;
   }
   .record__decision {
-    font: 400 var(--fs-lead) / 1.3 var(--serif);
+    font: 600 var(--fs-lead) / 1.3 var(--sans);
+    letter-spacing: -0.01em;
   }
   .record__status {
     font-weight: 600;
@@ -232,7 +233,7 @@ const { analysis, built, around, care, outcome } = s;
     box-shadow: none;
   }
   .day__n {
-    font: 400 var(--fs-lead) / 1.2 var(--serif);
+    font: 600 var(--fs-lead) / 1.2 var(--sans);
     font-variant-numeric: tabular-nums;
   }
   .day--alert .day__n {

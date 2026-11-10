@@ -55,10 +55,10 @@ const first = copy.drafts[0]!;
   <div class="wrap">
     <ul class="rows plate">
       <li class="row">
-        <a class="display" href={`mailto:${email}`}>{email}</a><small>{copy.emailNote}</small>
+        <a href={`mailto:${email}`}>{email}</a><small>{copy.emailNote}</small>
       </li>
       <li class="row">
-        <span class="display">{copy.place}</span><small>{copy.placeNote}</small>
+        <span>{copy.place}</span><small>{copy.placeNote}</small>
       </li>
     </ul>
   </div>
@@ -205,8 +205,8 @@ const first = copy.drafts[0]!;
   .row span {
     grid-column: 4 / -1;
     grid-row: 1;
-    font-size: var(--fs-head);
-    line-height: 1.1;
+    font: 400 var(--fs-head) / 1.1 var(--sans);
+    letter-spacing: -0.025em;
     text-decoration: none;
     overflow-wrap: anywhere;
   }

@@ -208,10 +208,8 @@ const brick = "#9c4127";
     background: var(--mica);
     border-radius: var(--radius-control);
     box-shadow: var(--glass-rim);
-    font-family: var(--serif);
-    font-style: italic;
-    font-size: var(--fs-lead);
-    line-height: 1.3;
+    font: 600 var(--fs-lead) / 1.3 var(--sans);
+    letter-spacing: -0.01em;
     cursor: pointer;
     list-style: none;
     transition: background-color var(--t-hover) ease;
@@ -272,10 +270,12 @@ const brick = "#9c4127";
     max-width: 420px;
     margin-inline: auto;
   }
-  /* Node names in the serif at its regular weight, like the plan's labels: 17 units on the wide plan
-     (14.6 px at its 68rem cap, the small size), 14 on the tall one (16 px at its 420 px cap). */
+  /* Node names in the sans at its bolder weight, like the plan's labels: 17 units on the wide plan
+     (14.6 px at its 68rem cap, the small size), 14 on the tall one (16 px at its 420 px cap). The
+     longest wrapped line, "Invitación a", is about 5.4em in Albert Sans 600: 76 of the tall box's 100
+     units. */
   .wf__svg text {
-    font: 400 var(--wf-font) var(--serif);
+    font: 600 var(--wf-font) var(--sans);
   }
   .wf__node rect {
     stroke: var(--ink);

@@ -4,8 +4,8 @@ import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
 
 // L67: the footer of the user's references, as close as possible. Cream ground that matches the
-// illustration's sky, the LG letters and one email icon button, two serif link columns, a hairline,
-// the copyright and "Hecho en Tucumán", and the landscape filling the bottom with a slow living loop.
+// illustration's sky, the LG letters and one email icon button, two link columns (serif then; the sans
+// since L111, tests/build/type-voices.test.ts), a hairline, the copyright and "Hecho en Tucumán", and the landscape filling the bottom with a slow living loop.
 
 const dist = fileURLToPath(new URL("../../dist/", import.meta.url));
 const page = (lang: string) => readFileSync(join(dist, lang, "index.html"), "utf8");

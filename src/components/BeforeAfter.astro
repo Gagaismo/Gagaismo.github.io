@@ -27,7 +27,7 @@ const screens = [afterScreen];
   </div>
   <div class="compare__pair">
     <div class="side side--before">
-      <h3 class="specimen display">{copy.before.title}</h3>
+      <h3 class="specimen">{copy.before.title}</h3>
       <div class="plate side__plate">
         <ImageSlot
           name="before-desk"
@@ -43,7 +43,7 @@ const screens = [afterScreen];
       </ul>
     </div>
     <div class="side side--after">
-      <h3 class="specimen display">{copy.after.title}</h3>
+      <h3 class="specimen">{copy.after.title}</h3>
       <ImageSlot name="student-screens" ratio="4 / 3">
         <div class="phones">
           {
@@ -111,9 +111,10 @@ const screens = [afterScreen];
     background: var(--sage);
     padding-left: calc(var(--gutter) / 2 + var(--margin));
   }
+  /* The two words at the hero's size, in the sans at its regular weight, tracked in. */
   .specimen {
-    font-size: var(--fs-display);
-    line-height: 0.9;
+    font: 400 var(--fs-display) / 0.9 var(--sans);
+    letter-spacing: -0.03em;
   }
   .side--before .specimen {
     color: var(--ink-2);

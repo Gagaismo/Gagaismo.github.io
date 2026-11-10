@@ -152,19 +152,23 @@
     "typographyMeta": {
       "display": {
         "displayName": "Display",
-        "purpose": "The hero promise on two lines and the Antes / Después specimen words; up to 6.5rem (S11), capped by --fit per language from the real text column."
+        "purpose": "The hero promise on two lines, in the serif; up to 6.5rem (S11), capped by --fit per language from the real text column. The Antes / Después specimen words take this size in Albert Sans 400 (-0.03em, L111)."
       },
       "headline": {
         "displayName": "Headline",
-        "purpose": "One per section (.head, revealed word by word), the case page's single h1, the contact email and place lines."
+        "purpose": "Albert Sans 400, -0.025em, 1.1 (L111): one per section (.head, revealed word by word), the case page's single h1, the contact email and place lines."
       },
       "title": {
         "displayName": "Title",
-        "purpose": "Case chapter headings (.subhead), method card lines, offer ledger titles, footer LG, the header wordmark from 1101px."
+        "purpose": "Albert Sans 600, -0.015em (L111): case chapter headings (.subhead), method card lines, offer ledger titles."
       },
       "sheet-title": {
         "displayName": "Sheet title",
-        "purpose": "Serif titles of plates, plots, list groups, register dates and footer columns; the disclosure label in italic (--fs-lead)."
+        "purpose": "Albert Sans 600, -0.01em (L111): titles of plates, sheets, plots, list groups, decision records, register dates, contract days and footer columns; the disclosure label (--fs-lead)."
+      },
+      "wordmark": {
+        "displayName": "Wordmark",
+        "purpose": "The serif at the title size: the header's 'Lautaro Guebel' (and its LG monogram) and the footer LG. With the hero promise and the italic captions, the only serif on the page (L111)."
       },
       "lead": {
         "displayName": "Lead",
@@ -430,9 +434,9 @@
       "name": "Plate with caption",
       "kind": "card",
       "refersTo": "plate",
-      "description": "A figure on a sheet of mica: translucent plate paper, blur, a 1px rim of light, 14px corners; serif title on top, italic serif caption under it.",
+      "description": "A figure on a sheet of mica: translucent plate paper, blur, a 1px rim of light, 14px corners; sans 600 title on top, italic serif caption under it.",
       "html": "<figure class=\"ds-sheet\"><div class=\"ds-plate\"><h3 class=\"ds-sheet-title\">Relevamiento</h3><p>Cada tarea y cómo se hacía.</p></div><figcaption class=\"ds-caption\">Lo que se hacía a mano, antes de construir nada.</figcaption></figure>",
-      "css": ".ds-sheet { margin: 0; color: var(--ink); } .ds-plate { background: rgb(251 246 230 / 0.8); backdrop-filter: blur(18px) saturate(1.3); box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.6), inset 0 1px 0 rgb(255 255 255 / 0.9); border-radius: 14px; padding: var(--plate-pad); display: grid; gap: 14px; } .ds-sheet-title { margin: 0; font: 400 var(--fs-lead)/1.25 var(--serif); } .ds-plate p { margin: 0; font: 400 var(--fs-body)/1.65 var(--sans); } .ds-caption { margin-top: 10px; font: italic 400 var(--fs-small)/1.45 var(--serif); color: var(--ink-2); }"
+      "css": ".ds-sheet { margin: 0; color: var(--ink); } .ds-plate { background: rgb(251 246 230 / 0.8); backdrop-filter: blur(18px) saturate(1.3); box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.6), inset 0 1px 0 rgb(255 255 255 / 0.9); border-radius: 14px; padding: var(--plate-pad); display: grid; gap: 14px; } .ds-sheet-title { margin: 0; font: 600 var(--fs-lead)/1.25 var(--sans); letter-spacing: -0.01em; } .ds-plate p { margin: 0; font: 400 var(--fs-body)/1.65 var(--sans); } .ds-caption { margin-top: 10px; font: italic 400 var(--fs-small)/1.45 var(--serif); color: var(--ink-2); }"
     },
     {
       "name": "Composer option",
@@ -448,15 +452,15 @@
       "refersTo": "estate-plot",
       "description": "A system drawn as a cadastral sheet: plots of different spans on a six-column grid, each on the 10px control radius; the 6px gaps are the paths.",
       "html": "<ul class=\"ds-plots\"><li class=\"ds-plot ds-plot--wide ds-plot--tone\"><p class=\"ds-plot-name\">Roles</p><p class=\"ds-plot-text\">Cada persona ve lo suyo.</p></li><li class=\"ds-plot\"><p class=\"ds-plot-name\">Stock</p><p class=\"ds-plot-text\">Avisa cuando falta.</p></li><li class=\"ds-plot ds-plot--four ds-plot--paper\"><p class=\"ds-plot-name\">Limpieza</p><p class=\"ds-plot-text\">Por turno, con responsable.</p></li></ul>",
-      "css": ".ds-plots { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 6px; margin: 0; padding: 18px; list-style: none; background: var(--plate); border-radius: 14px; } .ds-plot { grid-column: span 2; display: grid; align-content: start; gap: 4px; padding: 14px 16px 16px; border-radius: 10px; background: var(--straw); color: var(--ink); } .ds-plot--wide { grid-column: span 6; } .ds-plot--four { grid-column: span 4; } .ds-plot--tone { background: var(--tone); } .ds-plot--paper { background: var(--paper); } .ds-plot p { margin: 0; } .ds-plot-name { font: 400 var(--fs-lead)/1.2 var(--serif); } .ds-plot-text { font: 400 var(--fs-small)/1.45 var(--sans); }"
+      "css": ".ds-plots { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 6px; margin: 0; padding: 18px; list-style: none; background: var(--plate); border-radius: 14px; } .ds-plot { grid-column: span 2; display: grid; align-content: start; gap: 4px; padding: 14px 16px 16px; border-radius: 10px; background: var(--straw); color: var(--ink); } .ds-plot--wide { grid-column: span 6; } .ds-plot--four { grid-column: span 4; } .ds-plot--tone { background: var(--tone); } .ds-plot--paper { background: var(--paper); } .ds-plot p { margin: 0; } .ds-plot-name { font: 600 var(--fs-lead)/1.2 var(--sans); letter-spacing: -0.01em; } .ds-plot-text { font: 400 var(--fs-small)/1.45 var(--sans); }"
     },
     {
       "name": "Ledger entry",
       "kind": "custom",
       "refersTo": "ledger",
-      "description": "The offer on a single plate (14px corners), entries apart by space alone: the old way struck through in brick in small serif italic above the serif title (left half), the sentence level with the title (right half).",
+      "description": "The offer on a single plate (14px corners), entries apart by space alone: the old way struck through in brick in small serif italic above the sans 600 title (left half), the sentence level with the title (right half).",
       "html": "<ul class=\"ds-ledger\"><li class=\"ds-entry\"><p class=\"ds-was\"><s>Anotar turnos en un cuaderno</s></p><h3 class=\"ds-entry-title\">Reservas solas</h3><p class=\"ds-entry-text\">El cliente elige el horario y vos solo lo ves.</p></li><li class=\"ds-entry\"><p class=\"ds-was\"><s>Revisar el depósito a ojo</s></p><h3 class=\"ds-entry-title\">Avisos de stock</h3><p class=\"ds-entry-text\">Te avisa antes de que falte.</p></li></ul>",
-      "css": ".ds-ledger { display: grid; row-gap: clamp(1.5rem, 3vw, 2.25rem); margin: 0; padding: clamp(1.25rem, 2.6vw, 2rem) var(--plate-pad); list-style: none; background: var(--plate); border-radius: 14px; color: var(--ink); } .ds-entry { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gutter); align-items: baseline; } .ds-was { grid-column: 1 / span 6; grid-row: 1; margin: 0; font: italic 400 var(--fs-small)/1.4 var(--serif); color: var(--ink-2); } .ds-was s { text-decoration-color: var(--brick); text-decoration-thickness: 0.1em; } .ds-entry-title { grid-column: 1 / span 6; grid-row: 2; margin: 0; font: 400 var(--fs-sub)/1.15 var(--serif); letter-spacing: -0.01em; } .ds-entry-text { grid-column: 7 / -1; grid-row: 2; max-width: 52ch; margin: 0; font: 400 var(--fs-body)/1.65 var(--sans); }"
+      "css": ".ds-ledger { display: grid; row-gap: clamp(1.5rem, 3vw, 2.25rem); margin: 0; padding: clamp(1.25rem, 2.6vw, 2rem) var(--plate-pad); list-style: none; background: var(--plate); border-radius: 14px; color: var(--ink); } .ds-entry { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gutter); align-items: baseline; } .ds-was { grid-column: 1 / span 6; grid-row: 1; margin: 0; font: italic 400 var(--fs-small)/1.4 var(--serif); color: var(--ink-2); } .ds-was s { text-decoration-color: var(--brick); text-decoration-thickness: 0.1em; } .ds-entry-title { grid-column: 1 / span 6; grid-row: 2; margin: 0; font: 600 var(--fs-sub)/1.15 var(--sans); letter-spacing: -0.015em; } .ds-entry-text { grid-column: 7 / -1; grid-row: 2; max-width: 52ch; margin: 0; font: 400 var(--fs-body)/1.65 var(--sans); }"
     },
     {
       "name": "Event log line",
@@ -470,9 +474,9 @@
       "name": "Disclosure summary",
       "kind": "custom",
       "refersTo": "disclosure-summary",
-      "description": "The real graph's summary on phones: a row of mica on the 10px control radius, italic serif label, a drawn plus inside a 14px ring that becomes a minus.",
+      "description": "The real graph's summary on phones: a row of mica on the 10px control radius, sans 600 label, a drawn plus inside a 14px ring that becomes a minus.",
       "html": "<details class=\"ds-wf\"><summary class=\"ds-wf-open\">Así es por dentro<svg class=\"ds-wf-mark\" viewBox=\"0 0 14 14\" width=\"14\" height=\"14\" aria-hidden=\"true\"><circle cx=\"7\" cy=\"7\" r=\"6.25\"/><path d=\"M4 7 H10\"/><path class=\"ds-wf-v\" d=\"M7 4 V10\"/></svg></summary><p>El grafo real del flujo.</p></details>",
-      "css": ".ds-wf { color: var(--ink); } .ds-wf-open { display: flex; align-items: center; gap: 12px; min-height: 44px; padding: 12px 16px; border-radius: 10px; background: rgb(251 246 230 / 0.8); box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.6), inset 0 1px 0 rgb(255 255 255 / 0.9); font: italic 400 var(--fs-lead)/1.3 var(--serif); cursor: pointer; list-style: none; transition: background-color var(--t-hover) ease; } .ds-wf-open::-webkit-details-marker { display: none; } .ds-wf-open:hover { background: var(--tone); } .ds-wf-open:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; } .ds-wf-mark { flex: none; width: 14px; height: 14px; margin-left: auto; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: square; } .ds-wf-v { transform-origin: 50% 50%; transform-box: fill-box; transition: transform var(--t-hover) var(--ease-out); } .ds-wf[open] .ds-wf-v { transform: scaleY(0); }"
+      "css": ".ds-wf { color: var(--ink); } .ds-wf-open { display: flex; align-items: center; gap: 12px; min-height: 44px; padding: 12px 16px; border-radius: 10px; background: rgb(251 246 230 / 0.8); box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.6), inset 0 1px 0 rgb(255 255 255 / 0.9); font: 600 var(--fs-lead)/1.3 var(--sans); letter-spacing: -0.01em; cursor: pointer; list-style: none; transition: background-color var(--t-hover) ease; } .ds-wf-open::-webkit-details-marker { display: none; } .ds-wf-open:hover { background: var(--tone); } .ds-wf-open:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; } .ds-wf-mark { flex: none; width: 14px; height: 14px; margin-left: auto; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: square; } .ds-wf-v { transform-origin: 50% 50%; transform-box: fill-box; transition: transform var(--t-hover) var(--ease-out); } .ds-wf[open] .ds-wf-v { transform: scaleY(0); }"
     },
     {
       "name": "Method stacking card",
@@ -480,16 +484,16 @@
       "refersTo": "method-card",
       "description": "A step of 'Cómo trabajo': an opaque plate with 14px corners, what happens on the left and the sheet it leaves on the right; the five stick under the header 20px apart and the covered ones sink back as the next slides over.",
       "html": "<ol class=\"ds-stack\"><li class=\"ds-card\"><div><p class=\"ds-card-line\">Escucho y relevo</p><p>Cómo se hace hoy cada tarea.</p></div><figure class=\"ds-card-art\"><div class=\"ds-card-sheet\">Relevamiento</div><figcaption class=\"ds-caption\">Lo que se hacía a mano.</figcaption></figure></li></ol>",
-      "css": ".ds-stack { display: grid; gap: clamp(1rem, 2vw, 1.5rem); margin: 0; padding: 0; list-style: none; } .ds-card { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 18px calc(var(--gutter) * 2); padding: clamp(1.25rem, 2.6vw, 2.25rem); background: var(--plate); border-radius: 14px; box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.6), inset 0 1px 0 rgb(255 255 255 / 0.9); color: var(--ink); } .ds-card p { margin: 0; font: 400 var(--fs-body)/1.6 var(--sans); } .ds-card .ds-card-line { margin-bottom: 12px; font: 400 var(--fs-sub)/1.15 var(--serif); letter-spacing: -0.01em; } .ds-card-art { margin: 0; } .ds-card-sheet { padding: var(--plate-pad); border-radius: 6px; background: var(--sage); font: 400 var(--fs-lead)/1.25 var(--serif); } .ds-caption { margin-top: 10px; font: italic 400 var(--fs-small)/1.45 var(--serif); color: var(--ink-2); }"
+      "css": ".ds-stack { display: grid; gap: clamp(1rem, 2vw, 1.5rem); margin: 0; padding: 0; list-style: none; } .ds-card { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 18px calc(var(--gutter) * 2); padding: clamp(1.25rem, 2.6vw, 2.25rem); background: var(--plate); border-radius: 14px; box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.6), inset 0 1px 0 rgb(255 255 255 / 0.9); color: var(--ink); } .ds-card p { margin: 0; font: 400 var(--fs-body)/1.6 var(--sans); } .ds-card .ds-card-line { margin-bottom: 12px; font: 600 var(--fs-sub)/1.15 var(--sans); letter-spacing: -0.015em; } .ds-card-art { margin: 0; } .ds-card-sheet { padding: var(--plate-pad); border-radius: 6px; background: var(--sage); font: 600 var(--fs-lead)/1.25 var(--sans); letter-spacing: -0.01em; } .ds-caption { margin-top: 10px; font: italic 400 var(--fs-small)/1.45 var(--serif); color: var(--ink-2); }"
     }
   ],
   "narrative": {
     "northStar": "The Hand-Coloured Atlas of Tucumán, under mica",
-    "overview": "The site reads as a bound atlas. Two engraved landscape plates open and close it: the cane fields and sugar mill under the hero's promise, the lake and chapel under the footer. Between them, the engineering work is drawn as surveyor's plans in the same green-black ink: a flow of five stations on a pencilled track with a compass rose and a scale bar, an estate of plots for the club's system, a ledger for what a business can do on its own. A small business is mapped and put in order the way a cane estate is surveyed. The world was pinned by the user (\"Me gusta muchos los colores (beige) y estetica tranquila que tiene el hero y footer. Quiero poder plasmar eso en el resto de la pagina\"), so the build extends the plates' palette and calm to every section.\n\nThe calm + modern pass (S12, L100-L101) lays that atlas under sheets of mica: figures on translucent, softly rounded sheets with a rim of light, text over the engravings on thicker glass, pill actions, a header of floating glass pills, scroll-linked depth on the engravings, word-by-word headings and stacking method cards. The palette, the serif headings and the drawn plans are unchanged: the modern layer is material and motion, not colour.\n\nDensity is low and the tempo is slow. Each section has its own composition, and a section is separated from the next by space and by a step in paper tone, never by a rule. Colour is watercolour wash on rag paper: a cream ground, a brighter plate paper for figures, a sage wash for the automation case, a straw wash for the padel case, and brick only where something fails or is struck out. The one saturated colour on the page is the forest-green action, kept from earlier versions on purpose so the action is never mistaken for decoration.\n\nThe world explicitly refuses the SaaS landing: saturated colour bands, blueprint grids and rows of same-size cards (direction contract, THESIS).",
+    "overview": "The site reads as a bound atlas. Two engraved landscape plates open and close it: the cane fields and sugar mill under the hero's promise, the lake and chapel under the footer. Between them, the engineering work is drawn as surveyor's plans in the same green-black ink: a flow of five stations on a pencilled track with a compass rose and a scale bar, an estate of plots for the club's system, a ledger for what a business can do on its own. A small business is mapped and put in order the way a cane estate is surveyed. The world was pinned by the user (\"Me gusta muchos los colores (beige) y estetica tranquila que tiene el hero y footer. Quiero poder plasmar eso en el resto de la pagina\"), so the build extends the plates' palette and calm to every section.\n\nThe calm + modern pass (S12, L100-L101) lays that atlas under sheets of mica: figures on translucent, softly rounded sheets with a rim of light, text over the engravings on thicker glass, pill actions, a header of floating glass pills, scroll-linked depth on the engravings, word-by-word headings and stacking method cards. The palette and the drawn plans are unchanged: the modern layer is material and motion, not colour. A designer's note (L111) then moved the headings and titles to the sans too, so the page reads lighter: the serif is kept for the hero's promise, the captions and the wordmark.\n\nDensity is low and the tempo is slow. Each section has its own composition, and a section is separated from the next by space and by a step in paper tone, never by a rule. Colour is watercolour wash on rag paper: a cream ground, a brighter plate paper for figures, a sage wash for the automation case, a straw wash for the padel case, and brick only where something fails or is struck out. The one saturated colour on the page is the forest-green action, kept from earlier versions on purpose so the action is never mistaken for decoration.\n\nThe world explicitly refuses the SaaS landing: saturated colour bands, blueprint grids and rows of same-size cards (direction contract, THESIS).",
     "keyCharacteristics": [
       "Cream paper ground; figures on sheets of mica (translucent plate paper, blur, a rim of light, 14px corners), never on ruled frames.",
       "Green-black ink for text and for every drawn line; washes carry case identity (sage = automation, straw = padel).",
-      "Serif headings and italic serif captions, as in an atlas; Albert Sans, self-hosted, for reading text and every control.",
+      "The atlas serif only for the hero's promise, the italic captions and the wordmark; Albert Sans, self-hosted, for every heading, title, reading text and control.",
       "Diagrams in 1–1.5px ink linework with hatching, a compass rose and a scale bar where a plan is shown.",
       "Soft corners on surfaces (14 / 10 / 6px), pills for actions and the header; circles for drawn marks and stations.",
       "One protagonist animation (the automation plan drawing itself), with scroll-linked depth on the engravings, word-by-word headings and stacking method cards. Static and complete without JS, without scroll timelines or with reduced motion."
@@ -522,7 +526,7 @@
       },
       {
         "name": "The Two Voices Rule",
-        "body": "Serif for the wordmark, headings, titles and captions; Albert Sans for reading and for every control. Never a third face outside real data.",
+        "body": "Serif for the hero's promise, the italic captions and the wordmark, nothing else; Albert Sans for every heading, title, reading text and control. Never a third face outside real data.",
         "section": "typography"
       },
       {
@@ -555,7 +559,7 @@
       "**Do** set every figure on a sheet of mica (or a wash's mica), with its italic serif caption under it.",
       "**Do** keep forest green (#0c7866) for actions only, and give each case its wash: sage for automation, straw for padel.",
       "**Do** draw diagrams as survey plans: ink lines 1–1.5 units, pencilled tracks, brick hatching and dashes for failure, a compass rose and a scale bar where a plan is shown.",
-      "**Do** use only the six size tokens for text; serif for headings, titles and captions, Albert Sans for reading and controls.",
+      "**Do** use only the six size tokens for text; the serif for the hero's promise, the italic captions and the wordmark, Albert Sans for every heading, title, reading text and control.",
       "**Do** use the four radius tokens: panel for surfaces, control for rows and plots, inner for a picture on a mat, pill for actions and the header.",
       "**Do** put text over an engraving on glass, and keep glass over pictures and in the header only.",
       "**Do** separate sections with space and a change of ground (`--gap-section`, paper → plate → wash).",

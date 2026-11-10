@@ -154,11 +154,13 @@ describe("glass and mica", () => {
 });
 
 describe("type", () => {
-  it("reads in the self-hosted sans and keeps the serif for headings, titles and captions", () => {
+  // L111 moved the headings to the sans too: the serif keeps the display and the captions.
+  it("reads in the self-hosted sans and keeps the serif for the display and the captions", () => {
     expect(prop(body(":root"), "--sans")).toMatch(/^"?Albert Sans"?,/);
     expect(prop(body(":root"), "--serif")).toMatch(/^Georgia,/);
     expect(body("body")).toMatch(/var\(--sans\)/);
-    for (const selector of [".display", ".head", ".subhead", ".caption"]) expect(body(selector), selector).toMatch(/var\(--serif\)/);
+    for (const selector of [".display", ".caption"]) expect(body(selector), selector).toMatch(/var\(--serif\)/);
+    for (const selector of [".head", ".subhead"]) expect(body(selector), selector).toMatch(/var\(--sans\)/);
     expect(body(".btn")).toMatch(/var\(--sans\)/);
     expect(body("nav a")).toMatch(/var\(--sans\)/);
   });

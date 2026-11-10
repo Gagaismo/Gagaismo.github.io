@@ -170,10 +170,11 @@ describe("9. the real graph", () => {
     expect(rule).toMatch(/68rem/);
   });
 
-  it("names the nodes in the serif at weight 400", () => {
+  // L111: in the sans at 600, like the other plans' node labels.
+  it("names the nodes in the sans at weight 600", () => {
     const label = body(".wf__svg text");
-    expect(label).toMatch(/var\(--serif\)/);
-    expect(label).toMatch(/\b400\b/);
+    expect(label).toMatch(/var\(--sans\)/);
+    expect(label).toMatch(/\b600\b/);
   });
 });
 
@@ -208,10 +209,11 @@ describe("11. the footer icon", () => {
 });
 
 describe("12. the disclosure", () => {
-  it("sets its label in italic serif", () => {
+  // L111: a control's label, so the sans, upright.
+  it("sets its label in the sans, upright", () => {
     const open = body(".wf__open");
-    expect(open).toMatch(/var\(--serif\)/);
-    expect(open).toMatch(/font-style:\s*italic/);
+    expect(open).toMatch(/var\(--sans\)/);
+    expect(open).not.toMatch(/italic/);
   });
 
   it.each(langs)("/%s/: draws the plus inside a 14 px ring", (lang) => {
